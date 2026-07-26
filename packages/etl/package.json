@@ -5,11 +5,12 @@
   "type": "module",
   "description": "OpenSkiMap -> Searchski ETL. Fetch, normalize, derive, QA, load.",
   "comment": "Scripts run .ts directly through Node's native type stripping (Node >=22.18), NOT tsx. tsx is kept as a devDependency because it is the documented fallback, but its esbuild binary is a native .exe and some managed Windows machines refuse to execute binaries under node_modules. Native stripping has no such dependency. Consequence: only erasable TypeScript is allowed in this package — no enums, no namespaces, no parameter properties.",
+  "envComment": "load and prices:discover need secrets (DATABASE_URL, ANTHROPIC_API_KEY). Nothing in this package loads dotenv, so without these flags a .env file is silently ignored and the tool just reports 'no key' — a confusing failure. --env-file-if-exists is a no-op when the file is absent, so CI passing real env vars is unaffected. .env.local is loaded second so it wins over .env, matching Next.js precedence. Paths are relative to this package, hence ../../ for the repo root.",
   "scripts": {
     "fetch": "node src/fetch.ts",
     "build": "node --max-old-space-size=4096 src/build.ts",
-    "load": "node src/load.ts",
-    "prices:discover": "node src/prices/discover.ts",
+    "load": "node --env-file-if-exists=../../.env --env-file-if-exists=../../.env.local src/load.ts",
+    "prices:discover": "node --env-file-if-exists=../../.env --env-file-if-exists=../../.env.local src/prices/discover.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependenciesComment": "@anthropic-ai/sdk and zod are pinned to the SAME ranges as packages/nlp on purpose. messages.parse and the helpers/zod entry point only exist from 0.115, and zodOutputFormat requires a zod/v4 schema — an older pair of either fails at import time, not at call time.",
