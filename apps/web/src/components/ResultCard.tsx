@@ -8,6 +8,7 @@ import { ScoreBreakdown, TopFactors } from './ScoreBreakdown';
 import { BoundaryNote, CountryList } from './AreaFacts';
 import { NameMatchBadge } from './NameMatchBadge';
 import { crowdingBucket, km, metres, minutesToHm, nightSkiState } from '@/lib/format';
+import { tripFromCriteria, tripToQuery } from '@/lib/trip';
 
 export interface ResultCardProps {
   result: ScoredResult;
@@ -57,6 +58,11 @@ export function ResultCard({
   const crowding = crowdingBucket(area);
   const night = nightSkiState(area);
 
+  // Carry the trip window through to the resort page, so the booking links
+  // there open with the user's dates already in them. Empty when they set none
+  // — the resort page then says so rather than inventing a window.
+  const resortHref = `/resort/${encodeURIComponent(area.id)}${tripToQuery(tripFromCriteria(criteria))}`;
+
   /**
    * The prose explanation is fetched lazily, once, when the user opens THIS
    * card's breakdown — never for a whole page of results, because each call
@@ -94,7 +100,7 @@ export function ResultCard({
       <div className="flex items-start gap-4">
         <div className="min-w-0 flex-1">
           <h3 className="text-base font-semibold leading-tight">
-            <Link href={`/resort/${encodeURIComponent(area.id)}`} className="text-fg no-underline hover:text-accent">
+            <Link href={resortHref} className="text-fg no-underline hover:text-accent">
               {area.name}
             </Link>
           </h3>
@@ -198,7 +204,7 @@ export function ResultCard({
           {selected ? `✓ ${t('result.added')}` : t('result.compare')}
         </button>
         <Link
-          href={`/resort/${encodeURIComponent(area.id)}`}
+          href={resortHref}
           className="ms-auto rounded-md bg-accent px-2.5 py-1.5 text-xs font-medium text-accent-fg no-underline hover:opacity-90"
         >
           {t('result.view')}

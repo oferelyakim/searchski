@@ -27,6 +27,13 @@ export function abilityKey(a: Ability): MessageKey {
 
 /** Criteria that appear as chips, in the order they read best. */
 export const CHIP_ORDER = [
+  // The trip window reads first — "14–21 February, 2 adults, from LTN" is the
+  // frame everything else sits inside. It is metadata: it never ranks, it is
+  // carried into the booking links, and every one of these is optional.
+  'dateFrom',
+  'dateTo',
+  'adults',
+  'children',
   'ability',
   'groupAbilities',
   'countries',
@@ -71,6 +78,10 @@ export const VISIBLE_CHIP_ORDER: readonly ChipKey[] = SHOW_REGIONAL_LAYER
   : CHIP_ORDER.filter((key) => !REGIONAL_CHIPS.includes(key));
 
 export const CRITERION_LABEL: Record<ChipKey, MessageKey> = {
+  dateFrom: 'criteria.dateFrom',
+  dateTo: 'criteria.dateTo',
+  adults: 'criteria.adults',
+  children: 'criteria.children',
   ability: 'criteria.ability',
   groupAbilities: 'criteria.groupAbilities',
   countries: 'criteria.countries',

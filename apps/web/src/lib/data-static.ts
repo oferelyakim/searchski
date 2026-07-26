@@ -52,34 +52,41 @@ async function exists(p: string): Promise<boolean> {
 }
 
 let resolvedDir: string | null | undefined;
+let resolvedSeedDir: string | null | undefined;
 
-/**
- * Locate `data/build`. Next.js runs with cwd at apps/web in dev and at various
- * places on Vercel, so we search rather than assume.
- */
-async function resolveDataDir(): Promise<string | null> {
-  if (resolvedDir !== undefined) return resolvedDir;
-
+/** Walk up from cwd looking for `data/<leaf>`. */
+async function findDataDir(leaf: string, envVar?: string): Promise<string | null> {
   const candidates: string[] = [];
-  const fromEnv = process.env['SEARCHSKI_DATA_DIR'];
+  const fromEnv = envVar ? process.env[envVar] : undefined;
   if (fromEnv) candidates.push(path.resolve(fromEnv));
 
   let dir = process.cwd();
   for (let i = 0; i < 6; i += 1) {
-    candidates.push(path.join(dir, 'data', 'build'));
+    candidates.push(path.join(dir, 'data', leaf));
     const parent = path.dirname(dir);
     if (parent === dir) break;
     dir = parent;
   }
 
   for (const candidate of candidates) {
-    if (await exists(candidate)) {
-      resolvedDir = candidate;
-      return candidate;
-    }
+    if (await exists(candidate)) return candidate;
   }
-  resolvedDir = null;
   return null;
+}
+
+/**
+ * Locate `data/build`. Next.js runs with cwd at apps/web in dev and at various
+ * places on Vercel, so we search rather than assume.
+ */
+async function resolveDataDir(): Promise<string | null> {
+  if (resolvedDir === undefined) resolvedDir = await findDataDir('build', 'SEARCHSKI_DATA_DIR');
+  return resolvedDir;
+}
+
+/** Locate `data/seed` — the hand-maintained factual seeds. */
+async function resolveSeedDir(): Promise<string | null> {
+  if (resolvedSeedDir === undefined) resolvedSeedDir = await findDataDir('seed', 'SEARCHSKI_SEED_DIR');
+  return resolvedSeedDir;
 }
 
 async function readList(dir: string, names: readonly string[], notes: string[]): Promise<unknown[]> {
@@ -98,6 +105,57 @@ async function readList(dir: string, names: readonly string[], notes: string[]):
   }
   notes.push(`No file found for ${names[0]} — that dataset is empty.`);
   return [];
+}
+
+/**
+ * Airports, from `data/seed/airports.json`, when the ETL produced none.
+ *
+ * The ETL writes only `ski_areas.json` and `pass_regions.json` today, so
+ * `data/build/airports.json` does not exist and the airport list would
+ * otherwise be empty — which silently costs the resort pages their arrival
+ * airport, and with it every transfer and car-hire link. The seed file is a
+ * hand-maintained list of IATA codes and coordinates, and coordinates are
+ * objective public facts; its own header says so.
+ *
+ * What we deliberately do NOT take from it is any claim that needs verifying.
+ * `directFromTLV` in that file is marked unverified and route maps change every
+ * season, so it is gated behind `SHOW_REGIONAL_LAYER` in the UI rather than
+ * shown as fact. And no drive time is synthesised from these coordinates: the
+ * seed file says drive times are derived at ETL time and must not be
+ * hand-entered, and a guessed mountain-road duration is exactly the fabrication
+ * rule 1 forbids.
+ *
+ * The file is `{ _comment: [...], airports: [...] }`, which `unwrapList` cannot
+ * disambiguate — two arrays, no known key — so it is read explicitly.
+ */
+async function readSeedAirports(notes: string[]): Promise<unknown[]> {
+  const dir = await resolveSeedDir();
+  if (!dir) {
+    notes.push('No data/seed directory found, so no fallback airport list is available.');
+    return [];
+  }
+  const file = path.join(dir, 'airports.json');
+  if (!(await exists(file))) {
+    notes.push('data/seed/airports.json not found; the airport list stays empty.');
+    return [];
+  }
+  try {
+    const parsed: unknown = JSON.parse(await fs.readFile(file, 'utf8'));
+    const list =
+      typeof parsed === 'object' && parsed !== null && Array.isArray((parsed as { airports?: unknown }).airports)
+        ? ((parsed as { airports: unknown[] }).airports)
+        : unwrapList(parsed);
+    notes.push(
+      `data/build had no airports, so ${list.length} were read from the curated seed data/seed/airports.json. ` +
+        'Coordinates only — no drive times are derived from them.',
+    );
+    return list;
+  } catch (err) {
+    notes.push(
+      `data/seed/airports.json could not be parsed: ${err instanceof Error ? err.message : String(err)}`,
+    );
+    return [];
+  }
 }
 
 function compact<T>(rows: unknown[], coerce: (v: unknown) => T | null): T[] {
@@ -120,7 +178,7 @@ export async function loadStatic(): Promise<RawDataset> {
   }
   notes.push(`Static data directory: ${dir}`);
 
-  const [areasRaw, passRegionsRaw, israelRaw, apresRaw, airportsRaw, transfersRaw, pricesRaw] =
+  const [areasRaw, passRegionsRaw, israelRaw, apresRaw, builtAirportsRaw, transfersRaw, pricesRaw] =
     await Promise.all([
       readList(dir, FILES.areas, notes),
       readList(dir, FILES.passRegions, notes),
@@ -130,6 +188,9 @@ export async function loadStatic(): Promise<RawDataset> {
       readList(dir, FILES.transfers, notes),
       readList(dir, FILES.passPrices, notes),
     ]);
+
+  const airportsRaw =
+    builtAirportsRaw.length > 0 ? builtAirportsRaw : await readSeedAirports(notes);
 
   return {
     areas: compact(areasRaw, coerceSkiArea),

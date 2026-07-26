@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import type { SearchCriteria, SearchResponse } from '@searchski/core/types';
 import { runSearch } from '@/lib/search-service';
+import { MAX_PARTY, isIsoDate, partySize } from '@/lib/trip';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -55,13 +56,28 @@ function strings(v: unknown, max: number): string[] | undefined {
   return out.length > 0 ? out : undefined;
 }
 
+/** A whitelisted criteria object plus every input that was thrown away. */
+interface ParsedCriteria {
+  criteria: SearchCriteria;
+  /** Human-readable reasons, surfaced to the user rather than swallowed. */
+  rejected: string[];
+}
+
 /**
  * Whitelist the request body into a SearchCriteria. Nothing that is not an
  * explicitly known field reaches the scorer.
+ *
+ * Trip dates get their own gate. A malformed date is REJECTED here, not passed
+ * on: `@searchski/affiliates` throws on anything that is not YYYY-MM-DD, and a
+ * link that silently drops or shifts the trip window is worse than one that
+ * never claimed to have it. Rejections are reported back to the user; the rest
+ * of the search still runs, because losing a whole result set over one bad
+ * field would be a worse failure than the field itself.
  */
-function parseCriteria(raw: unknown): SearchCriteria | undefined {
+function parseCriteria(raw: unknown): ParsedCriteria | undefined {
   if (!isRecord(raw)) return undefined;
   const out: SearchCriteria = {};
+  const rejected: string[] = [];
 
   if (typeof raw['rawQuery'] === 'string') out.rawQuery = raw['rawQuery'].slice(0, 500);
 
@@ -78,10 +94,36 @@ function parseCriteria(raw: unknown): SearchCriteria | undefined {
   const countries = strings(raw['countries'], 30)?.map((c) => c.toUpperCase().slice(0, 2));
   if (countries) out.countries = countries;
 
-  if (typeof raw['originAirport'] === 'string') {
-    const code = raw['originAirport'].toUpperCase();
+  if (raw['originAirport'] !== undefined && raw['originAirport'] !== null) {
+    const code = typeof raw['originAirport'] === 'string' ? raw['originAirport'].toUpperCase() : '';
     if (/^[A-Z]{3}$/.test(code)) out.originAirport = code;
+    else rejected.push('originAirport must be a 3-letter IATA code');
   }
+
+  // --- the trip window: optional everywhere, validated when present ---
+  for (const key of ['dateFrom', 'dateTo'] as const) {
+    const value = raw[key];
+    if (value === undefined || value === null || value === '') continue;
+    if (isIsoDate(value)) out[key] = value;
+    else rejected.push(`${key} must be a real calendar date in YYYY-MM-DD form`);
+  }
+  if (out.dateFrom && out.dateTo && out.dateTo < out.dateFrom) {
+    // Lexicographic comparison is exact for zero-padded ISO dates.
+    delete out.dateTo;
+    rejected.push('dateTo cannot be before dateFrom');
+  }
+
+  for (const [key, min] of [
+    ['adults', 1],
+    ['children', 0],
+  ] as const) {
+    const value = raw[key];
+    if (value === undefined || value === null || value === '') continue;
+    const n = partySize(value, min);
+    if (n !== null) out[key] = n;
+    else rejected.push(`${key} must be a whole number between ${min} and ${MAX_PARTY}`);
+  }
+
   if (typeof raw['currency'] === 'string' && /^[A-Za-z]{3}$/.test(raw['currency'])) {
     out.currency = raw['currency'].toUpperCase();
   }
@@ -97,7 +139,7 @@ function parseCriteria(raw: unknown): SearchCriteria | undefined {
     }
   }
 
-  return out;
+  return { criteria: out, rejected };
 }
 
 function emptyResponse(criteria: SearchCriteria, error: string): SearchApiResponse {
@@ -123,11 +165,20 @@ export async function POST(request: Request): Promise<NextResponse<SearchApiResp
   }
 
   const query = typeof body['query'] === 'string' ? body['query'].slice(0, 500) : undefined;
-  const criteria = parseCriteria(body['criteria']);
+  const parsed = parseCriteria(body['criteria']);
+  const criteria = parsed?.criteria;
+  const rejected = parsed?.rejected ?? [];
 
   try {
     const response = await runSearch({ query, criteria });
-    return NextResponse.json(response);
+    // A rejected field is reported, never silently absorbed: the user typed
+    // something we refused, and they are entitled to know which part vanished.
+    // The results still come back — one bad date must not empty the page.
+    return NextResponse.json(
+      rejected.length > 0
+        ? { ...response, error: `Ignored: ${rejected.join('; ')}.` }
+        : response,
+    );
   } catch (err) {
     console.error('[searchski/api/search] search failed', err);
     return NextResponse.json(

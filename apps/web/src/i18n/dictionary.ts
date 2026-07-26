@@ -55,7 +55,17 @@ const en = {
     'Nothing matched every filter, so these were relaxed to show the closest matches:',
   'search.reset': 'Clear all',
   'search.error': 'Search failed. Your filters were kept — try again.',
+  'search.trip': 'Your trip',
+  'search.tripHint':
+    'All optional. Dates and party size are carried into the booking links and never change the ranking — we hold no opening dates, so pretending they affect the score would be an invention.',
+  'search.originHint':
+    'Any three-letter IATA code, e.g. LTN, CDG, TLV. There is no default — we do not assume where you fly from, and without it we show no flight links rather than a broken one.',
+  'search.originPlaceholder': 'IATA',
 
+  'criteria.dateFrom': 'Arrive',
+  'criteria.dateTo': 'Leave',
+  'criteria.adults': 'Adults',
+  'criteria.children': 'Children',
   'criteria.ability': 'Ability',
   'criteria.groupAbilities': 'Group abilities',
   'criteria.countries': 'Countries',
@@ -147,6 +157,39 @@ const en = {
   'resort.noTransfers': 'No airport transfer times on file yet.',
   'resort.driveTime': 'by road',
   'resort.directTlv': 'direct from TLV',
+  'resort.gateway': 'Nearest airport we hold',
+  'resort.gatewayDerived':
+    'Straight-line distance. We hold no measured drive time for this route, so none is shown — a mountain road is not a straight line and guessing would be worse than saying nothing.',
+
+  'book.title': 'Book this trip',
+  'book.intro':
+    'Four separate searches on four independent companies. Searchski sells none of this, takes no payment and is never the merchant of record — you book with each company yourself, and your contract is with them. These links open a search, not a quote: nothing here is a price, a booking or an availability check.',
+  'book.flights': 'Flights',
+  'book.flightsNote': 'Return search from your origin airport to the arrival airport below.',
+  'book.lodging': 'Where to stay',
+  'book.lodgingNote':
+    'Hotels, apartments and chalets in the village. Booked separately from the flight, on purpose.',
+  'book.transfer': 'Airport transfer',
+  'book.transferNote':
+    'A prebooked vehicle from the arrival airport. On these routes it is usually the most useful link on the page: the drive is long and mountainous, and a family with skis, boots and boot bags does not fit in a saloon taxi.',
+  'book.car': 'Car hire — often the wrong answer',
+  'book.carNote':
+    'Winter tyres and snow chains are a legal requirement, not advice, on much of the Alpine road network in season, and rental fleets do not always include them. Many resort villages restrict or charge heavily for parking, and some — Zermatt, Avoriaz, Wengen — do not let you drive in at all. A hire car earns its keep for multi-resort trips and thin transfer markets; otherwise the transfer above is the better answer.',
+  'book.window': 'Trip window',
+  'book.noDates':
+    'No dates set. The links below open an undated search. Add dates on the search page and they will be carried through to every one of them.',
+  'book.noOrigin':
+    'No origin airport set, so no flight links are shown. Set “Flying from” on the search page — we do not guess a departure airport.',
+  'book.noFlightDates':
+    'Flight search needs a departure date. Add your dates on the search page and the flight links appear here.',
+  'book.noAirport':
+    'We hold no gateway airport near this resort, so transfer and car-hire searches cannot be built for it. That is a gap in our data, not a statement that none exist.',
+  'book.arriveAt': 'Arriving at',
+  'book.setTrip': 'Set dates and origin',
+  'book.unverifiedUrls':
+    'These deep-link formats are our best reading of each provider’s public search URL and are not verified against their live sites. If a link lands on a plain search form with your details missing, that is why — fill it in there.',
+  'book.affiliate':
+    'Links marked “affiliate link” pay Searchski a commission if you book. They are labelled at the point of the click and the ranking cannot see them.',
 
   'israel.kosher': 'Kosher food',
   'israel.chabad': 'Nearest Chabad',
@@ -220,7 +263,17 @@ const he: Record<MessageKey, string> = {
   'search.relaxed': 'שום אתר לא עמד בכל המסננים, ולכן אלה רוככו כדי להציג את הקרובים ביותר:',
   'search.reset': 'נקה הכל',
   'search.error': 'החיפוש נכשל. המסננים נשמרו — נסו שוב.',
+  'search.trip': 'הנסיעה שלכם',
+  'search.tripHint':
+    'הכל אופציונלי. התאריכים וגודל הקבוצה נשלחים לקישורי ההזמנה ואינם משפיעים על הדירוג — אין בידינו תאריכי פתיחה, ולהעמיד פנים שהם משפיעים על הציון יהיה המצאה.',
+  'search.originHint':
+    'כל קוד IATA בן שלוש אותיות, למשל TLV ,CDG ,LTN. אין ברירת מחדל — איננו מניחים מהיכן אתם טסים, ובלי זה לא נציג קישורי טיסות במקום להציג קישור שבור.',
+  'search.originPlaceholder': 'IATA',
 
+  'criteria.dateFrom': 'הגעה',
+  'criteria.dateTo': 'עזיבה',
+  'criteria.adults': 'מבוגרים',
+  'criteria.children': 'ילדים',
   'criteria.ability': 'רמה',
   'criteria.groupAbilities': 'רמות בקבוצה',
   'criteria.countries': 'מדינות',
@@ -309,6 +362,38 @@ const he: Record<MessageKey, string> = {
   'resort.noTransfers': 'אין עדיין זמני הסעה משדות תעופה בנתונים.',
   'resort.driveTime': 'בנסיעה',
   'resort.directTlv': 'טיסה ישירה מתל אביב',
+  'resort.gateway': 'שדה התעופה הקרוב ביותר שיש בנתונים',
+  'resort.gatewayDerived':
+    'מרחק אווירי. אין בידינו זמן נסיעה מדוד למסלול הזה ולכן לא מוצג כזה — כביש הרים אינו קו ישר, וניחוש יהיה גרוע יותר משתיקה.',
+
+  'book.title': 'להזמין את הנסיעה',
+  'book.intro':
+    'ארבעה חיפושים נפרדים בארבע חברות עצמאיות. Searchski לא מוכר דבר מכל אלה, לא גובה תשלום ואינו הסוחר הרשום — אתם מזמינים ישירות מכל חברה, והחוזה הוא מולה. הקישורים פותחים חיפוש ולא הצעת מחיר: אין כאן מחיר, הזמנה או בדיקת זמינות.',
+  'book.flights': 'טיסות',
+  'book.flightsNote': 'חיפוש הלוך־ושוב משדה התעופה שלכם אל שדה התעופה שלמטה.',
+  'book.lodging': 'איפה לישון',
+  'book.lodgingNote': 'מלונות, דירות ושאלה בכפר. מוזמנים בנפרד מהטיסה, במכוון.',
+  'book.transfer': 'הסעה משדה התעופה',
+  'book.transferNote':
+    'רכב מוזמן מראש משדה התעופה. במסלולים האלה זה בדרך כלל הקישור השימושי בעמוד: הנסיעה ארוכה והררית, ומשפחה עם מגלשיים, מגפיים ותיקים לא נכנסת למונית רגילה.',
+  'book.car': 'השכרת רכב — לרוב התשובה הלא נכונה',
+  'book.carNote':
+    'צמיגי חורף ושרשראות שלג הם דרישה חוקית ולא המלצה בחלק גדול מכבישי האלפים בעונה, וצי הרכבים של חברות ההשכרה לא תמיד כולל אותם. כפרי נופש רבים מגבילים חניה או גובים עליה ביוקר, ובחלקם — צרמט, אבוריאז, וונגן — אי אפשר להיכנס ברכב כלל. רכב שכור משתלם לטיולים בין כמה אתרים ולאזורים עם כיסוי הסעות דל; אחרת ההסעה שלמעלה עדיפה.',
+  'book.window': 'חלון הנסיעה',
+  'book.noDates':
+    'לא הוגדרו תאריכים. הקישורים למטה פותחים חיפוש ללא תאריכים. הוסיפו תאריכים בעמוד החיפוש והם ייסחבו לכל אחד מהם.',
+  'book.noOrigin':
+    'לא הוגדר שדה תעופה מוצא, ולכן לא מוצגים קישורי טיסות. הגדירו „טסים מ” בעמוד החיפוש — איננו מנחשים שדה תעופה.',
+  'book.noFlightDates':
+    'חיפוש טיסה מחייב תאריך יציאה. הוסיפו תאריכים בעמוד החיפוש וקישורי הטיסות יופיעו כאן.',
+  'book.noAirport':
+    'אין בידינו שדה תעופה קרוב לאתר הזה, ולכן אי אפשר לבנות חיפוש הסעה או השכרת רכב עבורו. זה חוסר בנתונים שלנו, לא קביעה שאין כאלה.',
+  'book.arriveAt': 'נחיתה ב',
+  'book.setTrip': 'הגדרת תאריכים ומוצא',
+  'book.unverifiedUrls':
+    'מבני הקישורים האלה הם הקריאה הטובה ביותר שלנו של כתובות החיפוש הפומביות של כל ספק, ולא אומתו מול האתרים החיים שלהם. אם קישור נוחת בטופס חיפוש ריק בלי הפרטים שלכם — זו הסיבה, מלאו אותם שם.',
+  'book.affiliate':
+    'קישורים המסומנים „קישור שותפים” מזכים את Searchski בעמלה אם תזמינו. הם מסומנים במקום הלחיצה, והדירוג אינו רואה אותם.',
 
   'israel.kosher': 'אוכל כשר',
   'israel.chabad': 'חב״ד הקרוב',

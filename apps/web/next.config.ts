@@ -24,7 +24,11 @@ const nextConfig: NextConfig = {
   // app silently falls back to the sample dataset.
   outputFileTracingRoot: repoRoot,
   outputFileTracingIncludes: {
-    '/**': ['../../data/build/**/*.json'],
+    // data/seed is included as well because the ETL does not (yet) emit an
+    // airports artifact, and `src/lib/data-static.ts` falls back to the curated
+    // seed list for them. Without it the arrival airport is unknown in
+    // production and every transfer and car-hire link silently disappears.
+    '/**': ['../../data/build/**/*.json', '../../data/seed/airports.json'],
   },
 
   // No ESLint config ships with this app; do not let lint gate a deploy.

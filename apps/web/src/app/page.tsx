@@ -25,7 +25,16 @@ export default async function SearchPage() {
   // A bare query: the always-on factors alone give a sensible starting order.
   const initialResponse = await runSearch({ criteria: { limit: 12 } });
 
-  const airports = [...new Set(data.transfers.map((tr) => tr.airportIata))].sort();
+  // Suggestions for the "Flying from" box, nothing more: the field takes any
+  // IATA code and has NO default. Drawn from every airport we hold plus every
+  // one a transfer row mentions, so the list is not silently narrowed to the
+  // handful of resorts that happen to have measured drive times.
+  const airports = [
+    ...new Set([
+      ...data.airports.map((a) => a.iata.toUpperCase()),
+      ...data.transfers.map((tr) => tr.airportIata.toUpperCase()),
+    ]),
+  ].sort();
 
   return (
     <>

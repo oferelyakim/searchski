@@ -1,11 +1,12 @@
 'use client';
 
-import { useId } from 'react';
+import { useId, useState } from 'react';
 import type { Ability, SearchCriteria } from '@searchski/core/types';
 import { useT } from '@/i18n/client';
 import { ABILITIES, abilityKey, CRITERION_LABEL, VISIBLE_BOOLEAN_KEYS, withCriterion } from '@/lib/criteria-ui';
 import { countryName, flagEmoji } from '@/lib/format';
 import { SHOW_REGIONAL_LAYER } from '@/lib/features';
+import { MAX_PARTY, isIsoDate } from '@/lib/trip';
 
 /**
  * Structured controls over the same `SearchCriteria` object the chips render.
@@ -64,6 +65,139 @@ function NumberField({
   );
 }
 
+/**
+ * Party size is a whole number of people inside a sane range. An empty box
+ * means "not stated" and stays that way — the affiliates package applies its
+ * own documented default downstream rather than us inventing one here.
+ */
+function clampParty(value: number | undefined, min: number): number | undefined {
+  if (value === undefined || !Number.isFinite(value)) return undefined;
+  return Math.min(MAX_PARTY, Math.max(min, Math.round(value)));
+}
+
+function DateField({
+  id,
+  label,
+  value,
+  min,
+  onChange,
+}: {
+  id: string;
+  label: string;
+  value: string | undefined;
+  min?: string | undefined;
+  onChange: (v: string | undefined) => void;
+}) {
+  return (
+    <div className="flex flex-col gap-1">
+      <label htmlFor={id} className="text-xs font-medium text-muted">
+        {label}
+      </label>
+      <input
+        id={id}
+        type="date"
+        // The native control emits YYYY-MM-DD or an empty string, which is
+        // exactly the two states SearchCriteria models. `isIsoDate` still
+        // guards it: a keyboard-entered 31 February must not reach a link.
+        value={value ?? ''}
+        min={min}
+        onChange={(e) => {
+          const raw = e.target.value;
+          onChange(raw === '' || !isIsoDate(raw) ? undefined : raw);
+        }}
+        className="w-full rounded-md border border-border bg-surface-2 px-2 py-1.5 text-sm text-fg"
+      />
+    </div>
+  );
+}
+
+/**
+ * "Flying from", as free text.
+ *
+ * A three-letter IATA code, typed. There is NO default and no preselected
+ * option: Searchski is not an Israeli product any more, and quietly assuming
+ * TLV would put a wrong origin into every flight link for everyone else. The
+ * datalist is only a hint drawn from the airports we happen to hold; any code
+ * in the world is accepted.
+ *
+ * Committed on blur rather than per keystroke, so a half-typed "TL" never
+ * re-runs the search and never lands in the criteria.
+ */
+function AirportField({
+  id,
+  label,
+  hint,
+  placeholder,
+  value,
+  options,
+  onChange,
+}: {
+  id: string;
+  label: string;
+  hint: string;
+  placeholder: string;
+  value: string | undefined;
+  options: string[];
+  onChange: (v: string | undefined) => void;
+}) {
+  const listId = `${id}-options`;
+  const [text, setText] = useState(value ?? '');
+  const [seen, setSeen] = useState(value);
+
+  // Sync down from the criteria when something else changed them ("Clear all",
+  // a removed chip, a re-parsed sentence) without clobbering live typing.
+  if (seen !== value) {
+    setSeen(value);
+    if ((value ?? '') !== text.trim().toUpperCase()) setText(value ?? '');
+  }
+
+  const commit = () => {
+    const code = text.trim().toUpperCase();
+    const valid = /^[A-Z]{3}$/.test(code);
+    // Anything that is not a complete code is cleared rather than kept, so the
+    // box and the criteria can never disagree about where you are flying from.
+    setText(valid ? code : '');
+    onChange(valid ? code : undefined);
+  };
+
+  return (
+    <div className="flex flex-col gap-1">
+      <label htmlFor={id} className="text-xs font-medium text-muted">
+        {label}
+      </label>
+      <input
+        id={id}
+        type="text"
+        inputMode="text"
+        autoComplete="off"
+        spellCheck={false}
+        maxLength={3}
+        list={listId}
+        placeholder={placeholder}
+        aria-describedby={`${id}-hint`}
+        value={text}
+        onChange={(e) => setText(e.target.value.toUpperCase())}
+        onBlur={commit}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            e.currentTarget.blur();
+          }
+        }}
+        className="w-full rounded-md border border-border bg-surface-2 px-2 py-1.5 font-mono text-sm uppercase text-fg"
+      />
+      <datalist id={listId}>
+        {options.map((iata) => (
+          <option key={iata} value={iata} />
+        ))}
+      </datalist>
+      <p id={`${id}-hint`} className="text-[11px] leading-snug text-muted">
+        {hint}
+      </p>
+    </div>
+  );
+}
+
 export function FilterPanel({ criteria, countries, airports, onChange, onReset }: FilterPanelProps) {
   const t = useT();
   const uid = useId();
@@ -93,6 +227,63 @@ export function FilterPanel({ criteria, countries, airports, onChange, onReset }
       <p className="mt-1 text-xs text-muted">{t('search.filtersHint')}</p>
 
       <div className="mt-4 space-y-4">
+        {/* ------------------------------------------------------------------
+            The trip window.
+
+            Dates, party size and origin airport are METADATA, not filters:
+            they are carried into the outbound booking links and shown back as
+            chips, and they leave the ranking byte-identical. Every one of them
+            is optional and none has a default — there is deliberately no
+            preselected origin airport, because assuming one would put a wrong
+            departure into every flight link.
+           ------------------------------------------------------------------ */}
+        <fieldset className="rounded-lg border border-border p-3">
+          <legend className="px-1 text-xs font-semibold text-fg">{t('search.trip')}</legend>
+          <p className="text-[11px] leading-snug text-muted">{t('search.tripHint')}</p>
+          <div className="mt-2.5 grid gap-3 sm:grid-cols-2">
+            <DateField
+              id={`${uid}-datefrom`}
+              label={t('criteria.dateFrom')}
+              value={criteria.dateFrom}
+              onChange={(v) => set('dateFrom', v)}
+            />
+            <DateField
+              id={`${uid}-dateto`}
+              label={t('criteria.dateTo')}
+              value={criteria.dateTo}
+              min={criteria.dateFrom}
+              onChange={(v) => set('dateTo', v)}
+            />
+            <NumberField
+              id={`${uid}-adults`}
+              label={t('criteria.adults')}
+              value={criteria.adults}
+              min={1}
+              max={MAX_PARTY}
+              onChange={(v) => set('adults', clampParty(v, 1))}
+            />
+            <NumberField
+              id={`${uid}-children`}
+              label={t('criteria.children')}
+              value={criteria.children}
+              min={0}
+              max={MAX_PARTY}
+              onChange={(v) => set('children', clampParty(v, 0))}
+            />
+          </div>
+          <div className="mt-3">
+            <AirportField
+              id={`${uid}-origin`}
+              label={t('criteria.originAirport')}
+              hint={t('search.originHint')}
+              placeholder={t('search.originPlaceholder')}
+              value={criteria.originAirport}
+              options={airports}
+              onChange={(v) => set('originAirport', v)}
+            />
+          </div>
+        </fieldset>
+
         {/* --- ability --- */}
         <div className="flex flex-col gap-1">
           <label htmlFor={`${uid}-ability`} className="text-xs font-medium text-muted">
@@ -212,24 +403,6 @@ export function FilterPanel({ criteria, countries, airports, onChange, onReset }
               onChange={(v) => set('maxChabadDistanceKm', v)}
             />
           ) : null}
-          <div className="flex flex-col gap-1">
-            <label htmlFor={`${uid}-airport`} className="text-xs font-medium text-muted">
-              {t('criteria.originAirport')}
-            </label>
-            <select
-              id={`${uid}-airport`}
-              value={criteria.originAirport ?? ''}
-              onChange={(e) => set('originAirport', e.target.value === '' ? undefined : e.target.value)}
-              className="w-full rounded-md border border-border bg-surface-2 px-2 py-1.5 text-sm text-fg"
-            >
-              <option value="">{t('criteria.any')}</option>
-              {airports.map((iata) => (
-                <option key={iata} value={iata}>
-                  {iata}
-                </option>
-              ))}
-            </select>
-          </div>
         </div>
       </div>
     </section>

@@ -18,10 +18,19 @@ import {
 import { ConditionsPanel } from '@/components/ConditionsPanel';
 import { ResortMap } from '@/components/ResortMap';
 import { OutboundLinkGroup } from '@/components/OutboundLink';
+import { BookThisTrip } from '@/components/BookThisTrip';
 import { CuratedFact, VerificationBadge, type Status } from '@/components/VerificationBadge';
+import { gatewayAirport, tripFromSearchParams, tripToQuery } from '@/lib/trip';
 
 interface PageProps {
   params: Promise<{ id: string }>;
+  /**
+   * The trip window arrives here in the query string, so a link followed from
+   * the results list carries the user's dates, party size and origin airport
+   * through to the booking links below. Every one of them is optional; an
+   * absent or malformed value is dropped and the page says it has none.
+   */
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -55,7 +64,7 @@ function Section({
   );
 }
 
-export default async function ResortPage({ params }: PageProps) {
+export default async function ResortPage({ params, searchParams }: PageProps) {
   const { id } = await params;
   const { t, locale } = await getI18n();
   const bundle = await getResort(decodeURIComponent(id));
@@ -63,6 +72,17 @@ export default async function ResortPage({ params }: PageProps) {
 
   const { area, israel, apres, transfers, airports, passRegion, passPrices } = bundle;
   const affiliateConfig = configFromEnv();
+
+  // The trip window, straight off the URL. Nothing is defaulted.
+  const trip = tripFromSearchParams(await searchParams);
+  const searchHref = `/${tripToQuery(trip)}`;
+
+  // The airport a traveller flies into. Prefers a stored transfer row, which
+  // carries a MEASURED drive time; falls back to the nearest airport we hold by
+  // straight-line distance, which is enough to build a transfer or car search
+  // and claims nothing about how long the drive takes. Null when we hold none
+  // near enough to call a gateway — in which case those groups do not render.
+  const gateway = gatewayAirport(area, airports, transfers);
 
   // Official links come from the affiliates package so the provider is always
   // named and the "never embed their trail map" rule holds in one place.
@@ -228,7 +248,26 @@ export default async function ResortPage({ params }: PageProps) {
       {/* --- travel --- */}
       <Section title={t('resort.travel')}>
         {transfers.length === 0 ? (
-          <p className="text-sm text-muted">{t('resort.noTransfers')}</p>
+          <div className="space-y-2">
+            <p className="text-sm text-muted">{t('resort.noTransfers')}</p>
+            {/* We do hold the airport itself. Saying which one, and how far it
+                is in a straight line, is a fact; turning that into a drive time
+                would not be, so no drive time is shown. */}
+            {gateway ? (
+              <div className="rounded-lg border border-border bg-surface-2 px-3 py-2">
+                <p className="text-sm text-fg">
+                  {t('resort.gateway')}: <span className="font-mono">{gateway.iata}</span>
+                  {gateway.name && gateway.name !== gateway.iata ? (
+                    <span className="text-muted"> · {gateway.name}</span>
+                  ) : null}
+                  <span className="ms-2 font-mono text-muted">
+                    {km(gateway.straightLineKm, 0)}
+                  </span>
+                </p>
+                <p className="mt-1 text-xs text-muted">{t('resort.gatewayDerived')}</p>
+              </div>
+            ) : null}
+          </div>
         ) : (
           <ul className="space-y-2">
             {transfers.slice(0, 6).map((transfer) => {
@@ -241,7 +280,10 @@ export default async function ResortPage({ params }: PageProps) {
                   <span className="text-fg">
                     <span className="font-mono">{transfer.airportIata}</span>
                     {airport ? <span className="text-muted"> · {airport.name}</span> : null}
-                    {airport?.directFromTLV ? (
+                    {/* "Direct from TLV" is part of the dormant regional layer,
+                        and the seed data itself marks it unverified because
+                        route maps change every season. Gated with the rest. */}
+                    {SHOW_REGIONAL_LAYER && airport?.directFromTLV ? (
                       <span className="ms-2 rounded-full border border-accent/40 bg-accent-soft px-1.5 py-0.5 text-[11px] text-fg">
                         {t('resort.directTlv')}
                       </span>
@@ -256,6 +298,28 @@ export default async function ResortPage({ params }: PageProps) {
             })}
           </ul>
         )}
+      </Section>
+
+      {/* ------------------------------------------------------------------
+          Book this trip.
+
+          FOUR SEPARATE SEARCHES, NEVER ONE PURCHASE. No cart, no combined
+          price, no single "book this trip" button — flights and lodging are
+          distinct groups that the user follows and pays for independently.
+          Combining them into one sale would make Searchski the "organiser"
+          under the EU Package Travel Directive 2015/2302: strict liability for
+          the whole trip plus mandatory insolvency bonding. PLAN.md §9 and the
+          header of packages/affiliates/src/index.ts.
+         ------------------------------------------------------------------ */}
+      <Section title={t('book.title')}>
+        <BookThisTrip
+          area={area}
+          gateway={gateway}
+          trip={trip}
+          config={affiliateConfig}
+          t={t}
+          searchHref={searchHref}
+        />
       </Section>
 
       {/* --- pass --- */}
