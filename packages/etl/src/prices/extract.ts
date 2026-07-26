@@ -28,11 +28,16 @@
  *
  * Never throws. Every failure mode — no key, refusal, API error, unparseable
  * output — comes back as a typed result the caller can log and move past.
+ *
+ * Every result also carries the tokens and searches the API reported, so the
+ * caller can track what it REALLY spent rather than what it guessed it would.
+ * That is what lets discover.ts abort a run mid-flight — see cost.ts.
  */
 
 import Anthropic from '@anthropic-ai/sdk';
 import { zodOutputFormat } from '@anthropic-ai/sdk/helpers/zod';
 import { z } from 'zod';
+import { addUsage, ZERO_USAGE, type CallUsage } from './cost.ts';
 
 /** The model both steps run on. */
 export const PRICE_MODEL = 'claude-opus-5';
@@ -93,6 +98,19 @@ export interface ExtractInput {
   season: string;
 }
 
+/**
+ * `refused` — a safety classifier or the model declined.
+ * `empty`   — the call completed but produced nothing usable.
+ * `error`   — the call itself failed (network, 429, 529, timeout).
+ */
+export type ExtractFailureStatus = 'refused' | 'empty' | 'error';
+
+/** A failure before the usage that produced it is attached. Internal. */
+interface Failure {
+  status: ExtractFailureStatus;
+  reason: string;
+}
+
 export type ExtractResult =
   | {
       status: 'ok';
@@ -101,10 +119,19 @@ export type ExtractResult =
       researchNote: string;
       /** True when step 1 hit max_tokens — the note may be truncated. */
       truncated: boolean;
+      /** What the API said this resort actually cost. Priced by cost.ts. */
+      usage: CallUsage;
     }
-  | { status: 'refused'; reason: string }
-  | { status: 'empty'; reason: string }
-  | { status: 'error'; reason: string };
+  | {
+      status: ExtractFailureStatus;
+      reason: string;
+      /**
+       * Populated even on failure. A refusal after a web search has already run
+       * still cost money, and a running total that ignores it under-counts in
+       * the one direction that matters.
+       */
+      usage: CallUsage;
+    };
 
 // ---------------------------------------------------------------------------
 // Prompts
@@ -196,6 +223,18 @@ function messageOf(err: unknown): string {
   return err instanceof Error ? err.message : String(err);
 }
 
+/** Read one response's billed quantities. Missing fields count as zero, never as unknown. */
+function usageOf(usage: Anthropic.Usage | undefined): CallUsage {
+  if (!usage) return ZERO_USAGE;
+  return {
+    inputTokens: usage.input_tokens ?? 0,
+    outputTokens: usage.output_tokens ?? 0,
+    cacheReadInputTokens: usage.cache_read_input_tokens ?? 0,
+    cacheCreationInputTokens: usage.cache_creation_input_tokens ?? 0,
+    webSearches: usage.server_tool_use?.web_search_requests ?? 0,
+  };
+}
+
 /**
  * Step 1: search. Returns the model's prose, or a failure reason.
  *
@@ -207,10 +246,14 @@ function messageOf(err: unknown): string {
 async function search(
   client: Anthropic,
   input: ExtractInput,
-): Promise<{ text: string; truncated: boolean } | { failure: ExtractResult }> {
+): Promise<{ usage: CallUsage } & ({ text: string; truncated: boolean } | { failure: Failure })> {
   const messages: Anthropic.MessageParam[] = [
     { role: 'user', content: buildSearchPrompt(input) },
   ];
+  // Every continuation below bills separately, so this accumulates rather than
+  // reading the final response — a `pause_turn` loop that only counted its last
+  // request would report a fraction of what it spent.
+  let usage = ZERO_USAGE;
 
   let response = await client.messages.create({
     model: PRICE_MODEL,
@@ -228,6 +271,7 @@ async function search(
     ],
     messages,
   });
+  usage = addUsage(usage, usageOf(response.usage));
 
   for (let i = 0; i < 2 && response.stop_reason === 'pause_turn'; i += 1) {
     messages.push({ role: 'assistant', content: response.content });
@@ -239,21 +283,25 @@ async function search(
       tools: [{ type: 'web_search_20260209', name: 'web_search', max_uses: MAX_SEARCHES }],
       messages,
     });
+    usage = addUsage(usage, usageOf(response.usage));
   }
 
   // Check stop_reason BEFORE touching content: on a refusal the content array
   // is empty or partial, and indexing it blindly is how this crashes.
   if (response.stop_reason === 'refusal') {
     const detail = response.stop_details?.explanation ?? response.stop_details?.category ?? '';
-    return { failure: { status: 'refused', reason: `search declined${detail ? `: ${detail}` : ''}` } };
+    return { usage, failure: { status: 'refused', reason: `search declined${detail ? `: ${detail}` : ''}` } };
   }
 
   const text = textOf(response.content);
   if (!text) {
-    return { failure: { status: 'empty', reason: `search returned no text (stop_reason=${response.stop_reason})` } };
+    return {
+      usage,
+      failure: { status: 'empty', reason: `search returned no text (stop_reason=${response.stop_reason})` },
+    };
   }
 
-  return { text, truncated: response.stop_reason === 'max_tokens' };
+  return { usage, text, truncated: response.stop_reason === 'max_tokens' };
 }
 
 /** Step 2: transcribe step 1's prose into the schema. No searching, no web tool. */
@@ -261,7 +309,7 @@ async function transcribe(
   client: Anthropic,
   input: ExtractInput,
   researchNote: string,
-): Promise<{ extraction: PassPriceExtraction } | { failure: ExtractResult }> {
+): Promise<{ usage: CallUsage } & ({ extraction: PassPriceExtraction } | { failure: Failure })> {
   const response = await client.messages.parse({
     model: PRICE_MODEL,
     max_tokens: 4_000,
@@ -272,17 +320,22 @@ async function transcribe(
     },
     messages: [{ role: 'user', content: buildExtractPrompt(input, researchNote) }],
   });
+  const usage = usageOf(response.usage);
 
   if (response.stop_reason === 'refusal') {
-    return { failure: { status: 'refused', reason: 'extraction declined' } };
+    return { usage, failure: { status: 'refused', reason: 'extraction declined' } };
   }
   if (!response.parsed_output) {
     return {
-      failure: { status: 'empty', reason: `extraction produced no parsed output (stop_reason=${response.stop_reason})` },
+      usage,
+      failure: {
+        status: 'empty',
+        reason: `extraction produced no parsed output (stop_reason=${response.stop_reason})`,
+      },
     };
   }
 
-  return { extraction: response.parsed_output };
+  return { usage, extraction: response.parsed_output };
 }
 
 /**
@@ -295,21 +348,29 @@ async function transcribe(
 export async function extractPassPrice(client: Anthropic, input: ExtractInput): Promise<ExtractResult> {
   let researchNote: string;
   let truncated: boolean;
+  // Runs across both steps so a failure in step 2 still reports step 1's spend.
+  let usage = ZERO_USAGE;
 
   try {
     const step1 = await search(client, input);
-    if ('failure' in step1) return step1.failure;
+    usage = addUsage(usage, step1.usage);
+    if ('failure' in step1) return { ...step1.failure, usage };
     researchNote = step1.text;
     truncated = step1.truncated;
   } catch (err) {
-    return { status: 'error', reason: `search: ${messageOf(err)}` };
+    // A thrown call reports no usage at all, and we cannot tell a connection
+    // that never opened from a 529 that arrived after a billed web search. The
+    // caller charges its estimate in that case rather than zero — see the
+    // `charged` note in discover.ts.
+    return { status: 'error', reason: `search: ${messageOf(err)}`, usage };
   }
 
   try {
     const step2 = await transcribe(client, input, researchNote);
-    if ('failure' in step2) return step2.failure;
-    return { status: 'ok', extraction: step2.extraction, researchNote, truncated };
+    usage = addUsage(usage, step2.usage);
+    if ('failure' in step2) return { ...step2.failure, usage };
+    return { status: 'ok', extraction: step2.extraction, researchNote, truncated, usage };
   } catch (err) {
-    return { status: 'error', reason: `extraction: ${messageOf(err)}` };
+    return { status: 'error', reason: `extraction: ${messageOf(err)}`, usage };
   }
 }

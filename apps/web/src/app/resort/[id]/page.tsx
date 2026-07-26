@@ -20,7 +20,13 @@ import { ResortMap } from '@/components/ResortMap';
 import { OutboundLinkGroup } from '@/components/OutboundLink';
 import { BookThisTrip } from '@/components/BookThisTrip';
 import { CuratedFact, VerificationBadge, type Status } from '@/components/VerificationBadge';
-import { gatewayAirport, tripFromSearchParams, tripToQuery } from '@/lib/trip';
+import {
+  gatewayAirport,
+  groupsFromSearchParams,
+  tripFromSearchParams,
+  tripToQuery,
+  tripWithPrimaryGroup,
+} from '@/lib/trip';
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -74,8 +80,19 @@ export default async function ResortPage({ params, searchParams }: PageProps) {
   const affiliateConfig = configFromEnv();
 
   // The trip window, straight off the URL. Nothing is defaulted.
-  const trip = tripFromSearchParams(await searchParams);
-  const searchHref = `/${tripToQuery(trip)}`;
+  const query = await searchParams;
+  const trip = tripFromSearchParams(query);
+
+  // Traveller groups, if the link carries any. EMPTY IS THE ORDINARY CASE and
+  // everything below then behaves exactly as it did before groups existed —
+  // one origin, one party, four link groups. See lib/trip.ts.
+  const groups = groupsFromSearchParams(query);
+
+  // The search page is single-origin by nature, so the link back to it carries
+  // the FIRST group's origin and party size. That is the closest honest
+  // approximation of "the trip"; the other groups keep their own values in
+  // their own links, which is where the difference actually matters.
+  const searchHref = `/${tripToQuery(tripWithPrimaryGroup(trip, groups))}`;
 
   // The airport a traveller flies into. Prefers a stored transfer row, which
   // carries a MEASURED drive time; falls back to the nearest airport we hold by
@@ -303,19 +320,24 @@ export default async function ResortPage({ params, searchParams }: PageProps) {
       {/* ------------------------------------------------------------------
           Book this trip.
 
-          FOUR SEPARATE SEARCHES, NEVER ONE PURCHASE. No cart, no combined
-          price, no single "book this trip" button — flights and lodging are
-          distinct groups that the user follows and pays for independently.
-          Combining them into one sale would make Searchski the "organiser"
-          under the EU Package Travel Directive 2015/2302: strict liability for
-          the whole trip plus mandatory insolvency bonding. PLAN.md §9 and the
-          header of packages/affiliates/src/index.ts.
+          SEPARATE SEARCHES, NEVER ONE PURCHASE. No cart, no combined price, no
+          single "book this trip" button — flights and lodging are distinct
+          groups that the user follows and pays for independently. Combining
+          them into one sale would make Searchski the "organiser" under the EU
+          Package Travel Directive 2015/2302: strict liability for the whole
+          trip plus mandatory insolvency bonding. PLAN.md §9 and the header of
+          packages/affiliates/src/index.ts.
+
+          That holds ACROSS traveller groups too. Several parties converging on
+          one resort get several sets of separate links — never one basket.
          ------------------------------------------------------------------ */}
       <Section title={t('book.title')}>
         <BookThisTrip
           area={area}
           gateway={gateway}
           trip={trip}
+          groups={groups}
+          airports={Object.keys(airports)}
           config={affiliateConfig}
           t={t}
           searchHref={searchHref}

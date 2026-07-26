@@ -35,6 +35,21 @@
  * attempt — including the misses — is journalled. Ctrl-C once to stop after the
  * current resort; nothing already done is lost, and the next run picks up where
  * this one stopped.
+ *
+ * ---------------------------------------------------------------------------
+ * SPEND GUARDS — two of them, guarding two different mistakes
+ * ---------------------------------------------------------------------------
+ * At ~$0.14 a resort and 951 significant resorts, a mistyped flag is ~$133.
+ *
+ *   1. A typed confirmation for anything over CONFIRM_FREE_THRESHOLD resorts.
+ *      Guards INATTENTION. `--yes` skips it; `--dry-run` never shows it; EOF
+ *      (a pipe, a CI runner, a cron job) aborts rather than proceeding.
+ *   2. A hard ceiling, SEARCHSKI_MAX_SPEND_USD. Guards AUTOMATION. `--yes`
+ *      does NOT lift it, checked before the run starts AND again after every
+ *      resort against what was really spent. Only raising the env var lifts it.
+ *
+ * Neither is a billing limit — set one in the Anthropic console too. See
+ * cost.ts for the model and README > "Spend guards" for what they do not cover.
  */
 
 import { promises as fsp } from 'node:fs';
@@ -43,6 +58,15 @@ import { pathToFileURL } from 'node:url';
 import Anthropic from '@anthropic-ai/sdk';
 import type { PassPrice, PassRegion, Provenance, SkiArea } from '@searchski/core/types';
 import { BUILD_DIR } from '../config.ts';
+import {
+  estimateUsd,
+  MAX_SPEND_ENV,
+  maxSpendUsd,
+  resortsAffordable,
+  usageUsd,
+  usd,
+  USD_PER_RESORT,
+} from './cost.ts';
 import { extractPassPrice, MAX_SEARCHES, PRICE_MODEL, type PassPriceExtraction } from './extract.ts';
 import { renderReport } from './report.ts';
 import {
@@ -69,11 +93,19 @@ interface Options {
   force: boolean;
   delayMs: number;
   dryRun: boolean;
+  yes: boolean;
 }
 
 const DEFAULT_LIMIT = 25;
 /** ~1 request per 1-2s is the crawl-delay PLAN.md §9 commits to. */
 const DEFAULT_DELAY_MS = 2_000;
+
+/**
+ * Runs of this size or smaller start without asking. ~$1.40 at 2026-07 rates —
+ * small enough that a prompt would just train the user to type `y` reflexively,
+ * which is precisely the habit the prompt exists to prevent.
+ */
+const CONFIRM_FREE_THRESHOLD = 10;
 
 /**
  * Northern-hemisphere season for a date. From July onward the season being sold
@@ -115,6 +147,7 @@ export function parseOptions(argv: readonly string[]): Options {
     force: hasFlag(argv, 'force'),
     delayMs: Number.isFinite(parsedDelay) && parsedDelay >= 0 ? parsedDelay : DEFAULT_DELAY_MS,
     dryRun: hasFlag(argv, 'dry-run'),
+    yes: hasFlag(argv, 'yes'),
   };
 }
 
@@ -129,35 +162,19 @@ Find published adult lift-pass prices for resorts that have none.
   --force            re-check resorts already answered  (default: skip them)
   --delay-ms=N       pause between resorts              (default ${DEFAULT_DELAY_MS})
   --dry-run          print the plan and cost estimate, call nothing
+  --yes              skip the confirmation prompt (for scripts)
   --help             this text
+
+Spend guards:
+  Runs of more than ${CONFIRM_FREE_THRESHOLD} resorts ask for a typed "y" first. --yes skips that.
+  ${MAX_SPEND_ENV} caps one run's estimate (default $5.00) and aborts
+  mid-run if the real total crosses it. --yes does NOT bypass the cap; only
+  raising the variable does. Neither is a billing limit — set one of those in
+  the Anthropic console.
 
 Needs ANTHROPIC_API_KEY. Without it the command explains itself and exits 0 —
 it spends money and makes outbound requests, so it never runs by accident.
 `;
-
-// ---------------------------------------------------------------------------
-// Cost estimate (used by --dry-run and the no-key message)
-// ---------------------------------------------------------------------------
-
-/**
- * Rough per-resort token cost. Step 1's input is dominated by whatever the
- * search tool injects, which is the number with the widest spread — treat the
- * output as an order of magnitude, not a quote.
- */
-const EST_INPUT_TOKENS = 13_000;
-const EST_OUTPUT_TOKENS = 2_100;
-const EST_SEARCHES_PER_RESORT = 2.5;
-/** claude-opus-5, USD per million tokens. */
-const USD_PER_MTOK_IN = 5;
-const USD_PER_MTOK_OUT = 25;
-/** Anthropic's web-search tool, published at $10 per 1,000 searches. */
-const USD_PER_SEARCH = 0.01;
-
-function estimateUsd(resorts: number): number {
-  const tokens = (EST_INPUT_TOKENS / 1e6) * USD_PER_MTOK_IN + (EST_OUTPUT_TOKENS / 1e6) * USD_PER_MTOK_OUT;
-  const search = EST_SEARCHES_PER_RESORT * USD_PER_SEARCH;
-  return resorts * (tokens + search);
-}
 
 // ---------------------------------------------------------------------------
 // Row construction — where "never invent a price" is actually enforced
@@ -347,6 +364,149 @@ function pad(text: string, width: number): string {
   return text.length >= width ? text.slice(0, width) : text.padEnd(width, ' ');
 }
 
+// ---------------------------------------------------------------------------
+// Spend guards: the confirmation prompt and the hard ceiling
+// ---------------------------------------------------------------------------
+
+interface Plan {
+  /** Resorts this run would actually query. */
+  queued: number;
+  /** Everything still unanswered in scope — the backlog behind the --limit. */
+  eligible: number;
+  alreadyPriced: number;
+  season: string;
+  countries: string[] | null;
+  delayMs: number;
+}
+
+function seconds(ms: number): string {
+  const s = ms / 1000;
+  return `${Number.isInteger(s) ? s : s.toFixed(1)}s`;
+}
+
+/** Label column, then value column. Wide enough for "Already priced". */
+function row(label: string, value: string, trailing = ''): string {
+  return `${pad(label, 17)}${trailing ? pad(value, 9) : value}${trailing}`;
+}
+
+/**
+ * The plan, as a human needs to read it before spending money: what it will do,
+ * what that costs, what the scope is, and how to make it smaller. "How to make
+ * it smaller" is the load-bearing line — a prompt that only offers yes/no
+ * pushes a hesitant user toward `y`.
+ */
+function renderPlan(plan: Plan): string {
+  const scope = plan.countries && plan.countries.length > 0 ? plan.countries.join(',') : 'all';
+  return [
+    `About to query ${plan.queued} resorts, serially, ~${seconds(plan.delayMs)} apart.`,
+    row('Estimated cost', `~${usd(estimateUsd(plan.queued))}`, `(~${usd(USD_PER_RESORT)} per resort)`),
+    row('Season', plan.season),
+    row('Countries', scope),
+    row(
+      'Already priced',
+      String(plan.alreadyPriced),
+      `Remaining backlog ${plan.eligible} (~${usd(estimateUsd(plan.eligible))} to clear)`,
+    ),
+    '',
+    'Narrow it:  --limit=N  --countries=IT,BG  --season=2025/26',
+  ].join('\n');
+}
+
+/**
+ * Why the run will not start, and the one flag that fixes it.
+ *
+ * Deliberately does NOT offer `--yes` as a way out: `--yes` answers the
+ * inattention prompt, and this is the automation guard. The only way past it is
+ * to raise the env var, which is a thing you do on purpose.
+ */
+function renderRefusal(plan: Plan, ceiling: number): string {
+  const estimate = estimateUsd(plan.queued);
+  const affordable = resortsAffordable(ceiling);
+  const suggested = Math.ceil(estimate * 100) / 100;
+
+  const fix =
+    affordable > 0
+      ? [
+          `  --limit=${affordable} brings this run to ~${usd(estimateUsd(affordable))} and starts immediately.`,
+        ]
+      : [
+          `  The ceiling is below the ~${usd(USD_PER_RESORT)} a single resort costs, so no --limit`,
+          '  value can bring it under. Raising the ceiling is the only option.',
+        ];
+
+  return [
+    `[prices] REFUSING TO START — the estimate is over the spend ceiling.`,
+    '',
+    `  This run        ${plan.queued} resorts, ~${usd(estimate)}`,
+    `  Ceiling         ${usd(ceiling)}  (${MAX_SPEND_ENV})`,
+    '',
+    ...fix,
+    '',
+    '  --yes does NOT bypass this. The prompt guards against inattention; the',
+    '  ceiling guards against automation. Raise it only if you mean to spend it:',
+    `    bash        ${MAX_SPEND_ENV}=${suggested.toFixed(2)} npm run prices:discover -- --limit=${plan.queued}`,
+    `    PowerShell  $env:${MAX_SPEND_ENV}='${suggested.toFixed(2)}'; npm run prices:discover -- --limit=${plan.queued}`,
+    '',
+    '  This is not a billing limit. Set one of those in the Anthropic console.',
+  ].join('\n');
+}
+
+/**
+ * Read one line from stdin.
+ *
+ * Resolves `null` on EOF — a closed or empty stdin, which is what a pipe, a CI
+ * runner and a cron job all look like. That case MUST NOT be read as consent:
+ * the caller aborts on it. There is no timeout, because a human staring at the
+ * prompt should get as long as they want.
+ */
+function readLine(): Promise<string | null> {
+  return new Promise((resolve) => {
+    const stdin = process.stdin;
+    let buffer = '';
+    let settled = false;
+
+    const finish = (value: string | null): void => {
+      if (settled) return;
+      settled = true;
+      stdin.off('data', onData);
+      stdin.off('end', onEnd);
+      stdin.off('error', onError);
+      // Unref stdin so a resolved prompt cannot hold the process open.
+      stdin.pause();
+      resolve(value);
+    };
+
+    const onData = (chunk: Buffer | string): void => {
+      buffer += chunk.toString();
+      const newline = buffer.indexOf('\n');
+      if (newline >= 0) finish(buffer.slice(0, newline));
+    };
+    // Input that ended without a newline still counts; input that ended with
+    // nothing at all is EOF.
+    const onEnd = (): void => finish(buffer.length > 0 ? buffer : null);
+    const onError = (): void => finish(null);
+
+    stdin.on('data', onData);
+    stdin.on('end', onEnd);
+    stdin.on('error', onError);
+    stdin.resume();
+  });
+}
+
+/** Only a typed `y` or `yes` proceeds. Everything else — including EOF — does not. */
+async function confirmed(): Promise<boolean> {
+  process.stdout.write('Proceed? [y/N] ');
+  const answer = await readLine();
+  if (answer === null) {
+    console.log('');
+    console.log('[prices] stdin closed without an answer — treating that as "no" and stopping.');
+    console.log('[prices] Pass --yes if you meant to run this from a script.');
+    return false;
+  }
+  const normalised = answer.trim().toLowerCase();
+  return normalised === 'y' || normalised === 'yes';
+}
+
 function summarise(rows: readonly PassPrice[]): string {
   return rows.map((r) => `${r.duration} ${r.currency} ${r.price}`).join(', ');
 }
@@ -393,6 +553,17 @@ async function main(): Promise<void> {
   eligible.sort((a, b) => b.kmTotal - a.kmTotal);
   const queue = eligible.slice(0, options.limit);
 
+  const plan: Plan = {
+    queued: queue.length,
+    eligible: eligible.length,
+    alreadyPriced: pricedAreas.size,
+    season: options.season,
+    countries: options.countries,
+    delayMs: options.delayMs,
+  };
+  const ceiling = maxSpendUsd();
+  const overCeiling = estimateUsd(plan.queued) > ceiling;
+
   const scopeLabel = options.countries ? options.countries.join(',') : 'all countries';
   console.log('');
   console.log(`[prices] season ${options.season} | ${scopeLabel} | model ${PRICE_MODEL}`);
@@ -403,17 +574,36 @@ async function main(): Promise<void> {
     `[prices] this run would query ${queue.length} (limit ${options.limit}), serially, ${options.delayMs}ms apart, max ${MAX_SEARCHES} searches each.`,
   );
   console.log(
-    `[prices] rough cost: ~$${estimateUsd(queue.length).toFixed(2)} for this run; ~$${estimateUsd(eligible.length).toFixed(2)} to clear the whole backlog.`,
+    `[prices] rough cost: ~${usd(estimateUsd(queue.length))} for this run; ~${usd(estimateUsd(eligible.length))} to clear the whole backlog.`,
   );
+  console.log(`[prices] spend ceiling ${usd(ceiling)} (${MAX_SPEND_ENV}).`);
   console.log('');
 
+  // --dry-run calls nothing, so it neither prompts nor refuses. It does say
+  // whether the ceiling WOULD refuse — finding that out for free is the entire
+  // point of a dry run.
   if (options.dryRun) {
     for (const area of queue) {
       console.log(`  ${pad(area.country ?? '??', 3)} ${pad(area.name, 40)} ${area.kmTotal.toFixed(1)} km`);
     }
     console.log('');
+    if (overCeiling) {
+      console.log(renderRefusal(plan, ceiling));
+      console.log('');
+    }
     console.log('[prices] --dry-run: nothing was called. Drop the flag to run for real.');
     process.exit(0);
+  }
+
+  /*
+   * The ceiling is checked BEFORE the API key, on purpose. It is a statement
+   * about the plan, not about whether a key happens to be lying around, and
+   * checking it first means it can be verified without one.
+   */
+  if (overCeiling) {
+    console.log(renderRefusal(plan, ceiling));
+    console.log('');
+    process.exit(1);
   }
 
   const apiKey = process.env.ANTHROPIC_API_KEY;
@@ -433,6 +623,23 @@ async function main(): Promise<void> {
     process.exit(0);
   }
 
+  // --- confirmation -------------------------------------------------------
+  // Small runs start straight away; anything bigger has to be typed for.
+  if (queue.length > CONFIRM_FREE_THRESHOLD && !options.yes) {
+    console.log(renderPlan(plan));
+    if (!(await confirmed())) {
+      console.log('[prices] aborted. Nothing was called and nothing was spent.');
+      process.exit(1);
+    }
+    console.log('');
+  }
+
+  if (queue.length === 0) {
+    console.log('[prices] nothing to do — no eligible resorts in scope. Try --force or a wider --countries.');
+    console.log('');
+    process.exit(0);
+  }
+
   // --- run ----------------------------------------------------------------
   const client = new Anthropic({ apiKey, timeout: 180_000 });
 
@@ -448,11 +655,16 @@ async function main(): Promise<void> {
 
   let working = [...prices];
   const tally = { found: 0, dynamic: 0, notFound: 0, discarded: 0, errored: 0 };
+  /** Real spend so far, from the API's own usage numbers. */
+  let spentUsd = 0;
+  let ceilingHit = false;
+  let completed = 0;
 
   for (let i = 0; i < queue.length; i += 1) {
     const area = queue[i];
     if (!area) continue;
     if (stopRequested) break;
+    if (ceilingHit) break;
     if (i > 0 && options.delayMs > 0) await sleep(options.delayMs);
 
     const counter = `${String(i + 1).padStart(3, ' ')}/${queue.length}`;
@@ -469,6 +681,19 @@ async function main(): Promise<void> {
       passRegionUrl: passRegion?.officialUrl ?? null,
       season: options.season,
     });
+
+    /*
+     * What this resort really cost, straight from the API's usage numbers.
+     * A call that threw reports nothing at all, and we cannot distinguish a
+     * connection that never opened from a 529 that arrived after a billed web
+     * search — so charge the estimate rather than zero. The running total may
+     * therefore over-count a genuinely free failure, which is the safe
+     * direction for something whose whole job is to stop a bill.
+     */
+    const measured = usageUsd(result.usage);
+    const charged = measured > 0 ? measured : USD_PER_RESORT;
+    spentUsd += charged;
+    completed += 1;
 
     const now = new Date().toISOString();
     let record: AttemptRecord;
@@ -543,6 +768,25 @@ async function main(): Promise<void> {
     // more than the one call that was in flight.
     await writePrices(working);
     await writeState({ attempts: [...attemptIndex.values()], updatedAt: now });
+
+    /*
+     * The ceiling again, this time against real spend. The up-front estimate is
+     * an average; a handful of resorts with unusually chatty search results can
+     * take a run past a ceiling it was projected to clear. Checked AFTER the
+     * writes above, so an abort here loses nothing — the next run resumes from
+     * the journal.
+     */
+    if (spentUsd >= ceiling && i + 1 < queue.length) {
+      ceilingHit = true;
+      console.log('');
+      console.log(
+        `[prices] STOPPING — spent ~${usd(spentUsd)}, which reached the ${usd(ceiling)} ceiling (${MAX_SPEND_ENV}).`,
+      );
+      console.log(
+        `[prices] ${completed} of ${queue.length} resorts were completed and are already written to disk.`,
+      );
+      console.log('[prices] Re-run to continue from here, or raise the ceiling first if you meant to spend more.');
+    }
   }
 
   const generatedAt = new Date().toISOString();
@@ -559,7 +803,10 @@ async function main(): Promise<void> {
 
   console.log('');
   console.log(
-    `[prices] done: ${tally.found} found, ${tally.dynamic} dynamic (floor), ${tally.notFound} not found, ${tally.discarded} discarded, ${tally.errored} errored.`,
+    `[prices] ${ceilingHit ? 'stopped early' : 'done'}: ${tally.found} found, ${tally.dynamic} dynamic (floor), ${tally.notFound} not found, ${tally.discarded} discarded, ${tally.errored} errored.`,
+  );
+  console.log(
+    `[prices] spent ~${usd(spentUsd)} on ${completed} resorts, from the API's own usage counts, against a ${usd(ceiling)} ceiling.`,
   );
   console.log(`[prices] wrote data/build/pass_prices.json (${working.length} rows) and pass_prices_report.md.`);
   console.log('[prices] every row is verification:"unverified" — read the report before displaying any of it.');

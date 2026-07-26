@@ -67,15 +67,24 @@ export function OutboundLinkGroup({
   title,
   note,
   links,
+  /**
+   * Heading level for the group title. `h3` by default, which is right directly
+   * under a page section. Multi-group booking nests these under a per-group
+   * `h3`, and a heading outline that skips or repeats a level is exactly what
+   * makes a page unnavigable by heading for a screen-reader user.
+   */
+  headingLevel = 3,
 }: {
   title: string;
   note?: string;
   links: OutboundLinkData[];
+  headingLevel?: 3 | 4;
 }) {
   if (links.length === 0) return null;
+  const Heading = headingLevel === 4 ? 'h4' : 'h3';
   return (
     <div className="space-y-2">
-      <h3 className="text-sm font-semibold text-fg">{title}</h3>
+      <Heading className="text-sm font-semibold text-fg">{title}</Heading>
       {note ? <p className="text-xs text-muted">{note}</p> : null}
       <ul className="space-y-2">
         {links.map((link) => (

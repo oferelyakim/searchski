@@ -191,6 +191,34 @@ const en = {
   'book.affiliate':
     'Links marked “affiliate link” pay Searchski a commission if you book. They are labelled at the point of the click and the ranking cannot see them.',
 
+  // --- travelling in more than one group ---------------------------------
+  'book.multiPrompt': 'Travelling from more than one place?',
+  'book.multiHint':
+    'Add a group for each departure point. Everyone shares the dates and the resort; only where you set off from, how many of you there are and what you need changes.',
+  'book.groupsTitle': 'Who is travelling',
+  'book.groupsIntro':
+    'Each group gets its own searches, on the same independent companies. Nothing is combined — not within a group and not across them. Every person books and pays for their own flight, bed and transfer.',
+  'book.groupsDatesNote':
+    'Dates are the same for everyone: one resort, one window. Change them on the search page.',
+  'book.addGroup': 'Add another group',
+  'book.groupsFull':
+    'Six groups is the limit. Beyond that a shared link stops being readable — use a shared document instead.',
+  'book.removeGroup': 'Remove group',
+  'book.groupName': 'Group name',
+  'book.groupNamePlaceholder': 'Berlin crew',
+  'book.groupFallback': 'Group',
+  'book.groupNeeds': 'What this group needs',
+  'book.needFlight': 'Flight',
+  'book.needLodging': 'Stay',
+  'book.needTransfer': 'Transfer',
+  'book.needCar': 'Car',
+  'book.groupNoOrigin':
+    'No departure airport for this group, so no flight search is shown. Add a three-letter airport code above, or untick Flight if they are driving — we never guess where someone flies from.',
+  'book.groupNothing':
+    'This group has nothing ticked, so nothing is shown for them. Tick what they need above.',
+  'book.groupOnlyLodging': 'Needs a bed only',
+  'book.groupDriving': 'Not flying',
+
   'israel.kosher': 'Kosher food',
   'israel.chabad': 'Nearest Chabad',
   'israel.hebrewSchool': 'Hebrew-speaking ski school',
@@ -394,6 +422,30 @@ const he: Record<MessageKey, string> = {
     'מבני הקישורים האלה הם הקריאה הטובה ביותר שלנו של כתובות החיפוש הפומביות של כל ספק, ולא אומתו מול האתרים החיים שלהם. אם קישור נוחת בטופס חיפוש ריק בלי הפרטים שלכם — זו הסיבה, מלאו אותם שם.',
   'book.affiliate':
     'קישורים המסומנים „קישור שותפים” מזכים את Searchski בעמלה אם תזמינו. הם מסומנים במקום הלחיצה, והדירוג אינו רואה אותם.',
+
+  'book.multiPrompt': 'יוצאים מיותר ממקום אחד?',
+  'book.multiHint':
+    'הוסיפו קבוצה לכל נקודת יציאה. התאריכים והאתר משותפים לכולם; משתנים רק מאיפה יוצאים, כמה אתם ומה אתם צריכים.',
+  'book.groupsTitle': 'מי נוסע',
+  'book.groupsIntro':
+    'לכל קבוצה חיפושים משלה, באותן חברות עצמאיות. שום דבר לא מאוחד — לא בתוך קבוצה ולא בין קבוצות. כל אחד מזמין ומשלם בעצמו על הטיסה, הלינה וההסעה שלו.',
+  'book.groupsDatesNote': 'התאריכים זהים לכולם: אתר אחד, חלון אחד. שינוי התאריכים נעשה בעמוד החיפוש.',
+  'book.addGroup': 'הוספת קבוצה',
+  'book.groupsFull': 'שש קבוצות זה המקסימום. מעבר לכך הקישור המשותף מפסיק להיות קריא — עדיף מסמך משותף.',
+  'book.removeGroup': 'הסרת קבוצה',
+  'book.groupName': 'שם הקבוצה',
+  'book.groupNamePlaceholder': 'החבורה מברלין',
+  'book.groupFallback': 'קבוצה',
+  'book.groupNeeds': 'מה הקבוצה צריכה',
+  'book.needFlight': 'טיסה',
+  'book.needLodging': 'לינה',
+  'book.needTransfer': 'הסעה',
+  'book.needCar': 'רכב',
+  'book.groupNoOrigin':
+    'אין שדה תעופה מוצא לקבוצה הזו, ולכן לא מוצג חיפוש טיסות. הוסיפו קוד שדה תעופה בן שלוש אותיות למעלה, או הסירו את הסימון „טיסה” אם הם מגיעים ברכב — איננו מנחשים מאיפה מישהו טס.',
+  'book.groupNothing': 'לא סומן דבר עבור הקבוצה הזו, ולכן לא מוצג עבורה כלום. סמנו למעלה מה הם צריכים.',
+  'book.groupOnlyLodging': 'צריכים רק מיטה',
+  'book.groupDriving': 'לא טסים',
 
   'israel.kosher': 'אוכל כשר',
   'israel.chabad': 'חב״ד הקרוב',

@@ -106,7 +106,9 @@ have none, using the Claude API's server-side web search. It is the only part
 of the pipeline that costs money and makes outbound requests to third parties,
 so **without `ANTHROPIC_API_KEY` it explains itself and exits 0** rather than
 running by accident. Serial, with a delay between calls, and a low per-resort
-search budget — see PLAN.md §9.
+search budget — see PLAN.md §9. Runs of more than ten resorts ask for a typed
+confirmation, and `SEARCHSKI_MAX_SPEND_USD` caps what one run can cost — see
+[Spend guards](#spend-guards).
 
 It writes `data/build/pass_prices.json`, a resume journal
 (`pass_prices_state.json`, so a crash or Ctrl-C never re-reads a site it has
@@ -120,6 +122,69 @@ already read), and `pass_prices_report.md`. Three things about the output:
 - **Dynamic pricing and an assumed season are recorded, not smoothed away.**
   `isDynamic` marks a figure as a floor; rows whose page never named the season
   are listed in the report for a human to check.
+
+---
+
+## Spend guards
+
+Two places in this codebase can call the Claude API and therefore spend money:
+the price CLI (~$0.14 a resort, 951 resorts, so a mistyped flag is ~$133) and
+the web app (one call per search, one per explanation — individually trivial,
+but `/api/search` is public and a crawler is unbounded). Both have brakes.
+
+| Guard | Where | Default | Stops |
+|---|---|---|---|
+| Typed confirmation | `prices:discover` | over 10 resorts | a mistyped `--limit` |
+| `SEARCHSKI_MAX_SPEND_USD` | `prices:discover` | `5.00` | a script running without a human |
+| `SEARCHSKI_LLM_DAILY_USD` | web app | `2.00` | a retry loop or a crawler |
+
+**The CLI asks first.** Any run over ten resorts prints the plan — resort
+count, estimated cost, season, scope, the backlog behind it, and the flags that
+would narrow it — and waits for a typed `y`. Anything else aborts, *including
+EOF*, so a pipe or a CI runner stops rather than proceeding into a bill.
+`--yes` skips the prompt for scripts; `--dry-run` never shows it.
+
+**The CLI also has a hard ceiling.** `SEARCHSKI_MAX_SPEND_USD` (default $5.00)
+is checked against the estimate before the run starts, and again against real
+API usage after every resort — a run that turns out pricier than projected
+stops mid-flight, reports what it completed, and loses nothing, because results
+are written after each resort. **`--yes` does not bypass the ceiling.** That
+split is the point: the prompt guards against inattention, the ceiling guards
+against automation, and a script that is already wrong will happily answer
+every prompt you give it.
+
+**The web app degrades instead of failing.** `SEARCHSKI_LLM_DAILY_USD`
+(default $2.00) is a per-process daily estimate, reset at UTC midnight. Over
+it, `/api/search` parses with the deterministic keyword parser and reports
+`llmSkipped: "budget"`, and `/api/explain/:id` returns
+`{ explanation: null, reason: "budget" }` with **HTTP 200**. Both are the
+no-API-key path, which is a supported, tested configuration — going over budget
+makes the site cheaper, never broken. Setting it to `0` switches Claude off
+entirely. There is also a pre-filter: a short, unambiguous query the keyword
+parser has already understood never reaches the model at all, budget or not.
+
+The cost model lives in exactly two places —
+`packages/etl/src/prices/cost.ts` and `apps/web/src/lib/llm-budget.ts` — with
+the per-call token estimates and the published Opus 5 rates as of 2026-07-26.
+**Re-check those rates before trusting any figure the tool prints.**
+
+### What these do NOT protect against
+
+- **They are not billing limits.** Nothing here talks to Anthropic's billing.
+- **The web counter is per process and in memory.** It resets on every deploy
+  and cold start, and on a serverless host there are N instances, so the true
+  worst case is N × the budget. It is a speed bump, not a cap.
+- **The web counter estimates.** `@searchski/nlp` does not report token usage
+  back, so each call is charged at a flat estimate. An unusually long query
+  costs more than it records.
+- **Stale rates make every figure wrong** in the direction that costs money.
+- **Nothing here rate-limits `/api/search`.** The budget bounds the *spend*
+  from a flood of requests, not the flood.
+
+**Set a spend limit in the Anthropic console** (Settings → Limits). That is the
+only one of these enforced by the party doing the billing, and it is the real
+backstop. Everything above keeps an ordinary day cheap; the console limit is
+what keeps a bad day from being expensive.
 
 ---
 
