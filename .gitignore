@@ -15,10 +15,17 @@ data/raw/
 # process died mid-write; it is never something to commit.
 data/build/*.tmp
 
+# Secrets. .env.example is ignored ON PURPOSE and is NOT the usual convention:
+# it is used here as a personal key store, so it must never be committed. The
+# tracked documentation lives in .env.template instead, which holds no secrets.
+#
+# Adding a path here does NOT untrack a file git already knows about — that
+# needs `git rm --cached <file>`. .env.example was already tracked, so it was
+# untracked explicitly when this rule was added.
 .env
 .env.local
 .env*.local
-!.env.example
+.env.example
 
 .DS_Store
 Thumbs.db

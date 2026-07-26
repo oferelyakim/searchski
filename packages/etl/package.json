@@ -9,8 +9,8 @@
   "scripts": {
     "fetch": "node src/fetch.ts",
     "build": "node --max-old-space-size=4096 src/build.ts",
-    "load": "node --env-file-if-exists=../../.env --env-file-if-exists=../../.env.local src/load.ts",
-    "prices:discover": "node --env-file-if-exists=../../.env --env-file-if-exists=../../.env.local src/prices/discover.ts",
+    "load": "node --env-file-if-exists=../../.env.example --env-file-if-exists=../../.env --env-file-if-exists=../../.env.local src/load.ts",
+    "prices:discover": "node --env-file-if-exists=../../.env.example --env-file-if-exists=../../.env --env-file-if-exists=../../.env.local src/prices/discover.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependenciesComment": "@anthropic-ai/sdk and zod are pinned to the SAME ranges as packages/nlp on purpose. messages.parse and the helpers/zod entry point only exist from 0.115, and zodOutputFormat requires a zod/v4 schema — an older pair of either fails at import time, not at call time.",
