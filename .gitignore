@@ -1,0 +1,24 @@
+node_modules/
+dist/
+.next/
+out/
+*.tsbuildinfo
+
+# Raw upstream dumps: large, re-downloadable, never committed.
+data/raw/
+
+# Built artifacts ARE committed (see data/build/README.md) so the app can
+# deploy to Vercel with no database. Comment the next line out if they grow.
+# data/build/
+
+# Every artifact write is temp-file-then-rename. A .tmp left behind means a
+# process died mid-write; it is never something to commit.
+data/build/*.tmp
+
+.env
+.env.local
+.env*.local
+!.env.example
+
+.DS_Store
+Thumbs.db

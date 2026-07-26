@@ -1,0 +1,17 @@
+# Normalise line endings in the repository to LF.
+#
+# Development happens on Windows; Vercel and CI build on Linux. Without this,
+# every file committed from Windows lands with CRLF and later shows up as a
+# whole-file diff the moment anything touches it from Linux. Storing LF and
+# letting Git convert on checkout keeps diffs honest.
+* text=auto eol=lf
+
+# Generated data. Marked linguist-generated so GitHub collapses it in diffs —
+# a 6.6 MB JSON blob is not something anyone wants to review line by line.
+data/build/*.json linguist-generated=true
+package-lock.json linguist-generated=true
+
+# Keep these LF regardless: they are executed by shells and interpreters that
+# can choke on carriage returns.
+*.sh text eol=lf
+*.mjs text eol=lf

@@ -1,0 +1,4311 @@
+{
+  "generatedAt": "2026-07-26T18:27:10.410Z",
+  "countries": [
+    "AT",
+    "FR",
+    "CH",
+    "IT",
+    "DE",
+    "ES",
+    "AD",
+    "SI",
+    "LI",
+    "SK",
+    "CZ",
+    "PL",
+    "BG",
+    "RO",
+    "GE",
+    "NO",
+    "SE",
+    "FI",
+    "BA",
+    "RS",
+    "HR",
+    "ME",
+    "MK",
+    "AL",
+    "GR",
+    "TR",
+    "UA"
+  ],
+  "totals": {
+    "featuresRead": 12203,
+    "downhillWorldwide": 6984,
+    "inTargetCountries": 3729,
+    "kept": 3729,
+    "significant": 951,
+    "dropped": 2778
+  },
+  "perCountry": [
+    {
+      "country": "AD",
+      "total": 4,
+      "significant": 4,
+      "dropped": 0,
+      "wikidataMatched": 0,
+      "wikidataRate": 0,
+      "missing": {
+        "topElevM": 0,
+        "baseElevM": 0,
+        "verticalM": 0,
+        "websites": 1,
+        "localities": 1,
+        "regionCode": 0,
+        "wikidataId": 4,
+        "terrainMix": 0,
+        "capacityPerKm": 0,
+        "name": 0,
+        "snowmakingKm": 4
+      },
+      "nightSki": {
+        "known": 2,
+        "hasIt": 2,
+        "none": 0,
+        "unknown": 2
+      },
+      "medianKm": 33.23,
+      "totalKm": 229.6
+    },
+    {
+      "country": "AL",
+      "total": 1,
+      "significant": 0,
+      "dropped": 1,
+      "wikidataMatched": 0,
+      "wikidataRate": 0,
+      "missing": {
+        "topElevM": 0,
+        "baseElevM": 0,
+        "verticalM": 0,
+        "websites": 0,
+        "localities": 1,
+        "regionCode": 0,
+        "wikidataId": 1,
+        "terrainMix": 0,
+        "capacityPerKm": 0,
+        "name": 0,
+        "snowmakingKm": 1
+      },
+      "nightSki": {
+        "known": 0,
+        "hasIt": 0,
+        "none": 0,
+        "unknown": 1
+      },
+      "medianKm": 1.095,
+      "totalKm": 1.1
+    },
+    {
+      "country": "AT",
+      "total": 419,
+      "significant": 172,
+      "dropped": 247,
+      "wikidataMatched": 26,
+      "wikidataRate": 6.2,
+      "missing": {
+        "topElevM": 46,
+        "baseElevM": 46,
+        "verticalM": 46,
+        "websites": 172,
+        "localities": 318,
+        "regionCode": 0,
+        "wikidataId": 393,
+        "terrainMix": 85,
+        "capacityPerKm": 75,
+        "name": 64,
+        "snowmakingKm": 417
+      },
+      "nightSki": {
+        "known": 90,
+        "hasIt": 81,
+        "none": 9,
+        "unknown": 329
+      },
+      "medianKm": 2.917,
+      "totalKm": 6867.3
+    },
+    {
+      "country": "BA",
+      "total": 29,
+      "significant": 5,
+      "dropped": 24,
+      "wikidataMatched": 1,
+      "wikidataRate": 3.4,
+      "missing": {
+        "topElevM": 4,
+        "baseElevM": 4,
+        "verticalM": 4,
+        "websites": 18,
+        "localities": 27,
+        "regionCode": 3,
+        "wikidataId": 28,
+        "terrainMix": 13,
+        "capacityPerKm": 11,
+        "name": 4,
+        "snowmakingKm": 29
+      },
+      "nightSki": {
+        "known": 6,
+        "hasIt": 6,
+        "none": 0,
+        "unknown": 23
+      },
+      "medianKm": 0.402,
+      "totalKm": 86
+    },
+    {
+      "country": "BG",
+      "total": 25,
+      "significant": 5,
+      "dropped": 20,
+      "wikidataMatched": 1,
+      "wikidataRate": 4,
+      "missing": {
+        "topElevM": 0,
+        "baseElevM": 0,
+        "verticalM": 0,
+        "websites": 18,
+        "localities": 24,
+        "regionCode": 0,
+        "wikidataId": 24,
+        "terrainMix": 7,
+        "capacityPerKm": 3,
+        "name": 12,
+        "snowmakingKm": 25
+      },
+      "nightSki": {
+        "known": 7,
+        "hasIt": 5,
+        "none": 2,
+        "unknown": 18
+      },
+      "medianKm": 1.098,
+      "totalKm": 154.2
+    },
+    {
+      "country": "CH",
+      "total": 354,
+      "significant": 134,
+      "dropped": 220,
+      "wikidataMatched": 7,
+      "wikidataRate": 2,
+      "missing": {
+        "topElevM": 14,
+        "baseElevM": 14,
+        "verticalM": 14,
+        "websites": 118,
+        "localities": 0,
+        "regionCode": 0,
+        "wikidataId": 347,
+        "terrainMix": 38,
+        "capacityPerKm": 36,
+        "name": 23,
+        "snowmakingKm": 339
+      },
+      "nightSki": {
+        "known": 51,
+        "hasIt": 46,
+        "none": 5,
+        "unknown": 303
+      },
+      "medianKm": 3.15,
+      "totalKm": 4201.7
+    },
+    {
+      "country": "CZ",
+      "total": 373,
+      "significant": 26,
+      "dropped": 347,
+      "wikidataMatched": 1,
+      "wikidataRate": 0.3,
+      "missing": {
+        "topElevM": 22,
+        "baseElevM": 22,
+        "verticalM": 22,
+        "websites": 228,
+        "localities": 345,
+        "regionCode": 0,
+        "wikidataId": 372,
+        "terrainMix": 72,
+        "capacityPerKm": 62,
+        "name": 86,
+        "snowmakingKm": 373
+      },
+      "nightSki": {
+        "known": 95,
+        "hasIt": 91,
+        "none": 4,
+        "unknown": 278
+      },
+      "medianKm": 0.571,
+      "totalKm": 606.8
+    },
+    {
+      "country": "DE",
+      "total": 551,
+      "significant": 44,
+      "dropped": 507,
+      "wikidataMatched": 1,
+      "wikidataRate": 0.2,
+      "missing": {
+        "topElevM": 17,
+        "baseElevM": 17,
+        "verticalM": 17,
+        "websites": 381,
+        "localities": 0,
+        "regionCode": 0,
+        "wikidataId": 550,
+        "terrainMix": 97,
+        "capacityPerKm": 85,
+        "name": 308,
+        "snowmakingKm": 548
+      },
+      "nightSki": {
+        "known": 189,
+        "hasIt": 175,
+        "none": 14,
+        "unknown": 362
+      },
+      "medianKm": 0.482,
+      "totalKm": 1025.6
+    },
+    {
+      "country": "ES",
+      "total": 45,
+      "significant": 29,
+      "dropped": 16,
+      "wikidataMatched": 7,
+      "wikidataRate": 15.6,
+      "missing": {
+        "topElevM": 9,
+        "baseElevM": 9,
+        "verticalM": 9,
+        "websites": 13,
+        "localities": 42,
+        "regionCode": 0,
+        "wikidataId": 38,
+        "terrainMix": 10,
+        "capacityPerKm": 10,
+        "name": 0,
+        "snowmakingKm": 45
+      },
+      "nightSki": {
+        "known": 7,
+        "hasIt": 5,
+        "none": 2,
+        "unknown": 38
+      },
+      "medianKm": 9.427,
+      "totalKm": 922
+    },
+    {
+      "country": "FI",
+      "total": 111,
+      "significant": 19,
+      "dropped": 92,
+      "wikidataMatched": 9,
+      "wikidataRate": 8.1,
+      "missing": {
+        "topElevM": 14,
+        "baseElevM": 14,
+        "verticalM": 14,
+        "websites": 43,
+        "localities": 80,
+        "regionCode": 0,
+        "wikidataId": 102,
+        "terrainMix": 51,
+        "capacityPerKm": 36,
+        "name": 14,
+        "snowmakingKm": 111
+      },
+      "nightSki": {
+        "known": 36,
+        "hasIt": 36,
+        "none": 0,
+        "unknown": 75
+      },
+      "medianKm": 1.216,
+      "totalKm": 384.8
+    },
+    {
+      "country": "FR",
+      "total": 332,
+      "significant": 160,
+      "dropped": 172,
+      "wikidataMatched": 25,
+      "wikidataRate": 7.5,
+      "missing": {
+        "topElevM": 58,
+        "baseElevM": 58,
+        "verticalM": 58,
+        "websites": 105,
+        "localities": 6,
+        "regionCode": 0,
+        "wikidataId": 307,
+        "terrainMix": 80,
+        "capacityPerKm": 77,
+        "name": 10,
+        "snowmakingKm": 321
+      },
+      "nightSki": {
+        "known": 52,
+        "hasIt": 45,
+        "none": 7,
+        "unknown": 280
+      },
+      "medianKm": 4,
+      "totalKm": 7767.5
+    },
+    {
+      "country": "GE",
+      "total": 11,
+      "significant": 7,
+      "dropped": 4,
+      "wikidataMatched": 0,
+      "wikidataRate": 0,
+      "missing": {
+        "topElevM": 2,
+        "baseElevM": 2,
+        "verticalM": 2,
+        "websites": 5,
+        "localities": 10,
+        "regionCode": 0,
+        "wikidataId": 11,
+        "terrainMix": 3,
+        "capacityPerKm": 3,
+        "name": 2,
+        "snowmakingKm": 11
+      },
+      "nightSki": {
+        "known": 5,
+        "hasIt": 5,
+        "none": 0,
+        "unknown": 6
+      },
+      "medianKm": 8.318,
+      "totalKm": 112.8
+    },
+    {
+      "country": "GR",
+      "total": 21,
+      "significant": 9,
+      "dropped": 12,
+      "wikidataMatched": 3,
+      "wikidataRate": 14.3,
+      "missing": {
+        "topElevM": 2,
+        "baseElevM": 2,
+        "verticalM": 2,
+        "websites": 14,
+        "localities": 21,
+        "regionCode": 0,
+        "wikidataId": 18,
+        "terrainMix": 3,
+        "capacityPerKm": 2,
+        "name": 0,
+        "snowmakingKm": 21
+      },
+      "nightSki": {
+        "known": 4,
+        "hasIt": 4,
+        "none": 0,
+        "unknown": 17
+      },
+      "medianKm": 4.339,
+      "totalKm": 131.2
+    },
+    {
+      "country": "HR",
+      "total": 20,
+      "significant": 1,
+      "dropped": 19,
+      "wikidataMatched": 0,
+      "wikidataRate": 0,
+      "missing": {
+        "topElevM": 0,
+        "baseElevM": 0,
+        "verticalM": 0,
+        "websites": 16,
+        "localities": 18,
+        "regionCode": 0,
+        "wikidataId": 20,
+        "terrainMix": 0,
+        "capacityPerKm": 0,
+        "name": 9,
+        "snowmakingKm": 20
+      },
+      "nightSki": {
+        "known": 7,
+        "hasIt": 5,
+        "none": 2,
+        "unknown": 13
+      },
+      "medianKm": 0.34,
+      "totalKm": 28
+    },
+    {
+      "country": "IT",
+      "total": 310,
+      "significant": 167,
+      "dropped": 143,
+      "wikidataMatched": 6,
+      "wikidataRate": 1.9,
+      "missing": {
+        "topElevM": 26,
+        "baseElevM": 26,
+        "verticalM": 26,
+        "websites": 104,
+        "localities": 258,
+        "regionCode": 0,
+        "wikidataId": 304,
+        "terrainMix": 50,
+        "capacityPerKm": 45,
+        "name": 26,
+        "snowmakingKm": 309
+      },
+      "nightSki": {
+        "known": 67,
+        "hasIt": 46,
+        "none": 21,
+        "unknown": 243
+      },
+      "medianKm": 6.48,
+      "totalKm": 4313.2
+    },
+    {
+      "country": "LI",
+      "total": 1,
+      "significant": 1,
+      "dropped": 0,
+      "wikidataMatched": 0,
+      "wikidataRate": 0,
+      "missing": {
+        "topElevM": 0,
+        "baseElevM": 0,
+        "verticalM": 0,
+        "websites": 0,
+        "localities": 1,
+        "regionCode": 1,
+        "wikidataId": 1,
+        "terrainMix": 0,
+        "capacityPerKm": 0,
+        "name": 0,
+        "snowmakingKm": 1
+      },
+      "nightSki": {
+        "known": 0,
+        "hasIt": 0,
+        "none": 0,
+        "unknown": 1
+      },
+      "medianKm": 17.446,
+      "totalKm": 17.4
+    },
+    {
+      "country": "ME",
+      "total": 10,
+      "significant": 1,
+      "dropped": 9,
+      "wikidataMatched": 0,
+      "wikidataRate": 0,
+      "missing": {
+        "topElevM": 4,
+        "baseElevM": 4,
+        "verticalM": 4,
+        "websites": 9,
+        "localities": 10,
+        "regionCode": 0,
+        "wikidataId": 10,
+        "terrainMix": 6,
+        "capacityPerKm": 4,
+        "name": 1,
+        "snowmakingKm": 10
+      },
+      "nightSki": {
+        "known": 0,
+        "hasIt": 0,
+        "none": 0,
+        "unknown": 10
+      },
+      "medianKm": 1.58,
+      "totalKm": 54.7
+    },
+    {
+      "country": "MK",
+      "total": 12,
+      "significant": 3,
+      "dropped": 9,
+      "wikidataMatched": 1,
+      "wikidataRate": 8.3,
+      "missing": {
+        "topElevM": 2,
+        "baseElevM": 2,
+        "verticalM": 2,
+        "websites": 9,
+        "localities": 12,
+        "regionCode": 0,
+        "wikidataId": 11,
+        "terrainMix": 6,
+        "capacityPerKm": 4,
+        "name": 1,
+        "snowmakingKm": 12
+      },
+      "nightSki": {
+        "known": 0,
+        "hasIt": 0,
+        "none": 0,
+        "unknown": 12
+      },
+      "medianKm": 0.4,
+      "totalKm": 43
+    },
+    {
+      "country": "NO",
+      "total": 251,
+      "significant": 53,
+      "dropped": 198,
+      "wikidataMatched": 5,
+      "wikidataRate": 2,
+      "missing": {
+        "topElevM": 25,
+        "baseElevM": 25,
+        "verticalM": 25,
+        "websites": 129,
+        "localities": 213,
+        "regionCode": 0,
+        "wikidataId": 246,
+        "terrainMix": 115,
+        "capacityPerKm": 70,
+        "name": 48,
+        "snowmakingKm": 251
+      },
+      "nightSki": {
+        "known": 50,
+        "hasIt": 49,
+        "none": 1,
+        "unknown": 201
+      },
+      "medianKm": 1.43,
+      "totalKm": 1189.6
+    },
+    {
+      "country": "PL",
+      "total": 258,
+      "significant": 17,
+      "dropped": 241,
+      "wikidataMatched": 4,
+      "wikidataRate": 1.6,
+      "missing": {
+        "topElevM": 34,
+        "baseElevM": 34,
+        "verticalM": 34,
+        "websites": 189,
+        "localities": 98,
+        "regionCode": 0,
+        "wikidataId": 254,
+        "terrainMix": 104,
+        "capacityPerKm": 96,
+        "name": 26,
+        "snowmakingKm": 258
+      },
+      "nightSki": {
+        "known": 107,
+        "hasIt": 105,
+        "none": 2,
+        "unknown": 151
+      },
+      "medianKm": 0.44,
+      "totalKm": 362.2
+    },
+    {
+      "country": "RO",
+      "total": 76,
+      "significant": 10,
+      "dropped": 66,
+      "wikidataMatched": 0,
+      "wikidataRate": 0,
+      "missing": {
+        "topElevM": 10,
+        "baseElevM": 10,
+        "verticalM": 10,
+        "websites": 50,
+        "localities": 56,
+        "regionCode": 0,
+        "wikidataId": 76,
+        "terrainMix": 20,
+        "capacityPerKm": 17,
+        "name": 14,
+        "snowmakingKm": 76
+      },
+      "nightSki": {
+        "known": 27,
+        "hasIt": 24,
+        "none": 3,
+        "unknown": 49
+      },
+      "medianKm": 1.19,
+      "totalKm": 206.2
+    },
+    {
+      "country": "RS",
+      "total": 26,
+      "significant": 4,
+      "dropped": 22,
+      "wikidataMatched": 0,
+      "wikidataRate": 0,
+      "missing": {
+        "topElevM": 0,
+        "baseElevM": 0,
+        "verticalM": 0,
+        "websites": 20,
+        "localities": 23,
+        "regionCode": 0,
+        "wikidataId": 26,
+        "terrainMix": 14,
+        "capacityPerKm": 10,
+        "name": 8,
+        "snowmakingKm": 26
+      },
+      "nightSki": {
+        "known": 5,
+        "hasIt": 4,
+        "none": 1,
+        "unknown": 21
+      },
+      "medianKm": 0.38,
+      "totalKm": 116.3
+    },
+    {
+      "country": "SE",
+      "total": 202,
+      "significant": 37,
+      "dropped": 165,
+      "wikidataMatched": 10,
+      "wikidataRate": 5,
+      "missing": {
+        "topElevM": 4,
+        "baseElevM": 4,
+        "verticalM": 4,
+        "websites": 140,
+        "localities": 172,
+        "regionCode": 0,
+        "wikidataId": 192,
+        "terrainMix": 90,
+        "capacityPerKm": 60,
+        "name": 61,
+        "snowmakingKm": 201
+      },
+      "nightSki": {
+        "known": 54,
+        "hasIt": 54,
+        "none": 0,
+        "unknown": 148
+      },
+      "medianKm": 0.99,
+      "totalKm": 1087.2
+    },
+    {
+      "country": "SI",
+      "total": 40,
+      "significant": 11,
+      "dropped": 29,
+      "wikidataMatched": 4,
+      "wikidataRate": 10,
+      "missing": {
+        "topElevM": 7,
+        "baseElevM": 7,
+        "verticalM": 7,
+        "websites": 21,
+        "localities": 38,
+        "regionCode": 39,
+        "wikidataId": 36,
+        "terrainMix": 17,
+        "capacityPerKm": 16,
+        "name": 3,
+        "snowmakingKm": 40
+      },
+      "nightSki": {
+        "known": 9,
+        "hasIt": 8,
+        "none": 1,
+        "unknown": 31
+      },
+      "medianKm": 0.39,
+      "totalKm": 168.5
+    },
+    {
+      "country": "SK",
+      "total": 150,
+      "significant": 17,
+      "dropped": 133,
+      "wikidataMatched": 12,
+      "wikidataRate": 8,
+      "missing": {
+        "topElevM": 5,
+        "baseElevM": 5,
+        "verticalM": 5,
+        "websites": 58,
+        "localities": 141,
+        "regionCode": 0,
+        "wikidataId": 138,
+        "terrainMix": 37,
+        "capacityPerKm": 33,
+        "name": 18,
+        "snowmakingKm": 150
+      },
+      "nightSki": {
+        "known": 19,
+        "hasIt": 18,
+        "none": 1,
+        "unknown": 131
+      },
+      "medianKm": 1.28,
+      "totalKm": 408.3
+    },
+    {
+      "country": "TR",
+      "total": 31,
+      "significant": 9,
+      "dropped": 22,
+      "wikidataMatched": 0,
+      "wikidataRate": 0,
+      "missing": {
+        "topElevM": 5,
+        "baseElevM": 5,
+        "verticalM": 5,
+        "websites": 24,
+        "localities": 29,
+        "regionCode": 0,
+        "wikidataId": 31,
+        "terrainMix": 19,
+        "capacityPerKm": 14,
+        "name": 3,
+        "snowmakingKm": 31
+      },
+      "nightSki": {
+        "known": 3,
+        "hasIt": 3,
+        "none": 0,
+        "unknown": 28
+      },
+      "medianKm": 2.471,
+      "totalKm": 228.7
+    },
+    {
+      "country": "UA",
+      "total": 66,
+      "significant": 6,
+      "dropped": 60,
+      "wikidataMatched": 3,
+      "wikidataRate": 4.5,
+      "missing": {
+        "topElevM": 1,
+        "baseElevM": 1,
+        "verticalM": 1,
+        "websites": 53,
+        "localities": 58,
+        "regionCode": 0,
+        "wikidataId": 63,
+        "terrainMix": 5,
+        "capacityPerKm": 4,
+        "name": 41,
+        "snowmakingKm": 66
+      },
+      "nightSki": {
+        "known": 25,
+        "hasIt": 14,
+        "none": 11,
+        "unknown": 41
+      },
+      "medianKm": 0.72,
+      "totalKm": 161.4
+    }
+  ],
+  "topByKm": [
+    {
+      "name": "Ski amadé",
+      "country": "AT",
+      "kmTotal": 612.829,
+      "liftsTotal": 248,
+      "topElevM": 2644,
+      "verticalM": 1976,
+      "hasNightSki": true,
+      "passRegionId": null,
+      "merged": false
+    },
+    {
+      "name": "Les Trois Vallées",
+      "country": "FR",
+      "kmTotal": 497.401,
+      "liftsTotal": 142,
+      "topElevM": 3221,
+      "verticalM": 2110,
+      "hasNightSki": true,
+      "passRegionId": null,
+      "merged": false
+    },
+    {
+      "name": "Roc d'Enfer (La Grande Terche)",
+      "country": "FR",
+      "kmTotal": 411.874,
+      "liftsTotal": 198,
+      "topElevM": 2250,
+      "verticalM": 1330,
+      "hasNightSki": true,
+      "passRegionId": null,
+      "merged": false
+    },
+    {
+      "name": "Skicircus Saalbach-Hinterglemm Leogang Fieberbrunn",
+      "country": "AT",
+      "kmTotal": 253.057,
+      "liftsTotal": 78,
+      "topElevM": 2090,
+      "verticalM": 1295,
+      "hasNightSki": true,
+      "passRegionId": null,
+      "merged": false
+    },
+    {
+      "name": "Alta Badia",
+      "country": "IT",
+      "kmTotal": 252.767,
+      "liftsTotal": 143,
+      "topElevM": 2526,
+      "verticalM": 1269,
+      "hasNightSki": true,
+      "passRegionId": "it-dolomiti-superski",
+      "merged": true
+    },
+    {
+      "name": "SkiWelt Wilder Kaiser - Brixental",
+      "country": "AT",
+      "kmTotal": 232.687,
+      "liftsTotal": 80,
+      "topElevM": 1865,
+      "verticalM": 1256,
+      "hasNightSki": true,
+      "passRegionId": null,
+      "merged": false
+    },
+    {
+      "name": "Espace Haute Maurienne Vanoise",
+      "country": "FR",
+      "kmTotal": 209.805,
+      "liftsTotal": 78,
+      "topElevM": 2948,
+      "verticalM": 1643,
+      "hasNightSki": true,
+      "passRegionId": null,
+      "merged": false
+    },
+    {
+      "name": "Tignes - Val d'Isère",
+      "country": "FR",
+      "kmTotal": 208.622,
+      "liftsTotal": 84,
+      "topElevM": 3456,
+      "verticalM": 1897,
+      "hasNightSki": true,
+      "passRegionId": null,
+      "merged": false
+    },
+    {
+      "name": "Zermatt - Breuil-Cervinia",
+      "country": "CH",
+      "kmTotal": 205.528,
+      "liftsTotal": 63,
+      "topElevM": 3872,
+      "verticalM": 2314,
+      "hasNightSki": true,
+      "passRegionId": null,
+      "merged": false
+    },
+    {
+      "name": "Les Arcs",
+      "country": "FR",
+      "kmTotal": 204.044,
+      "liftsTotal": 87,
+      "topElevM": 3214,
+      "verticalM": 2014,
+      "hasNightSki": true,
+      "passRegionId": null,
+      "merged": false
+    },
+    {
+      "name": "La Plagne",
+      "country": "FR",
+      "kmTotal": 191.373,
+      "liftsTotal": 77,
+      "topElevM": 3058,
+      "verticalM": 1841,
+      "hasNightSki": true,
+      "passRegionId": null,
+      "merged": false
+    },
+    {
+      "name": "Espace Diamant",
+      "country": "FR",
+      "kmTotal": 191.304,
+      "liftsTotal": 85,
+      "topElevM": 2054,
+      "verticalM": 1105,
+      "hasNightSki": true,
+      "passRegionId": null,
+      "merged": false
+    },
+    {
+      "name": "Espace Lumière",
+      "country": "FR",
+      "kmTotal": 185.105,
+      "liftsTotal": 39,
+      "topElevM": 2592,
+      "verticalM": 1097,
+      "hasNightSki": null,
+      "passRegionId": null,
+      "merged": false
+    },
+    {
+      "name": "Schladming Dachstein",
+      "country": "AT",
+      "kmTotal": 176.105,
+      "liftsTotal": 71,
+      "topElevM": 2004,
+      "verticalM": 1281,
+      "hasNightSki": true,
+      "passRegionId": null,
+      "merged": false
+    },
+    {
+      "name": "KitzSki",
+      "country": "AT",
+      "kmTotal": 174.254,
+      "liftsTotal": 63,
+      "topElevM": 1993,
+      "verticalM": 1230,
+      "hasNightSki": true,
+      "passRegionId": null,
+      "merged": false
+    }
+  ],
+  "significance": {
+    "byCountry": [
+      {
+        "country": "AD",
+        "total": 4,
+        "significant": 4,
+        "dropped": 0,
+        "droppedBy": {},
+        "threshold": {
+          "minKmTotal": 5,
+          "minLiftsTotal": 3,
+          "allowedStatuses": [
+            "operating"
+          ]
+        },
+        "largestDropped": []
+      },
+      {
+        "country": "AL",
+        "total": 1,
+        "significant": 0,
+        "dropped": 1,
+        "droppedBy": {
+          "below km threshold": 1,
+          "below lift threshold": 1
+        },
+        "threshold": {
+          "minKmTotal": 5,
+          "minLiftsTotal": 3,
+          "allowedStatuses": [
+            "operating"
+          ]
+        },
+        "largestDropped": [
+          {
+            "id": "7ea081717c3e9d487fb4ad0db13552ccd15fb631",
+            "name": "Ski Pista Bigëll – Dardhë",
+            "country": "AL",
+            "kmTotal": 1.095,
+            "liftsTotal": 2,
+            "status": "operating",
+            "reasons": [
+              "kmTotal 1.095 < 5",
+              "liftsTotal 2 < 3"
+            ]
+          }
+        ]
+      },
+      {
+        "country": "AT",
+        "total": 419,
+        "significant": 172,
+        "dropped": 247,
+        "droppedBy": {
+          "below lift threshold": 210,
+          "below km threshold": 241,
+          "not operating": 39
+        },
+        "threshold": {
+          "minKmTotal": 5,
+          "minLiftsTotal": 3,
+          "allowedStatuses": [
+            "operating"
+          ]
+        },
+        "largestDropped": [
+          {
+            "id": "2fa12aee1c75f3d5d62409c2c00d4a843348bfcd",
+            "name": "Flattnitz",
+            "country": "AT",
+            "kmTotal": 8.425,
+            "liftsTotal": 2,
+            "status": "operating",
+            "reasons": [
+              "liftsTotal 2 < 3"
+            ]
+          },
+          {
+            "id": "6c0bde8734e4436f098c6c8da06de10a03caec39",
+            "name": "Semmering Hirschenkogel",
+            "country": "AT",
+            "kmTotal": 8.133,
+            "liftsTotal": 2,
+            "status": "operating",
+            "reasons": [
+              "liftsTotal 2 < 3"
+            ]
+          },
+          {
+            "id": "1dc7dcce3657b7b83a9395ed3bdfaf16986c8432",
+            "name": "Ski Arlberg",
+            "country": "AT",
+            "kmTotal": 7.694,
+            "liftsTotal": 0,
+            "status": "operating",
+            "reasons": [
+              "liftsTotal 0 < 3"
+            ]
+          },
+          {
+            "id": "2d535973472e98eaf7e0625bca32a9dfc4208315",
+            "name": "Monte Popolo - Eben im Pongau",
+            "country": "AT",
+            "kmTotal": 7.231,
+            "liftsTotal": 2,
+            "status": "operating",
+            "reasons": [
+              "liftsTotal 2 < 3"
+            ]
+          },
+          {
+            "id": "67b01d0d6e84d2b30455c60e5840f2d11469fb58",
+            "name": "Puchis Welt in Puchberg",
+            "country": "AT",
+            "kmTotal": 6.931,
+            "liftsTotal": 2,
+            "status": "operating",
+            "reasons": [
+              "liftsTotal 2 < 3"
+            ]
+          }
+        ]
+      },
+      {
+        "country": "BA",
+        "total": 29,
+        "significant": 5,
+        "dropped": 24,
+        "droppedBy": {
+          "below km threshold": 24,
+          "below lift threshold": 21,
+          "not operating": 8
+        },
+        "threshold": {
+          "minKmTotal": 5,
+          "minLiftsTotal": 3,
+          "allowedStatuses": [
+            "operating"
+          ]
+        },
+        "largestDropped": [
+          {
+            "id": "be443f464a403d3e5db8e2f853fb33a3b390eb73",
+            "name": "Igrišta olimpijski centar",
+            "country": "BA",
+            "kmTotal": 3.705,
+            "liftsTotal": 2,
+            "status": "operating",
+            "reasons": [
+              "kmTotal 3.705 < 5",
+              "liftsTotal 2 < 3"
+            ]
+          },
+          {
+            "id": "a81c4a97651ecacb5044bf9a13471e020c1068da",
+            "name": "Blidinje - Risovac",
+            "country": "BA",
+            "kmTotal": 3.097,
+            "liftsTotal": 3,
+            "status": "unknown",
+            "reasons": [
+              "kmTotal 3.097 < 5",
+              "status 'unknown' not operating"
+            ]
+          },
+          {
+            "id": "2bbfa4d6f3254bdaa591616456fea3ef608a6642",
+            "name": "Malo polje Igman (ZOI '84)",
+            "country": "BA",
+            "kmTotal": 2.136,
+            "liftsTotal": 4,
+            "status": "operating",
+            "reasons": [
+              "kmTotal 2.136 < 5"
+            ]
+          },
+          {
+            "id": "00b24f9b2d9c482b26e337f75b37abd8f30666ca",
+            "name": "Skijalište Kozara",
+            "country": "BA",
+            "kmTotal": 1.374,
+            "liftsTotal": 1,
+            "status": "operating",
+            "reasons": [
+              "kmTotal 1.374 < 5",
+              "liftsTotal 1 < 3"
+            ]
+          },
+          {
+            "id": "c91f7154-eb63-4aaf-b616-dd761e5b7ace",
+            "name": "Unnamed ski area (c91f7154)",
+            "country": "BA",
+            "kmTotal": 1.032,
+            "liftsTotal": 1,
+            "status": "operating",
+            "reasons": [
+              "kmTotal 1.032 < 5",
+              "liftsTotal 1 < 3"
+            ]
+          }
+        ]
+      },
+      {
+        "country": "BG",
+        "total": 25,
+        "significant": 5,
+        "dropped": 20,
+        "droppedBy": {
+          "below km threshold": 20,
+          "below lift threshold": 1
+        },
+        "threshold": {
+          "minKmTotal": 5,
+          "minLiftsTotal": 1,
+          "allowedStatuses": [
+            "operating"
+          ],
+          "rationale": "Same as GE. Concretely: Chepelare has 12.3 km of piste and 1 mapped lift, and is a real operating resort."
+        },
+        "largestDropped": [
+          {
+            "id": "93db73733ad6c56d2e75acd15f9319c29f590874",
+            "name": "Semkovo",
+            "country": "BG",
+            "kmTotal": 4.532,
+            "liftsTotal": 6,
+            "status": "operating",
+            "reasons": [
+              "kmTotal 4.532 < 5"
+            ]
+          },
+          {
+            "id": "35f2f6904726c1dc4018e70e4f0dbe3314a8bf89",
+            "name": "Malyovista",
+            "country": "BG",
+            "kmTotal": 4.101,
+            "liftsTotal": 5,
+            "status": "operating",
+            "reasons": [
+              "kmTotal 4.101 < 5"
+            ]
+          },
+          {
+            "id": "33aa03b1089c29e8c1164de10a743394ea4bd86e",
+            "name": "Dobrinishte",
+            "country": "BG",
+            "kmTotal": 4.056,
+            "liftsTotal": 4,
+            "status": "operating",
+            "reasons": [
+              "kmTotal 4.056 < 5"
+            ]
+          },
+          {
+            "id": "ccc46db3a50bae67a49bc9463263d1b26a9ad597",
+            "name": "Kartala",
+            "country": "BG",
+            "kmTotal": 3.234,
+            "liftsTotal": 1,
+            "status": "operating",
+            "reasons": [
+              "kmTotal 3.234 < 5"
+            ]
+          },
+          {
+            "id": "9e09e0d17c6377879ecb79cc8142dfaddd536c78",
+            "name": "Panichishte",
+            "country": "BG",
+            "kmTotal": 2.272,
+            "liftsTotal": 2,
+            "status": "operating",
+            "reasons": [
+              "kmTotal 2.272 < 5"
+            ]
+          }
+        ]
+      },
+      {
+        "country": "CH",
+        "total": 354,
+        "significant": 134,
+        "dropped": 220,
+        "droppedBy": {
+          "below lift threshold": 179,
+          "below km threshold": 204,
+          "not operating": 11
+        },
+        "threshold": {
+          "minKmTotal": 5,
+          "minLiftsTotal": 3,
+          "allowedStatuses": [
+            "operating"
+          ]
+        },
+        "largestDropped": [
+          {
+            "id": "8bf7c9fc39c2503b3e50953816365eea13d71a05",
+            "name": "Sarn Heinzenberg",
+            "country": "CH",
+            "kmTotal": 16.177,
+            "liftsTotal": 2,
+            "status": "operating",
+            "reasons": [
+              "liftsTotal 2 < 3"
+            ]
+          },
+          {
+            "id": "a75ba724521506bc66cf2665ccd6cce9cb07c627",
+            "name": "Gantrisch - Rueschegg",
+            "country": "CH",
+            "kmTotal": 11.304,
+            "liftsTotal": 2,
+            "status": "operating",
+            "reasons": [
+              "liftsTotal 2 < 3"
+            ]
+          },
+          {
+            "id": "2fd3ea41b43990640ccea08d12efa5bf5682437c",
+            "name": "Rothwald",
+            "country": "CH",
+            "kmTotal": 9.209,
+            "liftsTotal": 2,
+            "status": "operating",
+            "reasons": [
+              "liftsTotal 2 < 3"
+            ]
+          },
+          {
+            "id": "a9c334332416f4de546acbe9bd29444aea3abfbd",
+            "name": "Habkern",
+            "country": "CH",
+            "kmTotal": 7.806,
+            "liftsTotal": 1,
+            "status": "operating",
+            "reasons": [
+              "liftsTotal 1 < 3"
+            ]
+          },
+          {
+            "id": "f2e06a5198ef9e12836676689740031c8c49d476",
+            "name": "Kiental",
+            "country": "CH",
+            "kmTotal": 7.006,
+            "liftsTotal": 2,
+            "status": "operating",
+            "reasons": [
+              "liftsTotal 2 < 3"
+            ]
+          }
+        ]
+      },
+      {
+        "country": "CZ",
+        "total": 373,
+        "significant": 26,
+        "dropped": 347,
+        "droppedBy": {
+          "below km threshold": 347,
+          "below lift threshold": 257,
+          "not operating": 18
+        },
+        "threshold": {
+          "minKmTotal": 5,
+          "minLiftsTotal": 3,
+          "allowedStatuses": [
+            "operating"
+          ]
+        },
+        "largestDropped": [
+          {
+            "id": "733df26cdcde200d9d4d7be2b3642dc49885acfc",
+            "name": "Bílá",
+            "country": "CZ",
+            "kmTotal": 4.787,
+            "liftsTotal": 4,
+            "status": "operating",
+            "reasons": [
+              "kmTotal 4.787 < 5"
+            ]
+          },
+          {
+            "id": "44876e5c09ce88544403542f689612eaa15986d0",
+            "name": "Černý Důl",
+            "country": "CZ",
+            "kmTotal": 4.715,
+            "liftsTotal": 5,
+            "status": "operating",
+            "reasons": [
+              "kmTotal 4.715 < 5"
+            ]
+          },
+          {
+            "id": "f96dc75a3320310c24040752d92c7695ad34886d",
+            "name": "Ski Šachty",
+            "country": "CZ",
+            "kmTotal": 4.607,
+            "liftsTotal": 5,
+            "status": "operating",
+            "reasons": [
+              "kmTotal 4.607 < 5"
+            ]
+          },
+          {
+            "id": "b78be59e80d4511e0e73eb074b79a59084801873",
+            "name": "Říčky v Orlických horách",
+            "country": "CZ",
+            "kmTotal": 4.502,
+            "liftsTotal": 4,
+            "status": "operating",
+            "reasons": [
+              "kmTotal 4.502 < 5"
+            ]
+          },
+          {
+            "id": "297ba735534f2158f1ea3d0b8caed0c1b71b2dd3",
+            "name": "Skiareál Benecko",
+            "country": "CZ",
+            "kmTotal": 4.42,
+            "liftsTotal": 14,
+            "status": "operating",
+            "reasons": [
+              "kmTotal 4.42 < 5"
+            ]
+          }
+        ]
+      },
+      {
+        "country": "DE",
+        "total": 551,
+        "significant": 44,
+        "dropped": 507,
+        "droppedBy": {
+          "below lift threshold": 422,
+          "not operating": 17,
+          "below km threshold": 501
+        },
+        "threshold": {
+          "minKmTotal": 5,
+          "minLiftsTotal": 3,
+          "allowedStatuses": [
+            "operating"
+          ]
+        },
+        "largestDropped": [
+          {
+            "id": "32d0b3408782076e1b5e1c51b81de166c760f00e",
+            "name": "Grünten (Rettenberg)",
+            "country": "DE",
+            "kmTotal": 11.64,
+            "liftsTotal": 1,
+            "status": "abandoned",
+            "reasons": [
+              "liftsTotal 1 < 3",
+              "status 'abandoned' not operating"
+            ]
+          },
+          {
+            "id": "e8cac3f21fd1f33d9a22442a3a833e230f21e22e",
+            "name": "Hohenbogen",
+            "country": "DE",
+            "kmTotal": 6.004,
+            "liftsTotal": 2,
+            "status": "operating",
+            "reasons": [
+              "liftsTotal 2 < 3"
+            ]
+          },
+          {
+            "id": "2b0e42b79b95b1b61a2a406c5dd01013cfc61d5f",
+            "name": "Buron",
+            "country": "DE",
+            "kmTotal": 5.618,
+            "liftsTotal": 2,
+            "status": "operating",
+            "reasons": [
+              "liftsTotal 2 < 3"
+            ]
+          },
+          {
+            "id": "639b348ab5173e8543f29fd552624d3736167820",
+            "name": "Buchenberg",
+            "country": "DE",
+            "kmTotal": 5.196,
+            "liftsTotal": 1,
+            "status": "operating",
+            "reasons": [
+              "liftsTotal 1 < 3"
+            ]
+          },
+          {
+            "id": "e1c991de5e8316772bbabb7422cda10f2bf329ec",
+            "name": "Belchen",
+            "country": "DE",
+            "kmTotal": 5.071,
+            "liftsTotal": 1,
+            "status": "operating",
+            "reasons": [
+              "liftsTotal 1 < 3"
+            ]
+          }
+        ]
+      },
+      {
+        "country": "ES",
+        "total": 45,
+        "significant": 29,
+        "dropped": 16,
+        "droppedBy": {
+          "below km threshold": 16,
+          "not operating": 9,
+          "below lift threshold": 10
+        },
+        "threshold": {
+          "minKmTotal": 5,
+          "minLiftsTotal": 3,
+          "allowedStatuses": [
+            "operating"
+          ]
+        },
+        "largestDropped": [
+          {
+            "id": "6e9e37aa2199d99a377616021a12607e4a967652",
+            "name": "Estación Invernal y de Montaña San Isidro (Sector Riopinos)",
+            "country": "ES",
+            "kmTotal": 4.879,
+            "liftsTotal": 3,
+            "status": "operating",
+            "reasons": [
+              "kmTotal 4.879 < 5"
+            ]
+          },
+          {
+            "id": "28ade7297d64ecd6d406c7ea58d7df8eaec8c582",
+            "name": "Tavascan",
+            "country": "ES",
+            "kmTotal": 4.238,
+            "liftsTotal": 3,
+            "status": "operating",
+            "reasons": [
+              "kmTotal 4.238 < 5"
+            ]
+          },
+          {
+            "id": "a005d05d07127924ceabfd883cef8041c3432356",
+            "name": "El Morredero",
+            "country": "ES",
+            "kmTotal": 3.994,
+            "liftsTotal": 3,
+            "status": "operating",
+            "reasons": [
+              "kmTotal 3.994 < 5"
+            ]
+          },
+          {
+            "id": "33c9746577f5cd38d0e401a4d9628efcc04e29f3",
+            "name": "La Lunada",
+            "country": "ES",
+            "kmTotal": 2.843,
+            "liftsTotal": 5,
+            "status": "abandoned",
+            "reasons": [
+              "kmTotal 2.843 < 5",
+              "status 'abandoned' not operating"
+            ]
+          },
+          {
+            "id": "37f2df47c64be8ab0767bc65b3118e204e76e88b",
+            "name": "Punto de Nieves Santa Ines",
+            "country": "ES",
+            "kmTotal": 1.044,
+            "liftsTotal": 2,
+            "status": "operating",
+            "reasons": [
+              "kmTotal 1.044 < 5",
+              "liftsTotal 2 < 3"
+            ]
+          }
+        ]
+      },
+      {
+        "country": "FI",
+        "total": 111,
+        "significant": 19,
+        "dropped": 92,
+        "droppedBy": {
+          "below lift threshold": 61,
+          "not operating": 16,
+          "below km threshold": 88
+        },
+        "threshold": {
+          "minKmTotal": 5,
+          "minLiftsTotal": 3,
+          "allowedStatuses": [
+            "operating"
+          ]
+        },
+        "largestDropped": [
+          {
+            "id": "1e6bbe90c52ffa3fce748d4728d071b61c03b989",
+            "name": "Ylläs Ski Resort",
+            "country": "FI",
+            "kmTotal": 11.244,
+            "liftsTotal": 1,
+            "status": "operating",
+            "reasons": [
+              "liftsTotal 1 < 3"
+            ]
+          },
+          {
+            "id": "a65c8a908dbd6f550ae365e39fd2902d7f4f4e20",
+            "name": "Pallas Ski Resort",
+            "country": "FI",
+            "kmTotal": 11.026,
+            "liftsTotal": 2,
+            "status": "operating",
+            "reasons": [
+              "liftsTotal 2 < 3"
+            ]
+          },
+          {
+            "id": "dcae91f424b90f75646672dd097afd02639100b3",
+            "name": "Iso-Syote",
+            "country": "FI",
+            "kmTotal": 7.299,
+            "liftsTotal": 8,
+            "status": "unknown",
+            "reasons": [
+              "status 'unknown' not operating"
+            ]
+          },
+          {
+            "id": "e2558675b57b363915159414c73b84fdbdfb7a68",
+            "name": "Laajavuori",
+            "country": "FI",
+            "kmTotal": 5.136,
+            "liftsTotal": 6,
+            "status": "unknown",
+            "reasons": [
+              "status 'unknown' not operating"
+            ]
+          },
+          {
+            "id": "88fcaca2846e7c3a5ff85c7eaa606633c8bec3c4",
+            "name": "Luoteis-Himos",
+            "country": "FI",
+            "kmTotal": 4.802,
+            "liftsTotal": 6,
+            "status": "operating",
+            "reasons": [
+              "kmTotal 4.802 < 5"
+            ]
+          }
+        ]
+      },
+      {
+        "country": "FR",
+        "total": 332,
+        "significant": 160,
+        "dropped": 172,
+        "droppedBy": {
+          "below lift threshold": 127,
+          "not operating": 53,
+          "below km threshold": 170
+        },
+        "threshold": {
+          "minKmTotal": 5,
+          "minLiftsTotal": 3,
+          "allowedStatuses": [
+            "operating"
+          ]
+        },
+        "largestDropped": [
+          {
+            "id": "9af9e56b19298d2efed2a78dd25aa22e905c1455",
+            "name": "Les Rafforts - Hery-sur-Ugine",
+            "country": "FR",
+            "kmTotal": 5.576,
+            "liftsTotal": 2,
+            "status": "abandoned",
+            "reasons": [
+              "liftsTotal 2 < 3",
+              "status 'abandoned' not operating"
+            ]
+          },
+          {
+            "id": "46ffaa43c3f59e429d47e31c701333782305c3f0",
+            "name": "Chalet Reynard (Mont Ventoux)",
+            "country": "FR",
+            "kmTotal": 5.407,
+            "liftsTotal": 2,
+            "status": "unknown",
+            "reasons": [
+              "liftsTotal 2 < 3",
+              "status 'unknown' not operating"
+            ]
+          },
+          {
+            "id": "535d5286b8d9d759e97c4727467dd9ad3f1ec13b",
+            "name": "Goulier-Neige",
+            "country": "FR",
+            "kmTotal": 4.814,
+            "liftsTotal": 5,
+            "status": "operating",
+            "reasons": [
+              "kmTotal 4.814 < 5"
+            ]
+          },
+          {
+            "id": "6a0ea85ee22ff5c1319449f0c0f152e870c36ae6",
+            "name": "La Giettaz - Village",
+            "country": "FR",
+            "kmTotal": 4.793,
+            "liftsTotal": 0,
+            "status": "abandoned",
+            "reasons": [
+              "kmTotal 4.793 < 5",
+              "liftsTotal 0 < 3",
+              "status 'abandoned' not operating"
+            ]
+          },
+          {
+            "id": "2d7bccb63912fd5435ca78d820ce90a195ff1f4f",
+            "name": "Les Entremonts",
+            "country": "FR",
+            "kmTotal": 4.316,
+            "liftsTotal": 3,
+            "status": "operating",
+            "reasons": [
+              "kmTotal 4.316 < 5"
+            ]
+          }
+        ]
+      },
+      {
+        "country": "GE",
+        "total": 11,
+        "significant": 7,
+        "dropped": 4,
+        "droppedBy": {
+          "below km threshold": 4,
+          "below lift threshold": 2,
+          "not operating": 1
+        },
+        "threshold": {
+          "minKmTotal": 5,
+          "minLiftsTotal": 1,
+          "allowedStatuses": [
+            "operating"
+          ],
+          "rationale": "OSM lift mapping in Georgia lags piste mapping; a 3-lift bar is a mapping artifact, not a size test."
+        },
+        "largestDropped": [
+          {
+            "id": "d72d25bb-6840-42cf-bf4c-494b87d2c7a4",
+            "name": "Unnamed ski area (d72d25bb)",
+            "country": "GE",
+            "kmTotal": 0.163,
+            "liftsTotal": 1,
+            "status": "operating",
+            "reasons": [
+              "kmTotal 0.163 < 5"
+            ]
+          },
+          {
+            "id": "90614b39-6c24-408f-b279-ce0708a3a2f8",
+            "name": "Unnamed ski area (90614b39)",
+            "country": "GE",
+            "kmTotal": 0,
+            "liftsTotal": 7,
+            "status": "operating",
+            "reasons": [
+              "kmTotal 0 < 5"
+            ]
+          },
+          {
+            "id": "afb85192b792e95e13c12e1bfa86eb75b50f61a1",
+            "name": "Goderdzi",
+            "country": "GE",
+            "kmTotal": 0,
+            "liftsTotal": 0,
+            "status": "operating",
+            "reasons": [
+              "kmTotal 0 < 5",
+              "liftsTotal 0 < 1"
+            ]
+          },
+          {
+            "id": "b801dda466e2b3efb5e670a2994631d35fb43b59",
+            "name": "Betania",
+            "country": "GE",
+            "kmTotal": 0,
+            "liftsTotal": 0,
+            "status": "unknown",
+            "reasons": [
+              "kmTotal 0 < 5",
+              "liftsTotal 0 < 1",
+              "status 'unknown' not operating"
+            ]
+          }
+        ]
+      },
+      {
+        "country": "GR",
+        "total": 21,
+        "significant": 9,
+        "dropped": 12,
+        "droppedBy": {
+          "below km threshold": 12,
+          "not operating": 6,
+          "below lift threshold": 6
+        },
+        "threshold": {
+          "minKmTotal": 5,
+          "minLiftsTotal": 3,
+          "allowedStatuses": [
+            "operating"
+          ]
+        },
+        "largestDropped": [
+          {
+            "id": "587c3360ecdc21dc81aa0427b4f7e0d587492f5e",
+            "name": "Anilio-Metsovo",
+            "country": "GR",
+            "kmTotal": 4.746,
+            "liftsTotal": 4,
+            "status": "unknown",
+            "reasons": [
+              "kmTotal 4.746 < 5",
+              "status 'unknown' not operating"
+            ]
+          },
+          {
+            "id": "53e153435c97d1be7e366dcc19ff623556a3b34f",
+            "name": "Χιονοδρομικό Κέντρο Πηλίου Αγριόλευκες",
+            "country": "GR",
+            "kmTotal": 4.339,
+            "liftsTotal": 5,
+            "status": "operating",
+            "reasons": [
+              "kmTotal 4.339 < 5"
+            ]
+          },
+          {
+            "id": "2a01dbdeb4ab0950f78240feff39b08c8ca64126",
+            "name": "Mainalo",
+            "country": "GR",
+            "kmTotal": 3.629,
+            "liftsTotal": 3,
+            "status": "operating",
+            "reasons": [
+              "kmTotal 3.629 < 5"
+            ]
+          },
+          {
+            "id": "aa7c1057c865309947c4432c984e1809570ea61b",
+            "name": "Karakoli",
+            "country": "GR",
+            "kmTotal": 3.321,
+            "liftsTotal": 3,
+            "status": "operating",
+            "reasons": [
+              "kmTotal 3.321 < 5"
+            ]
+          },
+          {
+            "id": "376e9ec84e7e488554a241a3be2d4c1b208f4dc4",
+            "name": "Falakro",
+            "country": "GR",
+            "kmTotal": 3.296,
+            "liftsTotal": 9,
+            "status": "unknown",
+            "reasons": [
+              "kmTotal 3.296 < 5",
+              "status 'unknown' not operating"
+            ]
+          }
+        ]
+      },
+      {
+        "country": "HR",
+        "total": 20,
+        "significant": 1,
+        "dropped": 19,
+        "droppedBy": {
+          "not operating": 7,
+          "below km threshold": 18,
+          "below lift threshold": 17
+        },
+        "threshold": {
+          "minKmTotal": 5,
+          "minLiftsTotal": 3,
+          "allowedStatuses": [
+            "operating"
+          ]
+        },
+        "largestDropped": [
+          {
+            "id": "6f48e452acebfccbf047bdbeece2360982714825",
+            "name": "Bjelolasica",
+            "country": "HR",
+            "kmTotal": 6.158,
+            "liftsTotal": 7,
+            "status": "abandoned",
+            "reasons": [
+              "status 'abandoned' not operating"
+            ]
+          },
+          {
+            "id": "1803700a35f46708216ab1cf6909ba0a0ed45e79",
+            "name": "Sljeme",
+            "country": "HR",
+            "kmTotal": 3.499,
+            "liftsTotal": 5,
+            "status": "operating",
+            "reasons": [
+              "kmTotal 3.499 < 5"
+            ]
+          },
+          {
+            "id": "92b7c36ab947d582eeb1418ff9bb5ec4a8f43fb8",
+            "name": "Čelimbaša",
+            "country": "HR",
+            "kmTotal": 2.459,
+            "liftsTotal": 1,
+            "status": "unknown",
+            "reasons": [
+              "kmTotal 2.459 < 5",
+              "liftsTotal 1 < 3",
+              "status 'unknown' not operating"
+            ]
+          },
+          {
+            "id": "86857206fd6172fbaefc946230c2e9cafcec5e7e",
+            "name": "Rudnik Tršće",
+            "country": "HR",
+            "kmTotal": 1.603,
+            "liftsTotal": 2,
+            "status": "operating",
+            "reasons": [
+              "kmTotal 1.603 < 5",
+              "liftsTotal 2 < 3"
+            ]
+          },
+          {
+            "id": "e558cbc2862255e21ad8cc51d8d2a3b4a75b5bc6",
+            "name": "Velebno – Baške Oštarije",
+            "country": "HR",
+            "kmTotal": 1.467,
+            "liftsTotal": 2,
+            "status": "unknown",
+            "reasons": [
+              "kmTotal 1.467 < 5",
+              "liftsTotal 2 < 3",
+              "status 'unknown' not operating"
+            ]
+          }
+        ]
+      },
+      {
+        "country": "IT",
+        "total": 310,
+        "significant": 167,
+        "dropped": 143,
+        "droppedBy": {
+          "below lift threshold": 101,
+          "not operating": 19,
+          "below km threshold": 137
+        },
+        "threshold": {
+          "minKmTotal": 5,
+          "minLiftsTotal": 3,
+          "allowedStatuses": [
+            "operating"
+          ]
+        },
+        "largestDropped": [
+          {
+            "id": "1dc893c87dfc71f4d45685754b889421f18855f9",
+            "name": "Monte Valbella (Asiago)",
+            "country": "IT",
+            "kmTotal": 11.634,
+            "liftsTotal": 2,
+            "status": "operating",
+            "reasons": [
+              "liftsTotal 2 < 3"
+            ]
+          },
+          {
+            "id": "47cafb198f8c0eb2ecadffa7b69008e3cbfe3831",
+            "name": "Campo Stella",
+            "country": "IT",
+            "kmTotal": 9.538,
+            "liftsTotal": 2,
+            "status": "operating",
+            "reasons": [
+              "liftsTotal 2 < 3"
+            ]
+          },
+          {
+            "id": "03d7c405d8fe3983274477cb5d9a053b2c6c5279",
+            "name": "Panarotta",
+            "country": "IT",
+            "kmTotal": 7.739,
+            "liftsTotal": 0,
+            "status": "abandoned",
+            "reasons": [
+              "liftsTotal 0 < 3",
+              "status 'abandoned' not operating"
+            ]
+          },
+          {
+            "id": "b183aa7846b2a3d894e5eb6eb86c09e12d7beb6d",
+            "name": "Pian Munè",
+            "country": "IT",
+            "kmTotal": 6.442,
+            "liftsTotal": 2,
+            "status": "operating",
+            "reasons": [
+              "liftsTotal 2 < 3"
+            ]
+          },
+          {
+            "id": "56d6933f91ad4f93fae2405a8cd0163ad970d360",
+            "name": "Rhemes - Notre Dame",
+            "country": "IT",
+            "kmTotal": 6.181,
+            "liftsTotal": 2,
+            "status": "operating",
+            "reasons": [
+              "liftsTotal 2 < 3"
+            ]
+          }
+        ]
+      },
+      {
+        "country": "LI",
+        "total": 1,
+        "significant": 1,
+        "dropped": 0,
+        "droppedBy": {},
+        "threshold": {
+          "minKmTotal": 5,
+          "minLiftsTotal": 3,
+          "allowedStatuses": [
+            "operating"
+          ]
+        },
+        "largestDropped": []
+      },
+      {
+        "country": "ME",
+        "total": 10,
+        "significant": 1,
+        "dropped": 9,
+        "droppedBy": {
+          "below lift threshold": 7,
+          "below km threshold": 7,
+          "not operating": 4
+        },
+        "threshold": {
+          "minKmTotal": 5,
+          "minLiftsTotal": 3,
+          "allowedStatuses": [
+            "operating"
+          ]
+        },
+        "largestDropped": [
+          {
+            "id": "30710fb52c5220c1151a3b3a4885f9aaa059ee4e",
+            "name": "Kolašin 1600",
+            "country": "ME",
+            "kmTotal": 20.842,
+            "liftsTotal": 2,
+            "status": "operating",
+            "reasons": [
+              "liftsTotal 2 < 3"
+            ]
+          },
+          {
+            "id": "b276a7bffce232c5837d4bf6e71a016afd24c5ab",
+            "name": "Kolašin 1600 ski resort",
+            "country": "ME",
+            "kmTotal": 7.183,
+            "liftsTotal": 1,
+            "status": "operating",
+            "reasons": [
+              "liftsTotal 1 < 3"
+            ]
+          },
+          {
+            "id": "c2ca28a52f9483a4e5a8d06d13680dfb321b03c9",
+            "name": "Ski centar Savin kuk",
+            "country": "ME",
+            "kmTotal": 4.198,
+            "liftsTotal": 5,
+            "status": "operating",
+            "reasons": [
+              "kmTotal 4.198 < 5"
+            ]
+          },
+          {
+            "id": "71847517-31cf-4236-bf32-dbfab5cb7633",
+            "name": "Unnamed ski area (71847517)",
+            "country": "ME",
+            "kmTotal": 2.284,
+            "liftsTotal": 3,
+            "status": "operating",
+            "reasons": [
+              "kmTotal 2.284 < 5"
+            ]
+          },
+          {
+            "id": "893b8761f6cdf695ab53b2187c92dddce190376b",
+            "name": "Lokve",
+            "country": "ME",
+            "kmTotal": 0.877,
+            "liftsTotal": 1,
+            "status": "operating",
+            "reasons": [
+              "kmTotal 0.877 < 5",
+              "liftsTotal 1 < 3"
+            ]
+          }
+        ]
+      },
+      {
+        "country": "MK",
+        "total": 12,
+        "significant": 3,
+        "dropped": 9,
+        "droppedBy": {
+          "below km threshold": 9,
+          "below lift threshold": 7,
+          "not operating": 3
+        },
+        "threshold": {
+          "minKmTotal": 5,
+          "minLiftsTotal": 3,
+          "allowedStatuses": [
+            "operating"
+          ]
+        },
+        "largestDropped": [
+          {
+            "id": "95e0b781ef4d21da3eabf8b69137000a25086fe6",
+            "name": "Ponikva",
+            "country": "MK",
+            "kmTotal": 1.081,
+            "liftsTotal": 2,
+            "status": "operating",
+            "reasons": [
+              "kmTotal 1.081 < 5",
+              "liftsTotal 2 < 3"
+            ]
+          },
+          {
+            "id": "3daa014f0eced3586e4e9e631bab7d4720d099ea",
+            "name": "Nizepole",
+            "country": "MK",
+            "kmTotal": 0.694,
+            "liftsTotal": 2,
+            "status": "operating",
+            "reasons": [
+              "kmTotal 0.694 < 5",
+              "liftsTotal 2 < 3"
+            ]
+          },
+          {
+            "id": "cca67931bf91c54514a5861cb3ace39959875798",
+            "name": "Ski Center Mihajlovo",
+            "country": "MK",
+            "kmTotal": 0.451,
+            "liftsTotal": 2,
+            "status": "operating",
+            "reasons": [
+              "kmTotal 0.451 < 5",
+              "liftsTotal 2 < 3"
+            ]
+          },
+          {
+            "id": "14af00661d5e034220e9f3f9fad2ad3b66396444",
+            "name": "Kruševo",
+            "country": "MK",
+            "kmTotal": 0.352,
+            "liftsTotal": 3,
+            "status": "operating",
+            "reasons": [
+              "kmTotal 0.352 < 5"
+            ]
+          },
+          {
+            "id": "48d5bf1d-e5fa-4ffa-9f65-a0be6224f0cc",
+            "name": "Unnamed ski area (48d5bf1d)",
+            "country": "MK",
+            "kmTotal": 0.163,
+            "liftsTotal": 1,
+            "status": "operating",
+            "reasons": [
+              "kmTotal 0.163 < 5",
+              "liftsTotal 1 < 3"
+            ]
+          }
+        ]
+      },
+      {
+        "country": "NO",
+        "total": 251,
+        "significant": 53,
+        "dropped": 198,
+        "droppedBy": {
+          "below lift threshold": 167,
+          "not operating": 19,
+          "below km threshold": 185
+        },
+        "threshold": {
+          "minKmTotal": 5,
+          "minLiftsTotal": 3,
+          "allowedStatuses": [
+            "operating"
+          ]
+        },
+        "largestDropped": [
+          {
+            "id": "c09ba0137f7736f0a0f06b5708242ce2e0fd27f0",
+            "name": "Skagahøgdi skisenter",
+            "country": "NO",
+            "kmTotal": 10.078,
+            "liftsTotal": 2,
+            "status": "operating",
+            "reasons": [
+              "liftsTotal 2 < 3"
+            ]
+          },
+          {
+            "id": "824feeec3687ecbf98e2679298c7727ef74fd47f",
+            "name": "Lemonsjo Alpinsenter",
+            "country": "NO",
+            "kmTotal": 8.183,
+            "liftsTotal": 3,
+            "status": "unknown",
+            "reasons": [
+              "status 'unknown' not operating"
+            ]
+          },
+          {
+            "id": "ad44d0d200e0381ec5e7143fedf6a96c1d7ebfef",
+            "name": "Alpinsenteret i Raudalen",
+            "country": "NO",
+            "kmTotal": 7.872,
+            "liftsTotal": 1,
+            "status": "operating",
+            "reasons": [
+              "liftsTotal 1 < 3"
+            ]
+          },
+          {
+            "id": "fa3c01e194a0cd2128aadbd5076b389116f5db36",
+            "name": "FONNA Glacier Ski Resort",
+            "country": "NO",
+            "kmTotal": 7.844,
+            "liftsTotal": 1,
+            "status": "operating",
+            "reasons": [
+              "liftsTotal 1 < 3"
+            ]
+          },
+          {
+            "id": "d37730b7b68ea3e7c788bc185a37418fa3ec3439",
+            "name": "Fulufjellet alpinsenter",
+            "country": "NO",
+            "kmTotal": 7.722,
+            "liftsTotal": 2,
+            "status": "operating",
+            "reasons": [
+              "liftsTotal 2 < 3"
+            ]
+          }
+        ]
+      },
+      {
+        "country": "PL",
+        "total": 258,
+        "significant": 17,
+        "dropped": 241,
+        "droppedBy": {
+          "below km threshold": 241,
+          "below lift threshold": 160,
+          "not operating": 6
+        },
+        "threshold": {
+          "minKmTotal": 5,
+          "minLiftsTotal": 3,
+          "allowedStatuses": [
+            "operating"
+          ]
+        },
+        "largestDropped": [
+          {
+            "id": "48c48cf06b6a6ea792d30377d61bcb9860a0d5a8",
+            "name": "Kolej linowa \"Czantoria\"",
+            "country": "PL",
+            "kmTotal": 4.903,
+            "liftsTotal": 6,
+            "status": "operating",
+            "reasons": [
+              "kmTotal 4.903 < 5"
+            ]
+          },
+          {
+            "id": "bef167b8457a421d28f8b912b0907c586219a4eb",
+            "name": "Tylicz-Ski",
+            "country": "PL",
+            "kmTotal": 4.677,
+            "liftsTotal": 5,
+            "status": "operating",
+            "reasons": [
+              "kmTotal 4.677 < 5"
+            ]
+          },
+          {
+            "id": "2e59c86a61870301ab7c19d9e92fb0138c14c0da",
+            "name": "Zwardoń Ski",
+            "country": "PL",
+            "kmTotal": 4.625,
+            "liftsTotal": 3,
+            "status": "operating",
+            "reasons": [
+              "kmTotal 4.625 < 5"
+            ]
+          },
+          {
+            "id": "398d2d2d1ae9e5d0c68fca7fa837abccfb43f347",
+            "name": "Soszów – Jawornik (Wisła)",
+            "country": "PL",
+            "kmTotal": 4.007,
+            "liftsTotal": 5,
+            "status": "operating",
+            "reasons": [
+              "kmTotal 4.007 < 5"
+            ]
+          },
+          {
+            "id": "2f8d2f3a5010ce473598280d9682cf58b6a363ad",
+            "name": "Stacja narciarska Małe Ciche",
+            "country": "PL",
+            "kmTotal": 3.879,
+            "liftsTotal": 6,
+            "status": "operating",
+            "reasons": [
+              "kmTotal 3.879 < 5"
+            ]
+          }
+        ]
+      },
+      {
+        "country": "RO",
+        "total": 76,
+        "significant": 10,
+        "dropped": 66,
+        "droppedBy": {
+          "below km threshold": 66,
+          "below lift threshold": 52,
+          "not operating": 4
+        },
+        "threshold": {
+          "minKmTotal": 5,
+          "minLiftsTotal": 3,
+          "allowedStatuses": [
+            "operating"
+          ]
+        },
+        "largestDropped": [
+          {
+            "id": "5fe190e8d4091fd6cafecf2ef9a5f07e77ccfd77",
+            "name": "Harghita Băi",
+            "country": "RO",
+            "kmTotal": 4.913,
+            "liftsTotal": 3,
+            "status": "operating",
+            "reasons": [
+              "kmTotal 4.913 < 5"
+            ]
+          },
+          {
+            "id": "6eb3d30fc387acc6db65e811ea0a4dc7b5a59dea",
+            "name": "Șuior",
+            "country": "RO",
+            "kmTotal": 4.626,
+            "liftsTotal": 3,
+            "status": "operating",
+            "reasons": [
+              "kmTotal 4.626 < 5"
+            ]
+          },
+          {
+            "id": "08ca2a8dc86697492635aaa4a3766595862e24d6",
+            "name": "Vatra Dornei",
+            "country": "RO",
+            "kmTotal": 4.488,
+            "liftsTotal": 4,
+            "status": "operating",
+            "reasons": [
+              "kmTotal 4.488 < 5"
+            ]
+          },
+          {
+            "id": "711a41ac86da3956c58be089b682fcca2349d600",
+            "name": "Arena Platoș",
+            "country": "RO",
+            "kmTotal": 3.734,
+            "liftsTotal": 7,
+            "status": "operating",
+            "reasons": [
+              "kmTotal 3.734 < 5"
+            ]
+          },
+          {
+            "id": "5ef07a856e537dc721095cc2f3d573472838cde1",
+            "name": "Rânca",
+            "country": "RO",
+            "kmTotal": 3.496,
+            "liftsTotal": 4,
+            "status": "operating",
+            "reasons": [
+              "kmTotal 3.496 < 5"
+            ]
+          }
+        ]
+      },
+      {
+        "country": "RS",
+        "total": 26,
+        "significant": 4,
+        "dropped": 22,
+        "droppedBy": {
+          "below km threshold": 22,
+          "below lift threshold": 19,
+          "not operating": 8
+        },
+        "threshold": {
+          "minKmTotal": 5,
+          "minLiftsTotal": 3,
+          "allowedStatuses": [
+            "operating"
+          ]
+        },
+        "largestDropped": [
+          {
+            "id": "01a249ab7e64df591e256b239313eac6cb67f441",
+            "name": "Avantura park",
+            "country": "RS",
+            "kmTotal": 2.259,
+            "liftsTotal": 2,
+            "status": "operating",
+            "reasons": [
+              "kmTotal 2.259 < 5",
+              "liftsTotal 2 < 3"
+            ]
+          },
+          {
+            "id": "41b5ed79cc93aa590ea2c1713a099d4279480849",
+            "name": "Žari ski centre",
+            "country": "RS",
+            "kmTotal": 1.358,
+            "liftsTotal": 2,
+            "status": "operating",
+            "reasons": [
+              "kmTotal 1.358 < 5",
+              "liftsTotal 2 < 3"
+            ]
+          },
+          {
+            "id": "ceadfde4-f520-40b9-a921-9fae4f5b2820",
+            "name": "Unnamed ski area (ceadfde4)",
+            "country": "RS",
+            "kmTotal": 1.264,
+            "liftsTotal": 2,
+            "status": "operating",
+            "reasons": [
+              "kmTotal 1.264 < 5",
+              "liftsTotal 2 < 3"
+            ]
+          },
+          {
+            "id": "ecc0a4fe44ef98f061534c48504fe5d4d1eebf20",
+            "name": "Skijalište Putevi Nova Varoš",
+            "country": "RS",
+            "kmTotal": 1.18,
+            "liftsTotal": 2,
+            "status": "operating",
+            "reasons": [
+              "kmTotal 1.18 < 5",
+              "liftsTotal 2 < 3"
+            ]
+          },
+          {
+            "id": "a11a0ff82c382a830bd063ef42b324c6702d0cdd",
+            "name": "Goc",
+            "country": "RS",
+            "kmTotal": 1.074,
+            "liftsTotal": 1,
+            "status": "unknown",
+            "reasons": [
+              "kmTotal 1.074 < 5",
+              "liftsTotal 1 < 3",
+              "status 'unknown' not operating"
+            ]
+          }
+        ]
+      },
+      {
+        "country": "SE",
+        "total": 202,
+        "significant": 37,
+        "dropped": 165,
+        "droppedBy": {
+          "not operating": 40,
+          "below lift threshold": 121,
+          "below km threshold": 155
+        },
+        "threshold": {
+          "minKmTotal": 5,
+          "minLiftsTotal": 3,
+          "allowedStatuses": [
+            "operating"
+          ]
+        },
+        "largestDropped": [
+          {
+            "id": "b14b7147111f2561d06bca72ca38e3aaabcbae18",
+            "name": "Hassela",
+            "country": "SE",
+            "kmTotal": 12.705,
+            "liftsTotal": 8,
+            "status": "unknown",
+            "reasons": [
+              "status 'unknown' not operating"
+            ]
+          },
+          {
+            "id": "3d294274509836c18ae45f101c4de6af76093fe5",
+            "name": "Fjätervålen",
+            "country": "SE",
+            "kmTotal": 8.652,
+            "liftsTotal": 4,
+            "status": "unknown",
+            "reasons": [
+              "status 'unknown' not operating"
+            ]
+          },
+          {
+            "id": "0285f7c7eccdfa33155a23ae09e790acf5775862",
+            "name": "Almåsa",
+            "country": "SE",
+            "kmTotal": 7.752,
+            "liftsTotal": 2,
+            "status": "operating",
+            "reasons": [
+              "liftsTotal 2 < 3"
+            ]
+          },
+          {
+            "id": "8fa3e310d7970382f5b06b359c131bcb24778d81",
+            "name": "Ljungdalsberget",
+            "country": "SE",
+            "kmTotal": 7.165,
+            "liftsTotal": 1,
+            "status": "unknown",
+            "reasons": [
+              "liftsTotal 1 < 3",
+              "status 'unknown' not operating"
+            ]
+          },
+          {
+            "id": "59ff5ca54d3ae2e7341e0174fff95ff1e2e4ad90",
+            "name": "Grovelfjall",
+            "country": "SE",
+            "kmTotal": 6.871,
+            "liftsTotal": 6,
+            "status": "unknown",
+            "reasons": [
+              "status 'unknown' not operating"
+            ]
+          }
+        ]
+      },
+      {
+        "country": "SI",
+        "total": 40,
+        "significant": 11,
+        "dropped": 29,
+        "droppedBy": {
+          "below km threshold": 29,
+          "below lift threshold": 22,
+          "not operating": 9
+        },
+        "threshold": {
+          "minKmTotal": 5,
+          "minLiftsTotal": 3,
+          "allowedStatuses": [
+            "operating"
+          ]
+        },
+        "largestDropped": [
+          {
+            "id": "63c88f3e978ed999dec3772ffb55bf4263c0f208",
+            "name": "Velika planina",
+            "country": "SI",
+            "kmTotal": 2.757,
+            "liftsTotal": 4,
+            "status": "operating",
+            "reasons": [
+              "kmTotal 2.757 < 5"
+            ]
+          },
+          {
+            "id": "564cfc0909387b9f2f2acf3237034a47bb49089e",
+            "name": "Marela",
+            "country": "SI",
+            "kmTotal": 2.315,
+            "liftsTotal": 3,
+            "status": "operating",
+            "reasons": [
+              "kmTotal 2.315 < 5"
+            ]
+          },
+          {
+            "id": "e52f1b772d43b41d1503d7c1dd39815ecceb060b",
+            "name": "Pokljuka",
+            "country": "SI",
+            "kmTotal": 2.084,
+            "liftsTotal": 6,
+            "status": "operating",
+            "reasons": [
+              "kmTotal 2.084 < 5"
+            ]
+          },
+          {
+            "id": "4a113cdd9db7bb73475caf37e15c42f7bddd9050",
+            "name": "Španov vrh",
+            "country": "SI",
+            "kmTotal": 1.673,
+            "liftsTotal": 1,
+            "status": "operating",
+            "reasons": [
+              "kmTotal 1.673 < 5",
+              "liftsTotal 1 < 3"
+            ]
+          },
+          {
+            "id": "18d3cfd16286c7771a9d6d18501ca2e5d56d5bb1",
+            "name": "Bled - Straža",
+            "country": "SI",
+            "kmTotal": 1.209,
+            "liftsTotal": 2,
+            "status": "abandoned",
+            "reasons": [
+              "kmTotal 1.209 < 5",
+              "liftsTotal 2 < 3",
+              "status 'abandoned' not operating"
+            ]
+          }
+        ]
+      },
+      {
+        "country": "SK",
+        "total": 150,
+        "significant": 17,
+        "dropped": 133,
+        "droppedBy": {
+          "below lift threshold": 73,
+          "below km threshold": 132,
+          "not operating": 4
+        },
+        "threshold": {
+          "minKmTotal": 5,
+          "minLiftsTotal": 3,
+          "allowedStatuses": [
+            "operating"
+          ]
+        },
+        "largestDropped": [
+          {
+            "id": "22842187e84de798eef1a4e67544b935b3965ca0",
+            "name": "Skorušiná",
+            "country": "SK",
+            "kmTotal": 5.731,
+            "liftsTotal": 2,
+            "status": "operating",
+            "reasons": [
+              "liftsTotal 2 < 3"
+            ]
+          },
+          {
+            "id": "3ab0c46a1400d11b6b8e1d65b4a6ed1b0b689abb",
+            "name": "Ski Čierny Balog",
+            "country": "SK",
+            "kmTotal": 4.856,
+            "liftsTotal": 3,
+            "status": "operating",
+            "reasons": [
+              "kmTotal 4.856 < 5"
+            ]
+          },
+          {
+            "id": "5a1a73300fb69b5f405e20ee205a9080585d1879",
+            "name": "Liptovská Teplička - Smrečiny",
+            "country": "SK",
+            "kmTotal": 4.769,
+            "liftsTotal": 4,
+            "status": "operating",
+            "reasons": [
+              "kmTotal 4.769 < 5"
+            ]
+          },
+          {
+            "id": "485c7ac4bbdd881efeee86226de8faa69cf272f1",
+            "name": "Zuberec - Janovky",
+            "country": "SK",
+            "kmTotal": 4.747,
+            "liftsTotal": 4,
+            "status": "operating",
+            "reasons": [
+              "kmTotal 4.747 < 5"
+            ]
+          },
+          {
+            "id": "ea1302167b092ccf9369a59c3a5241dd52631113",
+            "name": "Podkonice - Pleše",
+            "country": "SK",
+            "kmTotal": 4.725,
+            "liftsTotal": 1,
+            "status": "operating",
+            "reasons": [
+              "kmTotal 4.725 < 5",
+              "liftsTotal 1 < 3"
+            ]
+          }
+        ]
+      },
+      {
+        "country": "TR",
+        "total": 31,
+        "significant": 9,
+        "dropped": 22,
+        "droppedBy": {
+          "not operating": 4,
+          "below lift threshold": 19,
+          "below km threshold": 20
+        },
+        "threshold": {
+          "minKmTotal": 5,
+          "minLiftsTotal": 3,
+          "allowedStatuses": [
+            "operating"
+          ]
+        },
+        "largestDropped": [
+          {
+            "id": "bd3e8d4eaa7d27f2c97f87ed6160ce3defb36d94",
+            "name": "Kartalkaya",
+            "country": "TR",
+            "kmTotal": 26.602,
+            "liftsTotal": 13,
+            "status": "unknown",
+            "reasons": [
+              "status 'unknown' not operating"
+            ]
+          },
+          {
+            "id": "ea4713849d94b19ad366178de85ee6b486268b82",
+            "name": "Ilgaz-2 Yurduntepe Kayak Merkezi",
+            "country": "TR",
+            "kmTotal": 5.638,
+            "liftsTotal": 2,
+            "status": "operating",
+            "reasons": [
+              "liftsTotal 2 < 3"
+            ]
+          },
+          {
+            "id": "f4ca77f5-012b-43fb-a767-17f300b54937",
+            "name": "Unnamed ski area (f4ca77f5)",
+            "country": "TR",
+            "kmTotal": 4.262,
+            "liftsTotal": 1,
+            "status": "operating",
+            "reasons": [
+              "kmTotal 4.262 < 5",
+              "liftsTotal 1 < 3"
+            ]
+          },
+          {
+            "id": "c0b8ef92970ec6f328b75bb9266d9be1eacb400b",
+            "name": "Ilgaz Kayak Merkezi",
+            "country": "TR",
+            "kmTotal": 4.074,
+            "liftsTotal": 4,
+            "status": "operating",
+            "reasons": [
+              "kmTotal 4.074 < 5"
+            ]
+          },
+          {
+            "id": "5bb668c45a3f511cb72402d4b956c3b4e38edc36",
+            "name": "Saklıkent",
+            "country": "TR",
+            "kmTotal": 3.836,
+            "liftsTotal": 2,
+            "status": "operating",
+            "reasons": [
+              "kmTotal 3.836 < 5",
+              "liftsTotal 2 < 3"
+            ]
+          }
+        ]
+      },
+      {
+        "country": "UA",
+        "total": 66,
+        "significant": 6,
+        "dropped": 60,
+        "droppedBy": {
+          "below lift threshold": 46,
+          "below km threshold": 59,
+          "not operating": 4
+        },
+        "threshold": {
+          "minKmTotal": 5,
+          "minLiftsTotal": 3,
+          "allowedStatuses": [
+            "operating"
+          ]
+        },
+        "largestDropped": [
+          {
+            "id": "d4c96b7d-9635-4179-b69a-56073be7f829",
+            "name": "Unnamed ski area (d4c96b7d)",
+            "country": "UA",
+            "kmTotal": 9.599,
+            "liftsTotal": 1,
+            "status": "operating",
+            "reasons": [
+              "liftsTotal 1 < 3"
+            ]
+          },
+          {
+            "id": "42837f6259a5ed6cb870685fa5e0ab7819886947",
+            "name": "Slavske - Menchil",
+            "country": "UA",
+            "kmTotal": 4.692,
+            "liftsTotal": 2,
+            "status": "operating",
+            "reasons": [
+              "kmTotal 4.692 < 5",
+              "liftsTotal 2 < 3"
+            ]
+          },
+          {
+            "id": "7d08d8457a865ba4af7a78c1471dcd38b56a4c58",
+            "name": "Makovitsya",
+            "country": "UA",
+            "kmTotal": 2.871,
+            "liftsTotal": 1,
+            "status": "operating",
+            "reasons": [
+              "kmTotal 2.871 < 5",
+              "liftsTotal 1 < 3"
+            ]
+          },
+          {
+            "id": "b5252fe923065ce18d58166ef9f348a1e5e1de63",
+            "name": "Pylypets",
+            "country": "UA",
+            "kmTotal": 2.275,
+            "liftsTotal": 5,
+            "status": "operating",
+            "reasons": [
+              "kmTotal 2.275 < 5"
+            ]
+          },
+          {
+            "id": "d2b509bb13da72e6e29904dcaf5dc26cbab9d9a4",
+            "name": "Tisovets",
+            "country": "UA",
+            "kmTotal": 2.237,
+            "liftsTotal": 3,
+            "status": "unknown",
+            "reasons": [
+              "kmTotal 2.237 < 5",
+              "status 'unknown' not operating"
+            ]
+          }
+        ]
+      }
+    ],
+    "totalSignificant": 951,
+    "totalDropped": 2778
+  },
+  "capacity": {
+    "unmatchedLiftTypes": {
+      "railway": 210
+    },
+    "areasWithoutKm": 443,
+    "areasWithoutLifts": 364
+  },
+  "nightSki": {
+    "available": true,
+    "reason": "ok",
+    "fileSizeBytes": 836829836,
+    "runsRead": 228483,
+    "downhillRuns": 108612,
+    "attributedRuns": 60203,
+    "orphanRuns": 9544,
+    "litRunsWorldwide": 5966,
+    "streamStats": {
+      "parsed": 228483,
+      "skipped": 2
+    },
+    "areasTrue": 831,
+    "areasFalse": 86,
+    "areasNull": 2812,
+    "litTagged": {
+      "yes": 5966,
+      "no": 14107,
+      "untagged": 88539
+    },
+    "snowmakingTagged": {
+      "yes": 772,
+      "no": 126,
+      "untagged": 107714
+    },
+    "snowmakingYesInTarget": 596
+  },
+  "passRegions": {
+    "unmatched": [
+      {
+        "passRegionId": "it-via-lattea",
+        "candidateName": "San Sicario"
+      },
+      {
+        "passRegionId": "it-via-lattea",
+        "candidateName": "Cesana"
+      },
+      {
+        "passRegionId": "it-via-lattea",
+        "candidateName": "Cesana Torinese"
+      },
+      {
+        "passRegionId": "it-via-lattea",
+        "candidateName": "Claviere"
+      },
+      {
+        "passRegionId": "it-skirama-dolomiti",
+        "candidateName": "Pejo"
+      }
+    ],
+    "matched": {
+      "it-dolomiti-superski": [
+        "Alta Badia",
+        "Cortina d'Ampezzo",
+        "Cortina Tofane",
+        "Cristallo - Faloria",
+        "Cortina d'Ampezzo (Faloria - Cristallo - Mietres - Tofana)",
+        "Lagazuoi - 5 Torri",
+        "Kronplatz - Plan de Corones",
+        "Seiser Alm - Mont de Sëuc - Alpe di Siusi",
+        "Val di Fassa",
+        "Belvedere - Col Rodella - Passo Pordoi",
+        "Buffaure - Ciampac",
+        "Vigo di Fassa - Ciampedie",
+        "Carezza",
+        "Arabba",
+        "Marmolada",
+        "Ski Civetta",
+        "3 Zinnen Dolomites (Dobbiaco - San Candido - Braies - Sesto - Alta Pusteria)",
+        "Drei Zinnen - Tre Cime",
+        "Alpe Cermis",
+        "Ski Area Alpe Lusia",
+        "Latemar Dolomites",
+        "San Martino di Castrozza - Passo Rolle",
+        "San Martino di Castrozza",
+        "Passo Rolle",
+        "Ski Area San Pellegrino - Falcade",
+        "Gitschberg Jochtal",
+        "Brixen Plose - Plose di Bressanone"
+      ],
+      "it-via-lattea": [
+        "Sestriere",
+        "Sauze D'Oulx",
+        "Sansicario",
+        "Pragelato",
+        "Pragelato"
+      ],
+      "it-skirama-dolomiti": [
+        "Campiglio Dolomiti di Brenta",
+        "Pinzolo",
+        "Folgarida-Marilleva",
+        "Ponte di Legno - Passo Tonale",
+        "Pejo 3000",
+        "Paganella",
+        "Monte Bondone",
+        "Alpe Cimbra",
+        "Folgaria",
+        "Ski Center Lavarone"
+      ],
+      "it-monterosa-ski": [
+        "Monterosa Ski"
+      ],
+      "ge-gudauri": [
+        "Gudauri"
+      ],
+      "bg-bansko": [
+        "Bansko"
+      ],
+      "bg-borovets": [
+        "Borovets"
+      ],
+      "bg-pamporovo": [
+        "Pamporovo"
+      ]
+    },
+    "contested": [],
+    "count": 8
+  },
+  "overrides": {
+    "fileFound": true,
+    "filePath": "C:\\Users\\OferElyakim\\Ofer's Repos\\SearchSki\\data\\seed\\area_overrides.json",
+    "applied": [
+      {
+        "areaId": "01ebf9136b08663b151ea8896e3ba66547ea5482",
+        "areaName": "Alta Badia",
+        "matchedBy": "openskimapId",
+        "aliasesAdded": 11,
+        "boundaryNoteSet": true
+      },
+      {
+        "areaId": "854ef81a163018dfdda27c3f11174906cfc1c163",
+        "areaName": "Campiglio Dolomiti di Brenta",
+        "matchedBy": "upstreamName",
+        "aliasesAdded": 4,
+        "boundaryNoteSet": false
+      },
+      {
+        "areaId": "5ffd86e2374dc98261a846de36bfc510ab758dfc",
+        "areaName": "Monterosa Ski",
+        "matchedBy": "upstreamName",
+        "aliasesAdded": 5,
+        "boundaryNoteSet": true
+      },
+      {
+        "areaId": "24ea25d80078f2f69f1ed3d653041100cae37c55",
+        "areaName": "Sestriere",
+        "matchedBy": "upstreamName",
+        "aliasesAdded": 3,
+        "boundaryNoteSet": false
+      },
+      {
+        "areaId": "41b930598f272928bfdbd4b166056816da79733e",
+        "areaName": "Sauze D'Oulx",
+        "matchedBy": "upstreamName",
+        "aliasesAdded": 3,
+        "boundaryNoteSet": false
+      }
+    ],
+    "unmatched": [],
+    "localityAliasesAdded": 2555,
+    "areasWithLocalityAliases": 1571,
+    "areasWithBoundaryNote": 2
+  },
+  "nameCollisions": {
+    "singleWordCount": 2421,
+    "vocabularySize": 246,
+    "minChars": 4,
+    "collisions": [
+      {
+        "word": "crystal",
+        "forms": [
+          "Crystal"
+        ],
+        "areas": [
+          "Crystal [GE]"
+        ]
+      }
+    ]
+  },
+  "normalize": {
+    "featuresRead": 12203,
+    "downhillWorldwide": 6984,
+    "downhillByCountry": {
+      "CA": 404,
+      "CN": 308,
+      "AT": 419,
+      "JP": 726,
+      "US": 1096,
+      "DE": 551,
+      "RS": 26,
+      "IT": 310,
+      "NO": 251,
+      "BA": 29,
+      "PL": 258,
+      "KZ": 14,
+      "CZ": 373,
+      "AR": 41,
+      "RU": 259,
+      "HR": 20,
+      "CH": 354,
+      "FR": 332,
+      "FI": 111,
+      "SI": 40,
+      "SE": 202,
+      "SK": 150,
+      "IS": 14,
+      "GB": 73,
+      "ES": 45,
+      "HU": 26,
+      "TR": 31,
+      "AD": 4,
+      "LT": 9,
+      "MK": 12,
+      "GR": 21,
+      "NL": 19,
+      "RO": 76,
+      "EE": 10,
+      "CL": 40,
+      "UA": 66,
+      "IR": 22,
+      "KG": 17,
+      "NZ": 34,
+      "TW": 2,
+      "LV": 12,
+      "DK": 4,
+      "BY": 6,
+      "BG": 25,
+      "KR": 22,
+      "BE": 10,
+      "GE": 11,
+      "AU": 19,
+      "IL": 2,
+      "CY": 1,
+      "IQ": 1,
+      "AM": 4,
+      "ME": 10,
+      "PK": 3,
+      "IN": 5,
+      "LB": 6,
+      "GL": 5,
+      "AE": 2,
+      "MA": 3,
+      "BO": 1,
+      "CO": 1,
+      "UZ": 5,
+      "AQ": 1,
+      "MN": 2,
+      "BR": 2,
+      "AZ": 2,
+      "VE": 1,
+      "AL": 1,
+      "KP": 5,
+      "SA": 1,
+      "ID": 1,
+      "IE": 2,
+      "LI": 1,
+      "PT": 2,
+      "MX": 1,
+      "LS": 1,
+      "TJ": 1,
+      "ZA": 1,
+      "DZ": 1,
+      "EG": 1
+    },
+    "inTargetCountries": 3729,
+    "droppedNoGeometry": 0,
+    "noCountry": 4,
+    "unknownDifficultyKeys": {
+      "extreme": 2
+    },
+    "geometryTypes": {
+      "Point": 2457,
+      "MultiPolygon": 29,
+      "Polygon": 1243
+    },
+    "droppedInconsistentPlaces": 12,
+    "multiCountry": [
+      {
+        "id": "064c258440982ec02bbffeb24ad3acffc7fa5ef0",
+        "name": "La Thuile ski",
+        "countries": [
+          "IT",
+          "FR"
+        ],
+        "primary": "IT",
+        "primaryChosenBy": "frequency",
+        "regionCode": "IT-AO",
+        "kmTotal": 78.97,
+        "lat": 45.694979,
+        "lon": 6.924557,
+        "droppedInconsistent": 1
+      },
+      {
+        "id": "08db54e3-f2df-47a6-9f7d-fd082f2bd4f0",
+        "name": "Unnamed ski area (08db54e3)",
+        "countries": [
+          "DE",
+          "CZ"
+        ],
+        "primary": "DE",
+        "primaryChosenBy": "regionCode tie-break",
+        "regionCode": "DE-SN",
+        "kmTotal": 0.614,
+        "lat": 50.41816,
+        "lon": 12.985084,
+        "droppedInconsistent": 0
+      },
+      {
+        "id": "0a53d621d2c7d7efc5f5c3e600a8b56a0bbbf4ff",
+        "name": "Nassfeld",
+        "countries": [
+          "AT",
+          "IT"
+        ],
+        "primary": "AT",
+        "primaryChosenBy": "regionCode tie-break",
+        "regionCode": "AT-2",
+        "kmTotal": 69.982,
+        "lat": 46.57755,
+        "lon": 13.258826,
+        "droppedInconsistent": 0
+      },
+      {
+        "id": "0bd87c732c1cffdf2ef8743e9b73c520a67e6bf4",
+        "name": "Skiareál Špindlerův Mlýn - Medvědín",
+        "countries": [
+          "CZ",
+          "PL"
+        ],
+        "primary": "CZ",
+        "primaryChosenBy": "frequency",
+        "regionCode": "CZ-LI",
+        "kmTotal": 19.511,
+        "lat": 50.733692,
+        "lon": 15.58485,
+        "droppedInconsistent": 2
+      },
+      {
+        "id": "0c578b5c81b3caa43f18e63da906f91d501d268a",
+        "name": "Poniwiec",
+        "countries": [
+          "PL",
+          "CZ"
+        ],
+        "primary": "PL",
+        "primaryChosenBy": "regionCode tie-break",
+        "regionCode": "PL-SL",
+        "kmTotal": 0.791,
+        "lat": 49.691214,
+        "lon": 18.788112,
+        "droppedInconsistent": 0
+      },
+      {
+        "id": "12143efb0b49e16e607ca9ebbbee8f34a19d89d6",
+        "name": "Skigebiet Weißer Stein",
+        "countries": [
+          "DE",
+          "BE"
+        ],
+        "primary": "DE",
+        "primaryChosenBy": "regionCode tie-break",
+        "regionCode": "DE-NW",
+        "kmTotal": 0,
+        "lat": 50.406332,
+        "lon": 6.382313,
+        "droppedInconsistent": 0
+      },
+      {
+        "id": "14e47cf0ab8a9e0fae68dc66ae959193ee510db0",
+        "name": "Veľká Rača",
+        "countries": [
+          "SK",
+          "PL",
+          "CZ"
+        ],
+        "primary": "SK",
+        "primaryChosenBy": "frequency",
+        "regionCode": "SK-ZI",
+        "kmTotal": 12.394,
+        "lat": 49.418413,
+        "lon": 18.933292,
+        "droppedInconsistent": 0
+      },
+      {
+        "id": "17d77d2ed0efda5f8616b62119950b304af5aad6",
+        "name": "Sella Nevea - Kanin",
+        "countries": [
+          "IT",
+          "SI"
+        ],
+        "primary": "IT",
+        "primaryChosenBy": "regionCode tie-break",
+        "regionCode": "IT-UD",
+        "kmTotal": 10.128,
+        "lat": 46.361341,
+        "lon": 13.486975,
+        "droppedInconsistent": 0
+      },
+      {
+        "id": "185fab8ebab4d34fce4ab320639432937262f05e",
+        "name": "Unnamed ski area (185fab8e)",
+        "countries": [
+          "DE",
+          "CZ"
+        ],
+        "primary": "DE",
+        "primaryChosenBy": "frequency",
+        "regionCode": "DE-SN",
+        "kmTotal": 0.246,
+        "lat": 50.383844,
+        "lon": 12.892307,
+        "droppedInconsistent": 0
+      },
+      {
+        "id": "18e3d26505b38c8b207dfdfce0006c367c03a68d",
+        "name": "Holzhau",
+        "countries": [
+          "DE",
+          "CZ"
+        ],
+        "primary": "DE",
+        "primaryChosenBy": "frequency",
+        "regionCode": "DE-SN",
+        "kmTotal": 4.892,
+        "lat": 50.733036,
+        "lon": 13.580128,
+        "droppedInconsistent": 0
+      },
+      {
+        "id": "22db1fda72e4762796c28b13211652c3fe0678ca",
+        "name": "Drei Zinnen - Tre Cime",
+        "countries": [
+          "IT",
+          "AT"
+        ],
+        "primary": "IT",
+        "primaryChosenBy": "frequency",
+        "regionCode": "IT-BZ",
+        "kmTotal": 105.378,
+        "lat": 46.677949,
+        "lon": 12.325698,
+        "droppedInconsistent": 0
+      },
+      {
+        "id": "23c848fd-c701-44ad-8a26-ed014a8d9f18",
+        "name": "Unnamed ski area (23c848fd)",
+        "countries": [
+          "DE",
+          "AT"
+        ],
+        "primary": "DE",
+        "primaryChosenBy": "regionCode tie-break",
+        "regionCode": "DE-BY",
+        "kmTotal": 0.248,
+        "lat": 47.663575,
+        "lon": 13.079499,
+        "droppedInconsistent": 0
+      },
+      {
+        "id": "279330697100363b6c758f5b9fc5565d58de59a6",
+        "name": "Champéry – Les Crosets – Champoussin – Morgins",
+        "countries": [
+          "CH",
+          "FR"
+        ],
+        "primary": "CH",
+        "primaryChosenBy": "frequency",
+        "regionCode": "CH-VS",
+        "kmTotal": 81.813,
+        "lat": 46.200674,
+        "lon": 6.840187,
+        "droppedInconsistent": 0
+      },
+      {
+        "id": "27a930db3d838e9aa8ce0d4da3ada523dd4ce740",
+        "name": "Skigebiet Ifen",
+        "countries": [
+          "DE",
+          "AT"
+        ],
+        "primary": "DE",
+        "primaryChosenBy": "regionCode tie-break",
+        "regionCode": "DE-BY",
+        "kmTotal": 20.998,
+        "lat": 47.350467,
+        "lon": 10.12471,
+        "droppedInconsistent": 0
+      },
+      {
+        "id": "2f571f297e2a25edd4929ab0f42342278adf777c",
+        "name": "Claviere",
+        "countries": [
+          "FR",
+          "IT"
+        ],
+        "primary": "FR",
+        "primaryChosenBy": "regionCode tie-break",
+        "regionCode": "FR-05",
+        "kmTotal": 40.197,
+        "lat": 44.926103,
+        "lon": 6.771644,
+        "droppedInconsistent": 0
+      },
+      {
+        "id": "304d72fa57c50cd759b4ebeff3e48dbee4789b17",
+        "name": "Candanchu",
+        "countries": [
+          "ES",
+          "FR"
+        ],
+        "primary": "ES",
+        "primaryChosenBy": "regionCode tie-break",
+        "regionCode": "ES-HU",
+        "kmTotal": 33.164,
+        "lat": 42.778678,
+        "lon": -0.542429,
+        "droppedInconsistent": 0
+      },
+      {
+        "id": "34c3dc543a71495ffe5c7267a898311a3b49014e",
+        "name": "Canaro",
+        "countries": [
+          "AD",
+          "FR"
+        ],
+        "primary": "AD",
+        "primaryChosenBy": "frequency",
+        "regionCode": "AD-02",
+        "kmTotal": 26.961,
+        "lat": 42.579145,
+        "lon": 1.660547,
+        "droppedInconsistent": 0
+      },
+      {
+        "id": "36caeeb99dd1cc8a496f145ee01dbaeb1635545b",
+        "name": "Skigebiet Söllereck",
+        "countries": [
+          "DE",
+          "AT"
+        ],
+        "primary": "DE",
+        "primaryChosenBy": "regionCode tie-break",
+        "regionCode": "DE-BY",
+        "kmTotal": 11.397,
+        "lat": 47.387932,
+        "lon": 10.243286,
+        "droppedInconsistent": 0
+      },
+      {
+        "id": "398d2d2d1ae9e5d0c68fca7fa837abccfb43f347",
+        "name": "Soszów – Jawornik (Wisła)",
+        "countries": [
+          "PL",
+          "CZ"
+        ],
+        "primary": "PL",
+        "primaryChosenBy": "regionCode tie-break",
+        "regionCode": "PL-SL",
+        "kmTotal": 4.007,
+        "lat": 49.639469,
+        "lon": 18.816437,
+        "droppedInconsistent": 1
+      },
+      {
+        "id": "427712e1430959c6a91b120331da6c7c3981e312",
+        "name": "Steinplatte Waidring-Tirol",
+        "countries": [
+          "AT",
+          "DE"
+        ],
+        "primary": "AT",
+        "primaryChosenBy": "frequency",
+        "regionCode": "AT-7",
+        "kmTotal": 37.315,
+        "lat": 47.635409,
+        "lon": 12.570622,
+        "droppedInconsistent": 1
+      },
+      {
+        "id": "44b2d88a572623c3c4c27c3f4b90a72dcd341ea1",
+        "name": "Skigebiet Lausche",
+        "countries": [
+          "DE",
+          "CZ"
+        ],
+        "primary": "DE",
+        "primaryChosenBy": "regionCode tie-break",
+        "regionCode": "DE-SN",
+        "kmTotal": 3.038,
+        "lat": 50.85332,
+        "lon": 14.655275,
+        "droppedInconsistent": 0
+      },
+      {
+        "id": "44e5bfbfe3e11ad75d642cc4225aaab79a936d91",
+        "name": "Torgon",
+        "countries": [
+          "FR",
+          "CH"
+        ],
+        "primary": "FR",
+        "primaryChosenBy": "regionCode tie-break",
+        "regionCode": "FR-74",
+        "kmTotal": 22.527,
+        "lat": 46.303124,
+        "lon": 6.836424,
+        "droppedInconsistent": 0
+      },
+      {
+        "id": "488706f1da16e1a8ec4c99c96f305ee244e355b2",
+        "name": "Dreiländereck - Arnoldstein",
+        "countries": [
+          "AT",
+          "SI"
+        ],
+        "primary": "AT",
+        "primaryChosenBy": "regionCode tie-break",
+        "regionCode": "AT-2",
+        "kmTotal": 10.689,
+        "lat": 46.530073,
+        "lon": 13.718978,
+        "droppedInconsistent": 0
+      },
+      {
+        "id": "4d6b2fef-8cf1-44bb-b537-ccdae9b13648",
+        "name": "Unnamed ski area (4d6b2fef)",
+        "countries": [
+          "DE",
+          "CZ"
+        ],
+        "primary": "DE",
+        "primaryChosenBy": "regionCode tie-break",
+        "regionCode": "DE-SN",
+        "kmTotal": 0.306,
+        "lat": 50.608908,
+        "lon": 13.435125,
+        "droppedInconsistent": 0
+      },
+      {
+        "id": "4de82b980d8c12b83cda0083ec49b22e97cf6224",
+        "name": "Montgenèvre",
+        "countries": [
+          "FR",
+          "IT"
+        ],
+        "primary": "FR",
+        "primaryChosenBy": "frequency",
+        "regionCode": "FR-05",
+        "kmTotal": 61.956,
+        "lat": 44.928154,
+        "lon": 6.72871,
+        "droppedInconsistent": 0
+      },
+      {
+        "id": "51474b305d4503f5ab3131b6c859bd4cf4f2088b",
+        "name": "Kranjska Gora",
+        "countries": [
+          "SI",
+          "IT"
+        ],
+        "primary": "SI",
+        "primaryChosenBy": "frequency",
+        "regionCode": "IT-UD",
+        "kmTotal": 21.974,
+        "lat": 46.482905,
+        "lon": 13.736971,
+        "droppedInconsistent": 0
+      },
+      {
+        "id": "557ee0c3ef0efaf9dc5a246c020417f8fe35e883",
+        "name": "Tannheim-Zöblen-Schattwald",
+        "countries": [
+          "DE",
+          "AT"
+        ],
+        "primary": "DE",
+        "primaryChosenBy": "regionCode tie-break",
+        "regionCode": "DE-BY",
+        "kmTotal": 17.151,
+        "lat": 47.497287,
+        "lon": 10.494294,
+        "droppedInconsistent": 0
+      },
+      {
+        "id": "577494711f13e0babe02cf89bf53014f0b5b4897",
+        "name": "Le Larmont",
+        "countries": [
+          "FR",
+          "CH"
+        ],
+        "primary": "FR",
+        "primaryChosenBy": "frequency",
+        "regionCode": "FR-25",
+        "kmTotal": 0,
+        "lat": 46.9074,
+        "lon": 6.423516,
+        "droppedInconsistent": 0
+      },
+      {
+        "id": "583dbc4651db7ebcc7875a11180b634ec108ba8a",
+        "name": "Skiresort Černá Hora-Pec",
+        "countries": [
+          "CZ",
+          "PL"
+        ],
+        "primary": "CZ",
+        "primaryChosenBy": "frequency",
+        "regionCode": "CZ-KR",
+        "kmTotal": 44.003,
+        "lat": 50.668746,
+        "lon": 15.74159,
+        "droppedInconsistent": 0
+      },
+      {
+        "id": "5ac8ac2f7a683cda502047fec78be16072e88443",
+        "name": "Storlien",
+        "countries": [
+          "SE",
+          "NO"
+        ],
+        "primary": "SE",
+        "primaryChosenBy": "regionCode tie-break",
+        "regionCode": "SE-Z",
+        "kmTotal": 4.199,
+        "lat": 63.321634,
+        "lon": 12.112215,
+        "droppedInconsistent": 0
+      },
+      {
+        "id": "5b4aba23e8c29f88cd0e89e51dea075af5bc649a",
+        "name": "Schnalstal",
+        "countries": [
+          "IT",
+          "AT"
+        ],
+        "primary": "IT",
+        "primaryChosenBy": "regionCode tie-break",
+        "regionCode": "IT-BZ",
+        "kmTotal": 32.579,
+        "lat": 46.772141,
+        "lon": 10.788404,
+        "droppedInconsistent": 0
+      },
+      {
+        "id": "5ffd1329300e0dc222ee328bcf9402d951765e95",
+        "name": "Kožuf",
+        "countries": [
+          "MK",
+          "GR"
+        ],
+        "primary": "MK",
+        "primaryChosenBy": "frequency",
+        "regionCode": "MK-18",
+        "kmTotal": 0,
+        "lat": 41.168258,
+        "lon": 22.211241,
+        "droppedInconsistent": 0
+      },
+      {
+        "id": "600f6e0f4583cb32dcc2934439cd65ff38f3a570",
+        "name": "Les Fourgs",
+        "countries": [
+          "FR",
+          "CH"
+        ],
+        "primary": "FR",
+        "primaryChosenBy": "frequency",
+        "regionCode": "FR-25",
+        "kmTotal": 5.58,
+        "lat": 46.822334,
+        "lon": 6.420042,
+        "droppedInconsistent": 0
+      },
+      {
+        "id": "6241bfbd7c4e6009c515ba06344e7315f0859ee2",
+        "name": "Zieleniec",
+        "countries": [
+          "PL",
+          "CZ"
+        ],
+        "primary": "PL",
+        "primaryChosenBy": "regionCode tie-break",
+        "regionCode": "PL-DS",
+        "kmTotal": 21.717,
+        "lat": 50.333678,
+        "lon": 16.388962,
+        "droppedInconsistent": 0
+      },
+      {
+        "id": "712dbdd509c785773ea0c7d502e418656ce55080",
+        "name": "Kohútka",
+        "countries": [
+          "SK",
+          "CZ"
+        ],
+        "primary": "SK",
+        "primaryChosenBy": "regionCode tie-break",
+        "regionCode": "SK-TC",
+        "kmTotal": 6.432,
+        "lat": 49.29797,
+        "lon": 18.234806,
+        "droppedInconsistent": 0
+      },
+      {
+        "id": "7759d8679b79c00d70e12a18fe3cbb21ff334ebe",
+        "name": "Hochficht-Böhmerwald",
+        "countries": [
+          "CZ",
+          "AT"
+        ],
+        "primary": "CZ",
+        "primaryChosenBy": "regionCode tie-break",
+        "regionCode": "CZ-JC",
+        "kmTotal": 15.892,
+        "lat": 48.738243,
+        "lon": 13.895678,
+        "droppedInconsistent": 0
+      },
+      {
+        "id": "778cf1cb898c18902972765463f338721dac88b3",
+        "name": "Balme - Vallorcine",
+        "countries": [
+          "FR",
+          "CH"
+        ],
+        "primary": "FR",
+        "primaryChosenBy": "frequency",
+        "regionCode": "FR-74",
+        "kmTotal": 30.621,
+        "lat": 46.024966,
+        "lon": 6.952848,
+        "droppedInconsistent": 0
+      },
+      {
+        "id": "7c2f2690d339d9df6f820e7c6e596a9b0ba3dce5",
+        "name": "Silvretta Arena Ischgl",
+        "countries": [
+          "AT",
+          "CH"
+        ],
+        "primary": "AT",
+        "primaryChosenBy": "regionCode tie-break",
+        "regionCode": "AT-7",
+        "kmTotal": 163.223,
+        "lat": 46.974461,
+        "lon": 10.325125,
+        "droppedInconsistent": 0
+      },
+      {
+        "id": "7ebf4441fefc1a189abf167436b16bdaa8c1d1e5",
+        "name": "Palenica",
+        "countries": [
+          "PL",
+          "SK"
+        ],
+        "primary": "PL",
+        "primaryChosenBy": "regionCode tie-break",
+        "regionCode": "PL-MA",
+        "kmTotal": 1.236,
+        "lat": 49.424894,
+        "lon": 20.480372,
+        "droppedInconsistent": 0
+      },
+      {
+        "id": "808a29cc985bed7129079ff09f058237fa602ae8",
+        "name": "Ski Center Brezovica",
+        "countries": [
+          "MK",
+          "XK"
+        ],
+        "primary": "MK",
+        "primaryChosenBy": "regionCode tie-break",
+        "regionCode": "MK-35",
+        "kmTotal": 7.187,
+        "lat": 42.179789,
+        "lon": 21.043023,
+        "droppedInconsistent": 0
+      },
+      {
+        "id": "82f40f623ac8e4048d12c675e929acc935a0762e",
+        "name": "Les Cernets",
+        "countries": [
+          "CH",
+          "FR"
+        ],
+        "primary": "CH",
+        "primaryChosenBy": "frequency",
+        "regionCode": "CH-NE",
+        "kmTotal": 0,
+        "lat": 46.943573,
+        "lon": 6.513815,
+        "droppedInconsistent": 1
+      },
+      {
+        "id": "8394e228c6499b01b1159b31d00a9347ead9499e",
+        "name": "Rossfeld",
+        "countries": [
+          "DE",
+          "AT"
+        ],
+        "primary": "DE",
+        "primaryChosenBy": "frequency",
+        "regionCode": "DE-BY",
+        "kmTotal": 9.589,
+        "lat": 47.635656,
+        "lon": 13.093816,
+        "droppedInconsistent": 0
+      },
+      {
+        "id": "86a6b58586d4343d6585158373797b44f1538fa4",
+        "name": "Lyžařský vlek Kubiška",
+        "countries": [
+          "CZ",
+          "SK"
+        ],
+        "primary": "CZ",
+        "primaryChosenBy": "regionCode tie-break",
+        "regionCode": "CZ-MO",
+        "kmTotal": 0,
+        "lat": 49.413481,
+        "lon": 18.32599,
+        "droppedInconsistent": 0
+      },
+      {
+        "id": "897905b0ef9ee21852d8c7866845ec12cf8513fb",
+        "name": "Zermatt - Breuil-Cervinia",
+        "countries": [
+          "CH",
+          "IT"
+        ],
+        "primary": "CH",
+        "primaryChosenBy": "regionCode tie-break",
+        "regionCode": "CH-VS",
+        "kmTotal": 205.528,
+        "lat": 45.970304,
+        "lon": 7.721173,
+        "droppedInconsistent": 0
+      },
+      {
+        "id": "8a5063e32476ab3ab529dd524a0debe563e08f28",
+        "name": "Skigebiet Fellhorn",
+        "countries": [
+          "AT",
+          "DE"
+        ],
+        "primary": "AT",
+        "primaryChosenBy": "frequency",
+        "regionCode": "AT-8",
+        "kmTotal": 31.701,
+        "lat": 47.34672,
+        "lon": 10.218702,
+        "droppedInconsistent": 0
+      },
+      {
+        "id": "8ab6f8a4372774042033a0721b21c2fbb8df2c9c",
+        "name": "La Chapelle d'Abondance",
+        "countries": [
+          "FR",
+          "CH"
+        ],
+        "primary": "FR",
+        "primaryChosenBy": "frequency",
+        "regionCode": "FR-74",
+        "kmTotal": 26.678,
+        "lat": 46.291727,
+        "lon": 6.79881,
+        "droppedInconsistent": 0
+      },
+      {
+        "id": "8bbfa03deba984797b9ac3dbf2ad8fbf8c7aa911",
+        "name": "Zwardoń - Centrum",
+        "countries": [
+          "PL",
+          "SK"
+        ],
+        "primary": "PL",
+        "primaryChosenBy": "regionCode tie-break",
+        "regionCode": "PL-SL",
+        "kmTotal": 3.594,
+        "lat": 49.50242,
+        "lon": 18.978427,
+        "droppedInconsistent": 0
+      },
+      {
+        "id": "8ebb23da67e4e5ad4059d78ad442e7694eccfb2f",
+        "name": "Nauders Bergkastel",
+        "countries": [
+          "AT",
+          "IT"
+        ],
+        "primary": "AT",
+        "primaryChosenBy": "frequency",
+        "regionCode": "AT-7",
+        "kmTotal": 49.25,
+        "lat": 46.867094,
+        "lon": 10.531654,
+        "droppedInconsistent": 0
+      },
+      {
+        "id": "8fac9ee8808596fcea9b53902cf68bba6e8cd835",
+        "name": "Avoriaz",
+        "countries": [
+          "FR",
+          "CH"
+        ],
+        "primary": "FR",
+        "primaryChosenBy": "frequency",
+        "regionCode": "FR-74",
+        "kmTotal": 83.405,
+        "lat": 46.188468,
+        "lon": 6.773111,
+        "droppedInconsistent": 0
+      },
+      {
+        "id": "9e8a091097aeb5af7c87b5f53922e3db043a9849",
+        "name": "Gletscher-Skigebiet Zugspitze",
+        "countries": [
+          "DE",
+          "AT"
+        ],
+        "primary": "DE",
+        "primaryChosenBy": "frequency",
+        "regionCode": "DE-BY",
+        "kmTotal": 15.676,
+        "lat": 47.412944,
+        "lon": 10.985831,
+        "droppedInconsistent": 0
+      },
+      {
+        "id": "a402b371661a3cdc38e7a94d9b5b6e4d9f55ea63",
+        "name": "Macesnovc Rateče",
+        "countries": [
+          "IT",
+          "SI"
+        ],
+        "primary": "IT",
+        "primaryChosenBy": "regionCode tie-break",
+        "regionCode": "IT-UD",
+        "kmTotal": 1.101,
+        "lat": 46.487095,
+        "lon": 13.707096,
+        "droppedInconsistent": 0
+      },
+      {
+        "id": "a92879cf0962fd63de7896cbe510cff23b773e09",
+        "name": "Deštné v Orlických horách",
+        "countries": [
+          "PL",
+          "CZ"
+        ],
+        "primary": "PL",
+        "primaryChosenBy": "regionCode tie-break",
+        "regionCode": "PL-DS",
+        "kmTotal": 5.821,
+        "lat": 50.299706,
+        "lon": 16.360024,
+        "droppedInconsistent": 1
+      },
+      {
+        "id": "b3b536b60e61da1eee89612e33f7ce47f7d715ff",
+        "name": "Kaunertaler Gletscher",
+        "countries": [
+          "AT",
+          "IT"
+        ],
+        "primary": "AT",
+        "primaryChosenBy": "external override",
+        "regionCode": "AT-7",
+        "kmTotal": 27.38,
+        "lat": 46.865024,
+        "lon": 10.708686,
+        "droppedInconsistent": 1
+      },
+      {
+        "id": "b9027017dffd0a179ee3ad47d2aefaf408c44a1a",
+        "name": "Espace Liberté",
+        "countries": [
+          "FR",
+          "CH"
+        ],
+        "primary": "FR",
+        "primaryChosenBy": "frequency",
+        "regionCode": "FR-74",
+        "kmTotal": 107.065,
+        "lat": 46.27003,
+        "lon": 6.826506,
+        "droppedInconsistent": 0
+      },
+      {
+        "id": "bfd0a7375b77c891b47cccf8173f4bc57295ee19",
+        "name": "Riksgränsen",
+        "countries": [
+          "NO",
+          "SE"
+        ],
+        "primary": "NO",
+        "primaryChosenBy": "regionCode tie-break",
+        "regionCode": "NO-18",
+        "kmTotal": 12.896,
+        "lat": 68.415551,
+        "lon": 18.119162,
+        "droppedInconsistent": 0
+      },
+      {
+        "id": "c4b221a54713b4e084b5bae02668c68dfaf6c1e3",
+        "name": "Les Rousses",
+        "countries": [
+          "CH",
+          "FR"
+        ],
+        "primary": "CH",
+        "primaryChosenBy": "regionCode tie-break",
+        "regionCode": "CH-VD",
+        "kmTotal": 32.061,
+        "lat": 46.49512,
+        "lon": 6.08059,
+        "droppedInconsistent": 0
+      },
+      {
+        "id": "c66e8832d1462639d122a7350eb2b84f3cb57436",
+        "name": "Hochlitten-Riefensberg",
+        "countries": [
+          "DE",
+          "AT"
+        ],
+        "primary": "DE",
+        "primaryChosenBy": "regionCode tie-break",
+        "regionCode": "DE-BY",
+        "kmTotal": 5.485,
+        "lat": 47.507315,
+        "lon": 9.983145,
+        "droppedInconsistent": 0
+      },
+      {
+        "id": "c7bceeef0a08c09380153c8cb78bf7adf2612a9f",
+        "name": "Zinkenlifte – Dürrnberg (Hallein)",
+        "countries": [
+          "DE",
+          "AT"
+        ],
+        "primary": "DE",
+        "primaryChosenBy": "regionCode tie-break",
+        "regionCode": "DE-BY",
+        "kmTotal": 4.767,
+        "lat": 47.653264,
+        "lon": 13.091617,
+        "droppedInconsistent": 0
+      },
+      {
+        "id": "c7e7dc289f512708b9480901ed748b812514db94",
+        "name": "Scheidegg",
+        "countries": [
+          "DE",
+          "AT"
+        ],
+        "primary": "DE",
+        "primaryChosenBy": "regionCode tie-break",
+        "regionCode": "DE-BY",
+        "kmTotal": 1.585,
+        "lat": 47.568952,
+        "lon": 9.825532,
+        "droppedInconsistent": 0
+      },
+      {
+        "id": "ce536a2445bc0a699f4c339cd58acd9d0162e03a",
+        "name": "Puigmal 2900",
+        "countries": [
+          "FR",
+          "ES"
+        ],
+        "primary": "FR",
+        "primaryChosenBy": "frequency",
+        "regionCode": "FR-66",
+        "kmTotal": 2.484,
+        "lat": 42.392098,
+        "lon": 2.072234,
+        "droppedInconsistent": 0
+      },
+      {
+        "id": "d2b0e7c59ecf744d36ed6af54c15743910092fe2",
+        "name": "Roc d'Enfer (La Grande Terche)",
+        "countries": [
+          "FR",
+          "CH"
+        ],
+        "primary": "FR",
+        "primaryChosenBy": "frequency",
+        "regionCode": "FR-74",
+        "kmTotal": 411.874,
+        "lat": 46.214636,
+        "lon": 6.741366,
+        "droppedInconsistent": 0
+      },
+      {
+        "id": "dba2d697031842683e6a7c7ec093c350edd4d7a1",
+        "name": "Pod Durbaszką",
+        "countries": [
+          "PL",
+          "SK"
+        ],
+        "primary": "PL",
+        "primaryChosenBy": "regionCode tie-break",
+        "regionCode": "PL-MA",
+        "kmTotal": 0,
+        "lat": 49.390163,
+        "lon": 20.535147,
+        "droppedInconsistent": 0
+      },
+      {
+        "id": "dd9a741b2c5759803dde992a39156a98b7ae7a4f",
+        "name": "Balderschwang – Hochschelpen",
+        "countries": [
+          "DE",
+          "AT"
+        ],
+        "primary": "DE",
+        "primaryChosenBy": "regionCode tie-break",
+        "regionCode": "DE-BY",
+        "kmTotal": 26.044,
+        "lat": 47.454733,
+        "lon": 10.112698,
+        "droppedInconsistent": 0
+      },
+      {
+        "id": "ddf2b41f5b9c5255f2cdc6deb41c4a9627432071",
+        "name": "Makov - Kasárne",
+        "countries": [
+          "SK",
+          "CZ"
+        ],
+        "primary": "SK",
+        "primaryChosenBy": "regionCode tie-break",
+        "regionCode": "SK-ZI",
+        "kmTotal": 1.599,
+        "lat": 49.3261,
+        "lon": 18.378239,
+        "droppedInconsistent": 0
+      },
+      {
+        "id": "de4f884c40976fe9d18c23d0bab174c1d6b79218",
+        "name": "GrandValira",
+        "countries": [
+          "AD",
+          "FR"
+        ],
+        "primary": "AD",
+        "primaryChosenBy": "frequency",
+        "regionCode": "AD-03",
+        "kmTotal": 136.627,
+        "lat": 42.549438,
+        "lon": 1.669465,
+        "droppedInconsistent": 0
+      },
+      {
+        "id": "f8176e48416adcfc9118014d5c390cd2099a6a18",
+        "name": "La Rosière",
+        "countries": [
+          "FR",
+          "IT"
+        ],
+        "primary": "FR",
+        "primaryChosenBy": "frequency",
+        "regionCode": "FR-73",
+        "kmTotal": 67.903,
+        "lat": 45.64073,
+        "lon": 6.863969,
+        "droppedInconsistent": 0
+      }
+    ],
+    "countryOverridesApplied": [
+      {
+        "id": "b3b536b60e61da1eee89612e33f7ce47f7d715ff",
+        "name": "Kaunertaler Gletscher",
+        "matchedBy": "upstreamName",
+        "derivedCountry": "IT",
+        "derivedChosenBy": "regionCode tie-break",
+        "forcedCountry": "AT",
+        "forcedCountries": [
+          "AT",
+          "IT"
+        ],
+        "regionCode": "AT-7",
+        "keptInBuild": true,
+        "evidence": "Kaunertal Glacier is in Tyrol, Austria (Tiroler Oberland, Landeck district), reached by the 26 km Kaunertal Glacier Road from Feichten. Its published 3,108 m summit matches this record's topElevM of 3107, confirming it is the same place. Upstream splits 1-1 between IT and AT after inconsistent entries are dropped, and the regionCode tie-break lands on IT because IT-BZ is stated first. The centroid (46.865, 10.709) is on the Austrian side of the ridge.",
+        "sourceUrl": "https://www.tyrol.com/activities/sport/skiing/ski-resorts/kaunertal-glacier-ski-resort",
+        "checkedOn": "2026-07-26"
+      }
+    ],
+    "countryOverridesUnmatched": [],
+    "streamStats": {
+      "parsed": 12203,
+      "skipped": 2
+    }
+  },
+  "verdict": {
+    "georgia": {
+      "country": "GE",
+      "usable": true,
+      "significantAreas": 7,
+      "headline": [
+        {
+          "name": "Gudauri",
+          "kmTotal": 40.543,
+          "easyKm": 28.978,
+          "liftsTotal": 16,
+          "topElevM": 3246,
+          "baseElevM": 1989,
+          "verticalM": 1258,
+          "wikidataId": null,
+          "hasNightSki": true
+        },
+        {
+          "name": "Tetnuldi",
+          "kmTotal": 17.495,
+          "easyKm": 5.101,
+          "liftsTotal": 5,
+          "topElevM": 3154,
+          "baseElevM": 2263,
+          "verticalM": 891,
+          "wikidataId": null,
+          "hasNightSki": null
+        },
+        {
+          "name": "Didveli",
+          "kmTotal": 14.94,
+          "easyKm": 6.728,
+          "liftsTotal": 7,
+          "topElevM": 2677,
+          "baseElevM": 1851,
+          "verticalM": 826,
+          "wikidataId": null,
+          "hasNightSki": true
+        },
+        {
+          "name": "Kokhta - Mitarbi",
+          "kmTotal": 15.033,
+          "easyKm": 6.112,
+          "liftsTotal": 5,
+          "topElevM": 2205,
+          "baseElevM": 1625,
+          "verticalM": 580,
+          "wikidataId": null,
+          "hasNightSki": null
+        },
+        {
+          "name": "Hatsvali",
+          "kmTotal": 7.786,
+          "easyKm": 0.297,
+          "liftsTotal": 4,
+          "topElevM": 2342,
+          "baseElevM": 1867,
+          "verticalM": 476,
+          "wikidataId": null,
+          "hasNightSki": true
+        }
+      ],
+      "reasoning": "Georgia's flagship resorts are present with piste km, lift counts, elevations and a full difficulty breakdown — everything the Stage 1 scorer consumes. 7 areas clear the size threshold. The gaps are Wikidata (enrichment only, never a join requirement) and locality names (the village layer will need OSM Overpass, not this dump). Terrain data is good enough to ship; do NOT rely on it for village-level lodging or apres."
+    },
+    "bulgaria": {
+      "country": "BG",
+      "usable": true,
+      "significantAreas": 5,
+      "headline": [
+        {
+          "name": "Bansko",
+          "kmTotal": 34.152,
+          "easyKm": 15.011,
+          "liftsTotal": 20,
+          "topElevM": 2516,
+          "baseElevM": 993,
+          "verticalM": 1522,
+          "wikidataId": null,
+          "hasNightSki": true
+        },
+        {
+          "name": "Borovets",
+          "kmTotal": 42.803,
+          "easyKm": 8.713,
+          "liftsTotal": 14,
+          "topElevM": 2538,
+          "baseElevM": 1329,
+          "verticalM": 1208,
+          "wikidataId": null,
+          "hasNightSki": true
+        },
+        {
+          "name": "Pamporovo",
+          "kmTotal": 23.519,
+          "easyKm": 7.346,
+          "liftsTotal": 13,
+          "topElevM": 1932,
+          "baseElevM": 1454,
+          "verticalM": 478,
+          "wikidataId": "Q2048727",
+          "hasNightSki": true
+        },
+        {
+          "name": "Vitosha",
+          "kmTotal": 15.452,
+          "easyKm": 4.004,
+          "liftsTotal": 5,
+          "topElevM": 2267,
+          "baseElevM": 1509,
+          "verticalM": 758,
+          "wikidataId": null,
+          "hasNightSki": true
+        }
+      ],
+      "reasoning": "Bulgaria's flagship resorts are present with piste km, lift counts, elevations and a full difficulty breakdown — everything the Stage 1 scorer consumes. 5 areas clear the size threshold. The gaps are Wikidata (enrichment only, never a join requirement) and locality names (the village layer will need OSM Overpass, not this dump). Terrain data is good enough to ship; do NOT rely on it for village-level lodging or apres."
+    }
+  }
+}

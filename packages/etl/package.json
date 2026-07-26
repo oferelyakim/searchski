@@ -1,0 +1,32 @@
+{
+  "name": "@searchski/etl",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "OpenSkiMap -> Searchski ETL. Fetch, normalize, derive, QA, load.",
+  "comment": "Scripts run .ts directly through Node's native type stripping (Node >=22.18), NOT tsx. tsx is kept as a devDependency because it is the documented fallback, but its esbuild binary is a native .exe and some managed Windows machines refuse to execute binaries under node_modules. Native stripping has no such dependency. Consequence: only erasable TypeScript is allowed in this package — no enums, no namespaces, no parameter properties.",
+  "scripts": {
+    "fetch": "node src/fetch.ts",
+    "build": "node --max-old-space-size=4096 src/build.ts",
+    "load": "node src/load.ts",
+    "prices:discover": "node src/prices/discover.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependenciesComment": "@anthropic-ai/sdk and zod are pinned to the SAME ranges as packages/nlp on purpose. messages.parse and the helpers/zod entry point only exist from 0.115, and zodOutputFormat requires a zod/v4 schema — an older pair of either fails at import time, not at call time.",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.115.0",
+    "@searchski/core": "*",
+    "@turf/turf": "^7.1.0",
+    "postgres": "^3.4.5",
+    "zod": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/geojson": "^7946.0.14",
+    "@types/node": "^22.10.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  },
+  "engines": {
+    "node": ">=22.18"
+  }
+}

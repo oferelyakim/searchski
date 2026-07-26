@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "rootDir": "src",
+    "types": ["node"],
+    // The SDK's zodOutputFormat is typed against `zod/v4`. zod 4.x exposes that
+    // API from the package root, so importing from 'zod' resolves to the same
+    // types — but the dependency must stay >=4. Pinning back to zod 3 compiles
+    // nothing here, it just fails at the zodOutputFormat call site.
+    "skipLibCheck": true
+  },
+  "include": ["src/**/*.ts"]
+}

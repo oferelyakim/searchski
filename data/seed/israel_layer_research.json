@@ -1,0 +1,130 @@
+{
+  "_comment": [
+    "RESEARCH LEADS for the Israel layer. Not yet facts.",
+    "",
+    "Every row here was found via public sources on 2026-07-26 and carries the URL",
+    "it came from. Every row is `verification: \"unverified\"`, which means the",
+    "scoring engine ignores it and the UI renders it as 'not yet checked'.",
+    "",
+    "That is deliberate. A kosher claim is not like a piste-length claim: a family",
+    "that travels somewhere on the strength of it and finds nothing has had their",
+    "holiday damaged. Web search is good enough to find candidates and bad enough",
+    "that it should never be the last word. Restaurants close, hotels change hands,",
+    "and a rabbi moves on without anyone updating a directory page.",
+    "",
+    "TO PROMOTE A ROW TO `verified`: open its sourceUrl, confirm the place still",
+    "exists and still holds the certification claimed, then set verification and",
+    "put your name in curatedBy. Budget about 30 minutes for the whole file. That",
+    "half hour is what turns this from a resort database into the product.",
+    "",
+    "DISTANCES ARE NOT HAND-ENTERED. Each entry carries a city location; the ETL",
+    "derives distance to each ski area geometrically. Coordinates below are",
+    "CITY-CENTRE approximations, which is the right resolution for the question",
+    "actually being asked ('is this in the village or two hours away?')."
+  ],
+  "seededAt": "2026-07-26",
+  "verification": "unverified",
+
+  "chabadCentres": [
+    {
+      "name": "The Rohr Chabad Jewish Community Center",
+      "city": "Sofia",
+      "country": "BG",
+      "address": "Stara Planina Street 38, Sofia 1504",
+      "cityLat": 42.6977,
+      "cityLon": 23.3219,
+      "coordinatePrecision": "city-centre approximation",
+      "url": "https://www.chabadbulgaria.org/",
+      "sourceUrl": "https://www.chabad.org/jewish-centers/118478/Sofia/Synagogue/The-Rohr-Chabad-Jewish-Community-Center",
+      "servesResorts": ["Bansko", "Borovets", "Vitosha", "Pamporovo"],
+      "note": "Nearest Chabad to the Bulgarian resorts. No Chabad presence found in Bansko or Borovets themselves — Sofia is the reference point, and it is a substantial drive, not a walk.",
+      "verification": "unverified"
+    },
+    {
+      "name": "Chabad Lubavitch of Georgia",
+      "city": "Tbilisi",
+      "country": "GE",
+      "address": "25 Kote Afkhazi Street, Tbilisi",
+      "cityLat": 41.6934,
+      "cityLon": 44.8015,
+      "coordinatePrecision": "city-centre approximation",
+      "url": "https://chabadtbilisi.ge/en/",
+      "sourceUrl": "https://www.chabad.org/jewish-centers/237922/Tbilisi/Synagogue/Chabad-Lubavitch-of-Georgia",
+      "servesResorts": ["Gudauri"],
+      "note": "Reported to run Shabbat and holiday meals for travellers and a dairy kitchen in the mornings. Gudauri is up the Georgian Military Highway from here — verify current road transfer time seasonally, it is weather-dependent.",
+      "verification": "unverified"
+    },
+    {
+      "name": "Chabad of Milan",
+      "city": "Milan",
+      "country": "IT",
+      "address": null,
+      "cityLat": 45.4642,
+      "cityLon": 9.19,
+      "coordinatePrecision": "city-centre approximation",
+      "url": null,
+      "sourceUrl": "https://easykoshertravel.com/kosher-hotel-in-northern-italy/",
+      "servesResorts": ["Via Lattea", "Monterosa Ski", "Livigno"],
+      "note": "Gateway city rather than a resort service. Address not captured — look it up before publishing.",
+      "verification": "unverified"
+    }
+  ],
+
+  "kosherFood": [
+    {
+      "name": "My Kosher Hotel",
+      "kind": "hotel",
+      "city": "Canazei",
+      "country": "IT",
+      "claimedCertification": "Glatt Kosher Mehadrin",
+      "claimedFeatures": ["synagogue on premises", "mikvah on premises", "full board", "year-round"],
+      "sourceUrl": "https://www.skikosher.com/hotel/my-kosher-hotel",
+      "linkedSkiAreaHint": "Val di Fassa",
+      "note": "THE most significant find for Italy. Canazei sits inside Val di Fassa, which is already in our dataset (78.1 km, Dolomiti Superski) — so this is kosher accommodation ON a resort we rank, not in a distant gateway city. If any single row in this file is worth verifying first, it is this one.",
+      "verification": "unverified"
+    },
+    {
+      "name": "Mendi's",
+      "kind": "restaurant",
+      "city": "Tbilisi",
+      "country": "GE",
+      "claimedCertification": "Kosher Mehadrin",
+      "claimedFeatures": ["Georgian cuisine", "reported open daily noon to midnight"],
+      "sourceUrl": "https://www.giltravel.com/blog/kosher-travel-georgia-guide/",
+      "linkedSkiAreaHint": null,
+      "note": "Tbilisi, not Gudauri. Relevant to arrival and departure days rather than the ski week.",
+      "verification": "unverified"
+    },
+    {
+      "name": "King David",
+      "kind": "restaurant",
+      "city": "Tbilisi",
+      "country": "GE",
+      "claimedCertification": "unspecified — VERIFY BEFORE PUBLISHING",
+      "claimedFeatures": ["beside the Great Synagogue", "reported closed on Shabbat"],
+      "sourceUrl": "https://www.timesofisrael.com/tbilisis-jewish-community-keeps-active-with-israeli-tourists-and-chabad-meals/",
+      "linkedSkiAreaHint": null,
+      "note": "Certification level was not stated in the source. Do not render any kashrut claim for this entry until confirmed directly.",
+      "verification": "unverified"
+    },
+    {
+      "name": "Savoia Resort Bardonecchia (seasonal kosher programme)",
+      "kind": "seasonal-programme",
+      "city": "Bardonecchia",
+      "country": "IT",
+      "claimedCertification": "unspecified — VERIFY BEFORE PUBLISHING",
+      "claimedFeatures": ["full-board kosher dining", "runs as a programme, not year-round"],
+      "sourceUrl": "https://jewishlink.news/kosher-vacations-in-northern-italy/",
+      "linkedSkiAreaHint": "Bardonecchia",
+      "note": "Seasonal programmes appear and vanish year to year. Re-check every autumn; never carry one forward on last season's evidence.",
+      "verification": "unverified"
+    }
+  ],
+
+  "_gaps": [
+    "No kosher provision found IN Bansko, Borovets, Pamporovo or Gudauri themselves — only in the gateway cities. If that holds after verification it is a real finding worth stating plainly on those resort pages, not a hole to leave blank.",
+    "Hebrew-speaking ski schools: not researched. Ask the ski schools directly; it is not published anywhere reliable.",
+    "Shabbat-workable lodging (non-electronic room entry, Shabbat lifts) needs contacting properties one by one. No shortcut exists.",
+    "Israeli school-holiday dates (Hanukkah, Passover, winter break) still need loading as a first-class date filter."
+  ]
+}

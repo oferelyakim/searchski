@@ -1,0 +1,35 @@
+{
+  "name": "searchski",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Ski-vacation decision engine for the Israeli market",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "etl:fetch": "npm run -w @searchski/etl fetch",
+    "etl:build": "npm run -w @searchski/etl build",
+    "etl:all": "npm run etl:fetch && npm run etl:build",
+    "prices:discover": "npm run -w @searchski/etl prices:discover --",
+    "db:load": "npm run -w @searchski/etl load",
+    "golden": "npm run -w @searchski/core golden",
+    "test": "npm run -w @searchski/core test",
+    "dev": "npm run -w @searchski/web dev",
+    "build": "npm run -w @searchski/web build",
+    "typecheck": "npm run typecheck -w @searchski/core -w @searchski/affiliates -w @searchski/nlp -w @searchski/etl && npm run -w @searchski/web typecheck",
+    "verify": "npm run typecheck && npm run golden && npm run build"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  },
+  "overridesReason": "Raises the top-level postcss to a patched release. It does NOT clear `npm audit`: Next 15 keeps a nested postcss@8.4.31 and holds sharp below 0.35, and neither budges via overrides. `npm audit fix` proposes downgrading Next to 9.3.3 (2020), which is not a fix. See README > Known issues for the risk assessment and the real remedy (Next 16).",
+  "overrides": {
+    "postcss": "^8.5.18",
+    "sharp": "^0.35.0"
+  }
+}

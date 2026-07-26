@@ -1,0 +1,204 @@
+@import 'tailwindcss';
+
+/*
+ * Tailwind v4 dark mode.
+ * Default signal is the OS preference; an explicit `data-theme` on <html>
+ * (set by the header toggle) must win in BOTH directions.
+ */
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
+/*
+ * Semantic tokens. Components only ever name a role — `bg-surface`,
+ * `text-muted` — never a colour. Swapping the palette below reskins the app.
+ */
+@theme inline {
+  --color-bg: var(--c-bg);
+  --color-surface: var(--c-surface);
+  --color-surface-2: var(--c-surface-2);
+  --color-border: var(--c-border);
+  --color-fg: var(--c-fg);
+  --color-muted: var(--c-muted);
+  --color-accent: var(--c-accent);
+  --color-accent-fg: var(--c-accent-fg);
+  --color-accent-soft: var(--c-accent-soft);
+  --color-good: var(--c-good);
+  --color-warn: var(--c-warn);
+  --color-bad: var(--c-bad);
+  --color-unknown: var(--c-unknown);
+
+  /* No webfont: system stacks only. Zero external requests, instant paint. */
+  --font-sans:
+    ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    'Noto Sans Hebrew', 'Arial Hebrew', 'Noto Sans', sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+}
+
+:root {
+  color-scheme: light;
+  --c-bg: #f7f8fa;
+  --c-surface: #ffffff;
+  --c-surface-2: #eef1f5;
+  --c-border: #d7dce3;
+  --c-fg: #14181f;
+  --c-muted: #59616e;
+  --c-accent: #10557f;
+  --c-accent-fg: #ffffff;
+  --c-accent-soft: #dcecf7;
+  --c-good: #16794a;
+  --c-warn: #8a5300;
+  --c-bad: #a4232f;
+  --c-unknown: #5d6572;
+
+  /*
+   * Piste-difficulty categorical scale, easiest to hardest. Fixed order, never
+   * cycled. Validated for colour-vision deficiency against the light surface:
+   * lightness band, chroma floor, adjacent-pair CVD separation, normal-vision
+   * separation and 3:1 contrast all pass.
+   *
+   * These are NOT the literal green/blue/red/black of a piste map — the
+   * near-black and the orange failed CVD and contrast checks. Difficulty is
+   * always direct-labelled in the legend as well, so identity never rests on
+   * colour alone.
+   *
+   * `other` is deliberately the neutral unknown token: "unclassified" is an
+   * absence of data, not a seventh category.
+   */
+  --piste-novice: #1f8f5f;
+  --piste-easy: #2f7fd6;
+  --piste-intermediate: #cf3f52;
+  --piste-advanced: #4a35b0;
+  --piste-expert: #b0338c;
+  --piste-freeride: #b8720f;
+  --piste-other: #5d6572;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+    --c-bg: #0d1117;
+    --c-surface: #161b22;
+    --c-surface-2: #1f2630;
+    --c-border: #303945;
+    --c-fg: #e8edf3;
+    --c-muted: #a2acba;
+    --c-accent: #58b3ea;
+    --c-accent-fg: #05121c;
+    --c-accent-soft: #123044;
+    --c-good: #4cc38a;
+    --c-warn: #e0a33a;
+    --c-bad: #f2727f;
+    --c-unknown: #9aa4b2;
+
+    /* Dark-mode steps are chosen and validated separately, not flipped. */
+    --piste-novice: #2ea171;
+    --piste-easy: #3f8fd4;
+    --piste-intermediate: #e05f70;
+    --piste-advanced: #8f7bf0;
+    --piste-expert: #d55fa8;
+    --piste-freeride: #c08432;
+    --piste-other: #9aa4b2;
+  }
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --c-bg: #0d1117;
+  --c-surface: #161b22;
+  --c-surface-2: #1f2630;
+  --c-border: #303945;
+  --c-fg: #e8edf3;
+  --c-muted: #a2acba;
+  --c-accent: #58b3ea;
+  --c-accent-fg: #05121c;
+  --c-accent-soft: #123044;
+  --c-good: #4cc38a;
+  --c-warn: #e0a33a;
+  --c-bad: #f2727f;
+  --c-unknown: #9aa4b2;
+
+  /* Dark-mode steps are chosen and validated separately, not flipped. */
+  --piste-novice: #2ea171;
+  --piste-easy: #3f8fd4;
+  --piste-intermediate: #e05f70;
+  --piste-advanced: #8f7bf0;
+  --piste-expert: #d55fa8;
+  --piste-freeride: #c08432;
+  --piste-other: #9aa4b2;
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+  --c-bg: #f7f8fa;
+  --c-surface: #ffffff;
+  --c-surface-2: #eef1f5;
+  --c-border: #d7dce3;
+  --c-fg: #14181f;
+  --c-muted: #59616e;
+  --c-accent: #10557f;
+  --c-accent-fg: #ffffff;
+  --c-accent-soft: #dcecf7;
+  --c-good: #16794a;
+  --c-warn: #8a5300;
+  --c-bad: #a4232f;
+  --c-unknown: #5d6572;
+
+  --piste-novice: #1f8f5f;
+  --piste-easy: #2f7fd6;
+  --piste-intermediate: #cf3f52;
+  --piste-advanced: #4a35b0;
+  --piste-expert: #b0338c;
+  --piste-freeride: #b8720f;
+  --piste-other: #5d6572;
+}
+
+html {
+  background-color: var(--c-bg);
+  color: var(--c-fg);
+}
+
+body {
+  font-family: var(--font-sans);
+  min-height: 100dvh;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Keyboard focus must always be obvious. */
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Logical properties so the whole layout mirrors under dir="rtl". */
+.skip-link {
+  position: absolute;
+  inset-inline-start: 0.5rem;
+  inset-block-start: -3rem;
+  z-index: 100;
+  background: var(--c-accent);
+  color: var(--c-accent-fg);
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.375rem;
+  transition: inset-block-start 0.15s ease;
+}
+.skip-link:focus {
+  inset-block-start: 0.5rem;
+}
+
+/* MapLibre's own controls need to sit on our surface colours. */
+.maplibregl-ctrl-attrib {
+  font-size: 11px;
+}
+.maplibregl-map {
+  font-family: var(--font-sans);
+}

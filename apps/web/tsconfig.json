@@ -1,0 +1,32 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "lib": ["ES2023", "DOM", "DOM.Iterable"],
+    "jsx": "preserve",
+    "allowJs": true,
+    "noEmit": true,
+    "declaration": false,
+    "sourceMap": false,
+    "incremental": true,
+    "isolatedModules": true,
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "plugins": [{ "name": "next" }],
+    "baseUrl": ".",
+    // `@searchski/core` and `@searchski/affiliates` resolve through npm
+    // workspace symlinks in node_modules — no path aliases needed, and SWC
+    // rejects multi-target non-wildcard `paths` entries anyway. Both ship raw
+    // TypeScript, so next.config.ts lists them in `transpilePackages`.
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "../../packages/core/src/types.ts"
+  ],
+  "exclude": ["node_modules", ".next"]
+}

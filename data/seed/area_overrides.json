@@ -1,0 +1,124 @@
+{
+  "_comment": [
+    "Hand-curated corrections for upstream OpenSkiMap clustering artifacts.",
+    "",
+    "WHY THIS FILE EXISTS",
+    "OpenSkiMap clusters runs and lifts into ski areas geometrically. Where two",
+    "separately-marketed resorts share lift-linked terrain, it merges them into a",
+    "single record under one name. The other resort then becomes unsearchable, and",
+    "the surviving record's piste km describes something larger than its name.",
+    "",
+    "Verified example (Stage 0 QA, 2026-07-26): OpenSkiMap id",
+    "01ebf9136b08663b151ea8896e3ba66547ea5482 is named 'Alta Badia' and reports",
+    "252.8 km. Its own `places` localities are Abtei-Badia, Corvara, San Ciascian",
+    "(Alta Badia) AND Santa Cristina, Selva, Urtijei — the three villages of Val",
+    "Gardena — spanning IT-BZ and IT-BL. Two marketed resorts, one record.",
+    "",
+    "WHAT WE DO AND DO NOT DO",
+    "We ADD ALIASES so the merged record is findable under either name, and attach",
+    "a boundaryNote the UI must display so the km figure is not read as one resort.",
+    "",
+    "We DO NOT split the geometry or apportion the km between the two resorts. We",
+    "have no faithful basis for that split, and a guessed number presented as piste",
+    "km is exactly the kind of fabrication this project refuses to ship. Someone",
+    "choosing a week's holiday on '130 km vs 175 km' deserves a real number or an",
+    "honest 'these two are merged upstream'.",
+    "",
+    "Aliases are also derived automatically from each area's `places` localities —",
+    "that is free and factual. This file is only for MARKETED names that appear in",
+    "no upstream field at all."
+  ],
+  "verification": "unverified",
+  "seededAt": "2026-07-26",
+  "overrides": [
+    {
+      "openskimapId": "01ebf9136b08663b151ea8896e3ba66547ea5482",
+      "upstreamName": "Alta Badia",
+      "addAliases": [
+        "Val Gardena",
+        "Gröden",
+        "Groeden",
+        "Gherdëina",
+        "Selva di Val Gardena",
+        "Wolkenstein",
+        "Ortisei",
+        "St. Ulrich",
+        "Santa Cristina",
+        "Corvara",
+        "Badia",
+        "San Cassiano",
+        "Sellaronda"
+      ],
+      "boundaryNote": "OpenSkiMap merges Alta Badia and Val Gardena into a single lift-linked area. The piste total covers BOTH resorts, not Alta Badia alone. Verified 2026-07-26 from the record's own locality list.",
+      "mergedMarketedAreas": ["Alta Badia", "Val Gardena"],
+      "source": "derived from OpenSkiMap places localities + operator marketing names",
+      "verification": "verified"
+    },
+    {
+      "openskimapId": null,
+      "upstreamName": "Campiglio Dolomiti di Brenta",
+      "addAliases": ["Madonna di Campiglio", "Pinzolo", "Folgarida", "Marilleva"],
+      "boundaryNote": null,
+      "source": "operator marketing names; the Stage 0 QA report showed 'Madonna di Campiglio' matching nothing",
+      "verification": "unverified"
+    },
+    {
+      "openskimapId": null,
+      "upstreamName": "Monterosa Ski",
+      "addAliases": ["Champoluc", "Gressoney", "Alagna", "Ayas", "Valsesia"],
+      "boundaryNote": "Monterosa Ski is marketed as three linked valleys. Upstream models it as one area; the valley names are aliases, not separate records.",
+      "source": "operator marketing names; the Stage 0 QA report showed all three valleys matching nothing",
+      "verification": "unverified"
+    },
+    {
+      "openskimapId": null,
+      "upstreamName": "Sestriere",
+      "addAliases": ["Via Lattea", "Milky Way", "Borgata"],
+      "boundaryNote": null,
+      "source": "Via Lattea pass covers Sestriere, Sauze d'Oulx, San Sicario, Cesana, Claviere and Montgenevre (FR)",
+      "verification": "unverified"
+    },
+    {
+      "openskimapId": null,
+      "upstreamName": "Sauze D'Oulx",
+      "addAliases": ["Sauze d'Oulx", "Sauze Doulx", "Via Lattea", "Milky Way"],
+      "boundaryNote": null,
+      "source": "apostrophe and casing variants; Via Lattea pass member",
+      "verification": "unverified"
+    }
+  ],
+  "_countryOverridesComment": [
+    "Explicit country corrections, for the cases where upstream evidence is a",
+    "genuine tie and no automatic tie-break can resolve it.",
+    "",
+    "The normalizer picks a primary country by frequency of valid `places`",
+    "entries, tie-broken by the first-stated regionCode. That works everywhere",
+    "except a true 1-1 split, where the tie-break just agrees with whichever",
+    "side upstream happened to list first. Overriding needs an external fact,",
+    "not a cleverer heuristic.",
+    "",
+    "Only add a row here when the country is independently verifiable and you",
+    "have checked it. Record where you checked."
+  ],
+  "countryOverrides": [
+    {
+      "upstreamName": "Kaunertaler Gletscher",
+      "openskimapId": null,
+      "forceCountry": "AT",
+      "forceCountries": ["AT", "IT"],
+      "evidence": "Kaunertal Glacier is in Tyrol, Austria (Tiroler Oberland, Landeck district), reached by the 26 km Kaunertal Glacier Road from Feichten. Its published 3,108 m summit matches this record's topElevM of 3107, confirming it is the same place. Upstream splits 1-1 between IT and AT after inconsistent entries are dropped, and the regionCode tie-break lands on IT because IT-BZ is stated first. The centroid (46.865, 10.709) is on the Austrian side of the ridge.",
+      "sourceUrl": "https://www.tyrol.com/activities/sport/skiing/ski-resorts/kaunertal-glacier-ski-resort",
+      "checkedOn": "2026-07-26",
+      "verification": "verified",
+      "effect": "Drops out of a GE/BG/IT build entirely, which is correct — it is an Austrian resort."
+    }
+  ],
+
+  "_todo": [
+    "Resolve the remaining unmatched pass-region members listed in section 6 of",
+    "data/build/qa_report.md by checking each against the real area names, then",
+    "either add an alias here or delete the candidate from passRegions.ts.",
+    "Entries with openskimapId: null are matched by upstreamName and should be",
+    "pinned to a stable id once confirmed."
+  ]
+}

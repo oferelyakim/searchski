@@ -1,0 +1,47 @@
+{
+  "_comment": [
+    "Airport gateways relevant to Israeli outbound ski travel.",
+    "",
+    "Coordinates are objective public facts and are safe to rely on.",
+    "",
+    "'directFromTLV' is NOT a durable fact. Route maps change every season and",
+    "carriers add and drop TLV routes frequently. It is seeded from long-standing",
+    "scheduled service only, and is marked verification:'unverified' for that",
+    "reason. RE-VERIFY BEFORE EACH SEASON and before showing it as fact in the UI.",
+    "See PLAN.md section 12.",
+    "",
+    "Drive times to resorts are deliberately NOT in this file. They are derived at",
+    "ETL time from great-circle distance with a documented mountain-road factor,",
+    "and are labelled estimates. Do not hand-enter drive times you have not checked."
+  ],
+  "verification": "unverified",
+  "seededAt": "2026-07-26",
+  "airports": [
+    { "iata": "TLV", "name": "Ben Gurion", "city": "Tel Aviv", "country": "IL", "lat": 32.0114, "lon": 34.8867, "directFromTLV": false, "role": "origin" },
+
+    { "iata": "SOF", "name": "Sofia", "city": "Sofia", "country": "BG", "lat": 42.6967, "lon": 23.4114, "directFromTLV": true, "serves": ["Bansko", "Borovets"] },
+    { "iata": "PDV", "name": "Plovdiv", "city": "Plovdiv", "country": "BG", "lat": 42.0678, "lon": 24.8508, "directFromTLV": false, "serves": ["Pamporovo", "Bansko"] },
+
+    { "iata": "TBS", "name": "Tbilisi", "city": "Tbilisi", "country": "GE", "lat": 41.6692, "lon": 44.9547, "directFromTLV": true, "serves": ["Gudauri"] },
+    { "iata": "KUT", "name": "Kutaisi", "city": "Kutaisi", "country": "GE", "lat": 42.1767, "lon": 42.4826, "directFromTLV": true, "serves": ["Goderdzi", "Bakuriani"] },
+
+    { "iata": "VCE", "name": "Venice Marco Polo", "city": "Venice", "country": "IT", "lat": 45.5053, "lon": 12.3519, "directFromTLV": true, "serves": ["Dolomiti Superski", "Cortina"] },
+    { "iata": "VRN", "name": "Verona Villafranca", "city": "Verona", "country": "IT", "lat": 45.3957, "lon": 10.8885, "directFromTLV": false, "serves": ["Dolomiti Superski", "Skirama Dolomiti"] },
+    { "iata": "MXP", "name": "Milan Malpensa", "city": "Milan", "country": "IT", "lat": 45.6306, "lon": 8.7281, "directFromTLV": true, "serves": ["Via Lattea", "Monterosa", "Aosta Valley"] },
+    { "iata": "BGY", "name": "Milan Bergamo", "city": "Bergamo", "country": "IT", "lat": 45.6739, "lon": 9.7042, "directFromTLV": true, "serves": ["Livigno", "Aprica", "Monterosa"] },
+    { "iata": "TRN", "name": "Turin Caselle", "city": "Turin", "country": "IT", "lat": 45.2008, "lon": 7.6496, "directFromTLV": false, "serves": ["Via Lattea", "Sestriere"] },
+    { "iata": "BZO", "name": "Bolzano", "city": "Bolzano", "country": "IT", "lat": 46.4602, "lon": 11.3264, "directFromTLV": false, "serves": ["Dolomiti Superski"] },
+
+    { "iata": "INN", "name": "Innsbruck", "city": "Innsbruck", "country": "AT", "lat": 47.2602, "lon": 11.3440, "directFromTLV": false, "serves": ["Tyrol"] },
+    { "iata": "SZG", "name": "Salzburg", "city": "Salzburg", "country": "AT", "lat": 47.7933, "lon": 13.0043, "directFromTLV": false, "serves": ["Ski Amade", "Saalbach"] },
+    { "iata": "VIE", "name": "Vienna", "city": "Vienna", "country": "AT", "lat": 48.1103, "lon": 16.5697, "directFromTLV": true, "serves": ["Austria (long transfer)"] },
+
+    { "iata": "GVA", "name": "Geneva", "city": "Geneva", "country": "CH", "lat": 46.2381, "lon": 6.1090, "directFromTLV": true, "serves": ["Portes du Soleil", "Chamonix", "Verbier", "Tarentaise"] },
+    { "iata": "ZRH", "name": "Zurich", "city": "Zurich", "country": "CH", "lat": 47.4647, "lon": 8.5492, "directFromTLV": true, "serves": ["Central Switzerland", "Graubunden"] },
+
+    { "iata": "LYS", "name": "Lyon Saint-Exupery", "city": "Lyon", "country": "FR", "lat": 45.7256, "lon": 5.0811, "directFromTLV": false, "serves": ["Tarentaise", "Trois Vallees"] },
+    { "iata": "GNB", "name": "Grenoble Alpes-Isere", "city": "Grenoble", "country": "FR", "lat": 45.3629, "lon": 5.3294, "directFromTLV": false, "serves": ["Alpe d'Huez", "Les Deux Alpes"] },
+
+    { "iata": "MUC", "name": "Munich", "city": "Munich", "country": "DE", "lat": 48.3538, "lon": 11.7861, "directFromTLV": true, "serves": ["Bavarian Alps", "Tyrol"] }
+  ]
+}

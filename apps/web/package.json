@@ -1,0 +1,29 @@
+{
+  "name": "@searchski/web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/run-next.mjs dev",
+    "build": "node scripts/run-next.mjs build",
+    "start": "node scripts/run-next.mjs start",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@searchski/affiliates": "*",
+    "@searchski/nlp": "*",
+    "@supabase/supabase-js": "^2.110.8",
+    "maplibre-gl": "^5.24.0",
+    "next": "^15.5.22",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.3",
+    "@types/node": "^24.10.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^5.7.2"
+  }
+}

@@ -1,0 +1,177 @@
+[
+  {
+    "id": "it-dolomiti-superski",
+    "name": "Dolomiti Superski",
+    "country": "IT",
+    "marketedKm": null,
+    "officialUrl": "https://www.dolomitisuperski.com/",
+    "memberAreaIds": [
+      "01ebf9136b08663b151ea8896e3ba66547ea5482",
+      "9d8bf95b98a3a3b0ee41d789301078c80ecf2832",
+      "9838fb2aa78f10391ff5a3bf3e85105c0f8b73e6",
+      "aab0c144b67f3348d6b4f936f56a49e58b77fa82",
+      "9a8be208c4f1832db8bf13c7102e2dcc3eef0a84",
+      "79246ec67b902d09a7421d607dfba481eb23258e",
+      "58adfdcc1f3720f634945368fd104a0af9868482",
+      "6c2c802a4ed9e8dbf548c062c08b8e7dcd81f86a",
+      "cb2b91b8139c59f1adabb3b4dda52d703ca771df",
+      "09cb3063a1f7b1416878ea9ec74fbf336eff8bf2",
+      "a92bdf9c9959ecbfd436556e0c71a630759be88e",
+      "12409a579b3e33313276b91ac3b12054c8511671",
+      "7ed532f09ad353d121841f56c60990bde6d70741",
+      "96be13b1dd69f96a46471628f93fb9efdcb8fa4b",
+      "342c36ba20233acf9136a0a7b6b6c2282ff25aca",
+      "00e3880c19b3ca1bb412d2274d3c15bf4a2598f9",
+      "7ccc8cd985b9ff18f6b26a5d75ede630eb3c85b2",
+      "22db1fda72e4762796c28b13211652c3fe0678ca",
+      "611dc30b6944dd59c79479c20d8f463ce6451e55",
+      "19268c3a52b68666608eebbafc6f5c44b69a05c6",
+      "1b2d642d45256699542b9355f9c1c6830c6b37da",
+      "68097edf550d07d2fc63a0dd9d521a97210d59e9",
+      "28cd6829ec529bdf62b5fba43fe2cbcda6e7d813",
+      "1d284c2623ba7bc2e080fca10447b3939379c861",
+      "83cf447c80c167c7472d9883e6bd88c30fd5b1d4",
+      "db230da8ae03e645cb56642e15e00767f43f5252",
+      "d4f1bfc5d309ed6749a9be5e82ae90a32574f634"
+    ],
+    "provenance": {
+      "source": "curated",
+      "sourceUrl": "https://www.dolomitisuperski.com/",
+      "fetchedAt": "2026-07-26T18:27:10.410Z",
+      "verification": "unverified",
+      "note": "One ticket over the 12 Dolomite valleys. Upstream merges several of them, so member count here is lower than the operator advertises. Member list hand-written and matched by name against OpenSkiMap; NOT confirmed against the operator."
+    }
+  },
+  {
+    "id": "it-via-lattea",
+    "name": "Via Lattea (Milky Way)",
+    "country": "IT",
+    "marketedKm": null,
+    "officialUrl": "https://www.vialattea.it/",
+    "memberAreaIds": [
+      "24ea25d80078f2f69f1ed3d653041100cae37c55",
+      "41b930598f272928bfdbd4b166056816da79733e",
+      "977c24ffa15ab2e86d9e14846911aca6149b7729",
+      "a55d3506582df76a6bf4cacc294eac7e2d401aea",
+      "2929ff08944a6ff331df28e38639192d2a089444"
+    ],
+    "provenance": {
+      "source": "curated",
+      "sourceUrl": "https://www.vialattea.it/",
+      "fetchedAt": "2026-07-26T18:27:10.410Z",
+      "verification": "unverified",
+      "note": "Piedmont/Susa valley circuit. The French side (Montgenèvre) is out of scope for an IT-only build. Member list hand-written and matched by name against OpenSkiMap; NOT confirmed against the operator."
+    }
+  },
+  {
+    "id": "it-skirama-dolomiti",
+    "name": "Skirama Dolomiti Adamello Brenta",
+    "country": "IT",
+    "marketedKm": null,
+    "officialUrl": "https://www.skirama.it/",
+    "memberAreaIds": [
+      "854ef81a163018dfdda27c3f11174906cfc1c163",
+      "9da14109426dd7f9d0b65e788093967a96cfb6f1",
+      "93a7cc7c99ad2af5fcb61a82ec729330534bc4ef",
+      "8fa0c17d9d0002fc83e30363e42c43b874d21a8f",
+      "9e9ccbd2d4e7e19da7fa677f2d03921aa2af1d01",
+      "92a349c51194cc530b9b7ef1cde60959e74c14ed",
+      "b4b9ed9f20331e9ed8a8614e0f6f5496f620777a",
+      "adfa0dfab8e98e789e9739edf9875b7cb9ce2e5f",
+      "f847a8fcd14ae6f8f904d839cf6a2ac6b4ab5a0a",
+      "3785884556b34a04d38077287cb93f5bc0fb3477"
+    ],
+    "provenance": {
+      "source": "curated",
+      "sourceUrl": "https://www.skirama.it/",
+      "fetchedAt": "2026-07-26T18:27:10.410Z",
+      "verification": "unverified",
+      "note": "Trentino multi-area pass; the constituent areas are NOT lift-connected to each other. Member list hand-written and matched by name against OpenSkiMap; NOT confirmed against the operator."
+    }
+  },
+  {
+    "id": "it-monterosa-ski",
+    "name": "Monterosa Ski",
+    "country": "IT",
+    "marketedKm": null,
+    "officialUrl": "https://www.monterosa-ski.com/",
+    "memberAreaIds": [
+      "5ffd86e2374dc98261a846de36bfc510ab758dfc"
+    ],
+    "provenance": {
+      "source": "curated",
+      "sourceUrl": "https://www.monterosa-ski.com/",
+      "fetchedAt": "2026-07-26T18:27:10.410Z",
+      "verification": "unverified",
+      "note": "Aosta valley. Upstream models the three valleys as one area, so expect a single member. Member list hand-written and matched by name against OpenSkiMap; NOT confirmed against the operator."
+    }
+  },
+  {
+    "id": "ge-gudauri",
+    "name": "Gudauri",
+    "country": "GE",
+    "marketedKm": null,
+    "officialUrl": "mta.ski",
+    "memberAreaIds": [
+      "611c5f306d193965d569b1d45fd531b4b4a6e14b"
+    ],
+    "provenance": {
+      "source": "curated",
+      "sourceUrl": null,
+      "fetchedAt": "2026-07-26T18:27:10.410Z",
+      "verification": "unverified",
+      "note": "Standalone. Israel’s single most popular ski destination. Member list hand-written and matched by name against OpenSkiMap; NOT confirmed against the operator."
+    }
+  },
+  {
+    "id": "bg-bansko",
+    "name": "Bansko",
+    "country": "BG",
+    "marketedKm": null,
+    "officialUrl": "http://www.banskoski.com",
+    "memberAreaIds": [
+      "bdd08a03378f40f323db3efc27d51bafea12c040"
+    ],
+    "provenance": {
+      "source": "curated",
+      "sourceUrl": null,
+      "fetchedAt": "2026-07-26T18:27:10.410Z",
+      "verification": "unverified",
+      "note": "Standalone, operated by Yulen AD. Member list hand-written and matched by name against OpenSkiMap; NOT confirmed against the operator."
+    }
+  },
+  {
+    "id": "bg-borovets",
+    "name": "Borovets",
+    "country": "BG",
+    "marketedKm": null,
+    "officialUrl": "https://www.borovets-bg.com/",
+    "memberAreaIds": [
+      "c32e64673614d65c65f0123491f1976f62e9a55c"
+    ],
+    "provenance": {
+      "source": "curated",
+      "sourceUrl": null,
+      "fetchedAt": "2026-07-26T18:27:10.410Z",
+      "verification": "unverified",
+      "note": "Standalone, operated by Borosport. Member list hand-written and matched by name against OpenSkiMap; NOT confirmed against the operator."
+    }
+  },
+  {
+    "id": "bg-pamporovo",
+    "name": "Pamporovo",
+    "country": "BG",
+    "marketedKm": null,
+    "officialUrl": "https://pamporovo.me/",
+    "memberAreaIds": [
+      "78366a4ff6a737d977720302395672e848bcb031"
+    ],
+    "provenance": {
+      "source": "curated",
+      "sourceUrl": null,
+      "fetchedAt": "2026-07-26T18:27:10.410Z",
+      "verification": "unverified",
+      "note": "Standalone. Member list hand-written and matched by name against OpenSkiMap; NOT confirmed against the operator."
+    }
+  }
+]
