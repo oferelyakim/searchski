@@ -41,6 +41,7 @@ export {
 export {
   parseQueryDeterministic,
   describeCriteria,
+  isNorthernSkiSeason,
   BIG_AREA_MIN_KM,
   CHEAP_PASS_EUR_PER_DAY,
   DEFAULT_CHABAD_RADIUS_KM,
@@ -48,6 +49,12 @@ export {
   HIGH_ALTITUDE_TOP_M,
   BARE_AMOUNT_PER_DAY_CEILING,
   ASSUMED_TRIP_DAYS,
+  DEFAULT_TRIP_NIGHTS,
+  LONG_WEEKEND_NIGHTS,
+  WEEKEND_NIGHTS,
+  MAX_TRIP_NIGHTS,
+  type DateWindow,
+  type ParseOptions,
 } from './criteria.js';
 
 // --- fixtures / data loading (does I/O; not imported by the scorer) --------
@@ -58,6 +65,10 @@ export {
   GOLDEN_QUERIES,
   GLOBAL_INVARIANTS,
   STANDALONE_CHECKS,
+  // The pinned clock, so any other harness resolves "February" the same way
+  // this one does rather than against whatever day it happens to run on.
+  GOLDEN_TODAY,
+  parseGolden,
   type AssertionContext,
   type GoldenAssertion,
   type GoldenQuery,

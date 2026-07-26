@@ -1,0 +1,77 @@
+{
+  "attempts": [
+    {
+      "skiAreaId": "c32e64673614d65c65f0123491f1976f62e9a55c",
+      "areaName": "Borovets",
+      "country": "BG",
+      "season": "2026/27",
+      "outcome": "not_found",
+      "isDynamic": false,
+      "seasonConfirmed": false,
+      "sourceUrl": null,
+      "reason": "Operator page shows only 2025/26 tariff; 2026/27 prices not yet published",
+      "checkedAt": "2026-07-26T21:31:15.978Z"
+    },
+    {
+      "skiAreaId": "bdd08a03378f40f323db3efc27d51bafea12c040",
+      "areaName": "Bansko",
+      "country": "BG",
+      "season": "2026/27",
+      "outcome": "not_found",
+      "isDynamic": false,
+      "seasonConfirmed": false,
+      "sourceUrl": null,
+      "reason": "No 2026/27 tariff published by operator; live page covers 2025/26 only",
+      "checkedAt": "2026-07-26T21:33:26.043Z"
+    },
+    {
+      "skiAreaId": "78366a4ff6a737d977720302395672e848bcb031",
+      "areaName": "Pamporovo",
+      "country": "BG",
+      "season": "2026/27",
+      "outcome": "not_found",
+      "isDynamic": false,
+      "seasonConfirmed": false,
+      "sourceUrl": null,
+      "reason": "No 2026/27 tariff published; only 2025/26 prices found on aggregators",
+      "checkedAt": "2026-07-26T21:35:38.021Z"
+    },
+    {
+      "skiAreaId": "c32e64673614d65c65f0123491f1976f62e9a55c",
+      "areaName": "Borovets",
+      "country": "BG",
+      "season": "2025/26",
+      "outcome": "found",
+      "isDynamic": true,
+      "seasonConfirmed": true,
+      "sourceUrl": "https://www.borovets-bg.com/en/borovets-eng/news-and-events/special-offer-daily-lift-passes/1/430",
+      "reason": null,
+      "checkedAt": "2026-07-26T21:36:50.039Z"
+    },
+    {
+      "skiAreaId": "bdd08a03378f40f323db3efc27d51bafea12c040",
+      "areaName": "Bansko",
+      "country": "BG",
+      "season": "2025/26",
+      "outcome": "not_found",
+      "isDynamic": false,
+      "seasonConfirmed": false,
+      "sourceUrl": null,
+      "reason": "Official price page located and season named (01.12.2025-12.04.2026), but no price figures were read.",
+      "checkedAt": "2026-07-26T21:37:43.172Z"
+    },
+    {
+      "skiAreaId": "78366a4ff6a737d977720302395672e848bcb031",
+      "areaName": "Pamporovo",
+      "country": "BG",
+      "season": "2025/26",
+      "outcome": "not_found",
+      "isDynamic": false,
+      "seasonConfirmed": false,
+      "sourceUrl": null,
+      "reason": "Operator price list for 2025/2026 identified but price table not readable; period-dependent promo pricing noted.",
+      "checkedAt": "2026-07-26T21:38:34.399Z"
+    }
+  ],
+  "updatedAt": "2026-07-26T21:38:34.399Z"
+}

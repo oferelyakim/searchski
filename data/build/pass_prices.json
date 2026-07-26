@@ -1,0 +1,19 @@
+[
+  {
+    "passRegionId": null,
+    "skiAreaId": "c32e64673614d65c65f0123491f1976f62e9a55c",
+    "season": "2025/26",
+    "category": "adult",
+    "currency": "EUR",
+    "isDynamic": true,
+    "provenance": {
+      "source": "official",
+      "sourceUrl": "https://www.borovets-bg.com/en/borovets-eng/news-and-events/special-offer-daily-lift-passes/1/430",
+      "fetchedAt": "2026-07-26T21:36:50.039Z",
+      "verification": "unverified",
+      "note": "Machine-assisted discovery (Claude web search) against the operator's published prices. Facts only; awaiting human verification. Dynamic/demand-based pricing: this is a FLOOR, not the price a skier will pay. Note: 1-day figure is a Mon-Thu promotional rate excluding holidays, not the standard high-season price; 6-day not found"
+    },
+    "duration": "1day",
+    "price": 43
+  }
+]

@@ -17,13 +17,15 @@
  * Content assertions cannot be trusted against a roster nobody has seen yet.
  */
 
-import { describeCriteria, parseQueryDeterministic } from './criteria.js';
+import { describeCriteria } from './criteria.js';
 import { loadAreas, SYNTHETIC_AREAS, syntheticContext } from './fixtures.js';
 import { explainRelaxation, search, type ScoringContext } from './scoring.js';
 import {
   GLOBAL_INVARIANTS,
   GOLDEN_QUERIES,
+  GOLDEN_TODAY,
   STANDALONE_CHECKS,
+  parseGolden,
   type AssertionContext,
   type GoldenQuery,
 } from './golden-queries.js';
@@ -83,7 +85,8 @@ function checkParsed(q: GoldenQuery, parsed: SearchCriteria): string[] {
 // ---------------------------------------------------------------------------
 
 function runQuery(q: GoldenQuery, areas: readonly SkiArea[], ctx: ScoringContext, contentAssertions: boolean): Row {
-  const parsed = parseQueryDeterministic(q.text);
+  // Parsed against GOLDEN_TODAY, never the system clock — see GOLDEN_TODAY.
+  const parsed = parseGolden(q.text);
   const criteria: SearchCriteria = { ...parsed, ...(q.override ?? {}) };
   const response = search(areas, criteria, { ...ctx, parsedBy: 'deterministic' });
   const actx: AssertionContext = { response, areas, ctx };
@@ -156,7 +159,7 @@ function runSuite(title: string, areas: readonly SkiArea[], ctx: ScoringContext,
 
 function explain(areas: readonly SkiArea[], ctx: ScoringContext): void {
   const q = GOLDEN_QUERIES.find((x) => x.id === (ONLY ?? 'G08')) ?? GOLDEN_QUERIES[0]!;
-  const criteria = parseQueryDeterministic(q.text);
+  const criteria = parseGolden(q.text);
   const response = search(areas, criteria, { ...ctx, parsedBy: 'deterministic' });
 
   console.log('');
@@ -188,6 +191,7 @@ function main(): void {
   console.log('Searchski golden-query harness');
   console.log(`Node ${process.version}`);
   console.log(`${GOLDEN_QUERIES.length} golden queries, ${GLOBAL_INVARIANTS.length} invariants, ${STANDALONE_CHECKS.length} property checks`);
+  console.log(`Clock pinned to ${GOLDEN_TODAY.toISOString().slice(0, 10)} — dates resolve the same today as in February.`);
 
   let ok = runSuite(
     `FIXTURES — ${SYNTHETIC_AREAS.length} synthesised areas (content assertions ON)`,

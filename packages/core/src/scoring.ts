@@ -47,6 +47,7 @@ import {
   type ScoredResult,
   type SearchCriteria,
   type SearchResponse,
+  type SeasonDates,
   type SkiArea,
 } from './types.js';
 
@@ -75,6 +76,16 @@ export interface ScoringContext {
   apresProxies?: Readonly<Record<string, ApresProxy>>;
   transfers?: Readonly<Record<string, readonly AirportTransfer[]>>;
   passPrices?: Readonly<Record<string, readonly PassPrice[]>>;
+  /**
+   * When each resort opens and closes, keyed by `SkiArea.id`.
+   *
+   * ALWAYS ABSENT TODAY. The `season_dates` table exists and is empty, and
+   * nothing in the ETL fills it. The `seasonFit` factor is written against this
+   * map so that the day it has rows the factor starts working; until then it
+   * declares itself inert (weight 0) and says out loud that we do not know.
+   * Wiring the map now is not the same as pretending it has data.
+   */
+  seasons?: ReadonlyMap<string, SeasonDates>;
   /** Per-factor weight overrides. Merged over DEFAULT_WEIGHTS. */
   weights?: Partial<Record<FactorKey, Partial<FactorWeight>>>;
   /** Recorded on the response so the UI can say how the query was understood. */
@@ -98,7 +109,8 @@ export type FactorKey =
   | 'altitudeFit'
   | 'transferTime'
   | 'israelFit'
-  | 'passPrice';
+  | 'passPrice'
+  | 'seasonFit';
 
 export interface FactorWeight {
   /**
@@ -144,6 +156,17 @@ export const DEFAULT_WEIGHTS: Readonly<Record<FactorKey, FactorWeight>> = {
   altitudeFit: { base: 3, active: 16 },
   transferTime: { base: 0, active: 14 },
   verticalFit: { base: 3, active: 14 },
+  /*
+   * UNREACHABLE TODAY, and deliberately so.
+   *
+   * `active` is what seasonFit WILL be worth once `season_dates` has rows — a
+   * resort that is shut on your dates is not a match at any price, so it sits
+   * with the heavier factors. But we hold no season dates for any resort on
+   * earth, so the factor returns `inert: true` on every evaluation and is
+   * reported at weight 0 instead. This number is the value of the data, not a
+   * claim that we have it.
+   */
+  seasonFit: { base: 0, active: 20 },
 };
 
 // ---------------------------------------------------------------------------
@@ -238,9 +261,18 @@ const AMBIGUOUS_SINGLE_WORD_NAMES: ReadonlySet<string> = new Set(['crystal']);
 // Small pure helpers
 // ---------------------------------------------------------------------------
 
+const MS_PER_DAY = 86_400_000;
+
 function clamp01(n: number): number {
   if (!Number.isFinite(n)) return 0;
   return n < 0 ? 0 : n > 1 ? 1 : n;
+}
+
+/** ISO YYYY-MM-DD -> midnight UTC, or null if it is not a date. */
+function parseIsoDay(value: string | null | undefined): number | null {
+  if (value == null) return null;
+  const ms = Date.parse(`${value}T00:00:00Z`);
+  return Number.isFinite(ms) ? ms : null;
 }
 
 function roundTo(n: number, dp: number): number {
@@ -613,12 +645,27 @@ interface FactorInput {
   apres: ApresProxy | null;
   transfer: { airportIata: string; driveMinutes: number } | null;
   price: DailyPassPrice | null;
+  season: SeasonDates | null;
 }
 
 interface FactorOutcome {
   raw: number;
   reason: string;
   dataMissing: boolean;
+  /**
+   * "I have nothing to say, and I must not pretend otherwise."
+   *
+   * An inert factor is REPORTED — it keeps its label and its reason, so the UI
+   * can tell the user why their input did not change anything — but it is
+   * applied at weight 0. Weight 0 is not the same as a neutral 0.5 at some
+   * small weight: a neutral factor still compresses every other factor's
+   * renormalised share and can flip a near-tie through rounding, whereas an
+   * inert one leaves the arithmetic bit-for-bit as if it had never run.
+   *
+   * That distinction is the whole reason `seasonFit` can exist before
+   * `season_dates` does. See the factor for the argument.
+   */
+  inert?: boolean;
 }
 
 interface FactorDef {
@@ -1216,6 +1263,96 @@ const FACTORS: readonly FactorDef[] = [
       };
     },
   },
+
+  // -------------------------------------------------------------------------
+  /*
+   * ===========================================================================
+   * seasonFit — the factor that refuses to answer.
+   * ===========================================================================
+   * A trip window is the single most obvious thing to rank on: show me the
+   * resorts that are OPEN on my dates. We are not going to do it, because we
+   * cannot. `season_dates` exists in the schema and is empty; no ETL stage
+   * fills it; there is no free, licensable, per-resort feed of opening and
+   * closing dates for 3,729 European ski areas.
+   *
+   * Everything available to us instead is a proxy. Altitude correlates with a
+   * long season. So does latitude, and glacier terrain, and a north-facing
+   * aspect. Every one of those would produce a plausible-looking date-aware
+   * ranking, and every one of them would be an invention: the user asked
+   * "is it open on 14 February" and would be shown an answer to "is it high".
+   * A skier who books flights on that has been actively misled, and the number
+   * would look exactly as confident as a real one. That is the failure this
+   * codebase exists to refuse — see README rule 1 and rule 3.
+   *
+   * So the factor is INERT. It is reported, with its label and a sentence
+   * explaining itself, at weight ZERO — so the score is bit-for-bit what it
+   * would have been had no dates been supplied, not merely close. The golden
+   * suite asserts that byte-identity directly, which is what will catch a
+   * future change that quietly starts weighting dates.
+   *
+   * It is not dead code. The moment `ScoringContext.seasons` carries a
+   * verified row this factor scores the real overlap between the trip and the
+   * open season, at the real weight, with no other edit needed anywhere.
+   */
+  {
+    key: 'seasonFit',
+    label: 'Open on your dates',
+    isActive: (c) => c.dateFrom != null || c.dateTo != null,
+    evaluate: ({ criteria, season }) => {
+      const tripFrom = parseIsoDay(criteria.dateFrom);
+      const tripTo = parseIsoDay(criteria.dateTo) ?? tripFrom;
+
+      const unknown: FactorOutcome = {
+        raw: NEUTRAL,
+        reason:
+          'We do not know when this resort opens and closes for the season — nobody has published those dates into our sources — so your travel dates neither helped nor hurt its score. Check the resort’s own site before you book flights.',
+        dataMissing: true,
+        inert: true,
+      };
+      if (season == null || tripFrom == null || tripTo == null) return unknown;
+
+      // Rule 3: a hand-typed season that nobody has checked cannot rank. Being
+      // told a resort is open when it shut a fortnight ago is a wasted flight.
+      if (season.provenance.verification !== 'verified') {
+        return {
+          raw: NEUTRAL,
+          reason:
+            'We hold opening dates for this resort but nobody has checked them against the operator, so they neither helped nor hurt its score. We will not rank on an unverified date.',
+          dataMissing: true,
+          inert: true,
+        };
+      }
+
+      const opens = parseIsoDay(season.opensOn);
+      const closes = parseIsoDay(season.closesOn);
+      if (opens == null && closes == null) return unknown;
+
+      // A missing end of the range is unbounded on that side, never "closed".
+      const overlapStart = Math.max(tripFrom, opens ?? tripFrom);
+      const overlapEnd = Math.min(tripTo, closes ?? tripTo);
+      const tripMs = Math.max(tripTo - tripFrom, MS_PER_DAY);
+      const raw = clamp01((overlapEnd - overlapStart) / tripMs);
+      const partial = opens == null || closes == null;
+
+      const window =
+        opens != null && closes != null
+          ? `open from ${season.opensOn} to ${season.closesOn}`
+          : opens != null
+            ? `opens on ${season.opensOn}, with no closing date published`
+            : `closes on ${season.closesOn}, with no opening date published`;
+      const verdictText =
+        raw >= 0.999
+          ? 'which covers your whole trip'
+          : raw <= 0
+            ? 'which does not overlap your trip at all'
+            : `which covers about ${pct(raw)} of your trip`;
+      return {
+        raw,
+        reason: `For the ${season.season} season this resort is ${window} — ${verdictText}. Opening dates move with the snow; confirm with the resort before you book.`,
+        dataMissing: partial,
+      };
+    },
+  },
 ];
 
 // ---------------------------------------------------------------------------
@@ -1363,7 +1500,8 @@ export function scoreArea(area: SkiArea, criteria: SearchCriteria, ctx: ScoringC
   const apres = apresProxyFor(area, ctx);
   const transfer = bestTransfer(area, criteria, ctx);
   const price = dailyPassPrice(area, criteria, ctx);
-  const input: FactorInput = { area, criteria, israel, apres, transfer, price };
+  const season = ctx.seasons?.get(area.id) ?? null;
+  const input: FactorInput = { area, criteria, israel, apres, transfer, price, season };
 
   const applied: Array<{ def: FactorDef; weight: number; outcome: FactorOutcome }> = [];
   let totalWeight = 0;
@@ -1374,29 +1512,33 @@ export function scoreArea(area: SkiArea, criteria: SearchCriteria, ctx: ScoringC
       base: override?.base ?? defaults.base,
       active: override?.active ?? defaults.active,
     };
-    const weight = def.isActive(criteria) ? w.active : w.base;
-    if (!(weight > 0)) continue;
-    applied.push({ def, weight, outcome: def.evaluate(input) });
+    const nominal = def.isActive(criteria) ? w.active : w.base;
+    if (!(nominal > 0)) continue;
+    const outcome = def.evaluate(input);
+    // An INERT factor is still reported — the user asked about something and
+    // deserves to be told why it changed nothing — but at weight 0, so it
+    // leaves the renormalisation denominator and therefore every other
+    // factor's contribution bit-for-bit unchanged. See FactorOutcome.inert.
+    const weight = outcome.inert === true ? 0 : nominal;
+    applied.push({ def, weight, outcome });
     totalWeight += weight;
   }
 
   const factors: ScoreFactor[] = [];
   let score = 0;
-  if (totalWeight > 0) {
-    for (const { def, weight, outcome } of applied) {
-      const normalised = roundTo((weight / totalWeight) * 100, 6);
-      const contribution = roundTo(clamp01(outcome.raw) * normalised, 6);
-      score += contribution;
-      factors.push({
-        key: def.key,
-        label: def.label,
-        raw: roundTo(clamp01(outcome.raw), 6),
-        weight: normalised,
-        contribution,
-        reason: outcome.reason,
-        dataMissing: outcome.dataMissing,
-      });
-    }
+  for (const { def, weight, outcome } of applied) {
+    const normalised = totalWeight > 0 ? roundTo((weight / totalWeight) * 100, 6) : 0;
+    const contribution = roundTo(clamp01(outcome.raw) * normalised, 6);
+    score += contribution;
+    factors.push({
+      key: def.key,
+      label: def.label,
+      raw: roundTo(clamp01(outcome.raw), 6),
+      weight: normalised,
+      contribution,
+      reason: outcome.reason,
+      dataMissing: outcome.dataMissing,
+    });
   }
 
   // Sort factors by what actually moved this result, so the UI's first line is

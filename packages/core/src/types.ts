@@ -221,6 +221,32 @@ export interface PassPrice {
   provenance: Provenance;
 }
 
+/**
+ * When one resort opens and closes for one season. Mirrors `season_dates` in
+ * db/migrations/0001_init.sql.
+ *
+ * ===========================================================================
+ * WE HOLD NONE OF THESE. The table exists and is EMPTY.
+ * ===========================================================================
+ * Nothing in the ETL produces this row today, so `ScoringContext.seasons` is
+ * always absent in practice and the `seasonFit` factor that reads it is inert:
+ * it reports itself at zero weight and says out loud that we do not know when
+ * the resort opens. See the note on `seasonFit` in scoring.ts.
+ *
+ * The type is here so the factor is wired for real data rather than rewritten
+ * for it. Both dates are nullable because a source often publishes an opening
+ * date months before it will commit to a closing one — `null` is "not stated",
+ * never "does not open", exactly as rule 1 requires.
+ */
+export interface SeasonDates {
+  skiAreaId: string;
+  season: string; // "2026/27"
+  /** ISO YYYY-MM-DD, or null when the source did not state it. */
+  opensOn: string | null;
+  closesOn: string | null;
+  provenance: Provenance;
+}
+
 // ---------------------------------------------------------------------------
 // Travel
 // ---------------------------------------------------------------------------
@@ -327,6 +353,24 @@ export interface SearchCriteria {
   maxKm?: number;
   minVerticalM?: number;
   minTopElevM?: number;
+
+  /**
+   * ISO YYYY-MM-DD. The trip window: `dateFrom` is the night you arrive,
+   * `dateTo` the morning you leave, so the number of nights is the difference
+   * between them and "14–21 February" is seven nights.
+   *
+   * These are METADATA. They are carried through to booking links and to the
+   * conditions panel; they DO NOT rank. We hold no `SeasonDates` for any
+   * resort, so there is no honest basis for scoring one higher because it is
+   * open on your dates — see `seasonFit` in scoring.ts, which reports itself at
+   * zero weight and says so. Adding dates to a query must leave the ranking
+   * byte-identical, and the golden suite asserts exactly that.
+   */
+  dateFrom?: string;
+  dateTo?: string;
+  /** Party size, for lodging and transfer links. Defaults to 2 downstream. */
+  adults?: number;
+  children?: number;
 
   wantNightSki?: boolean;
   wantApres?: boolean;

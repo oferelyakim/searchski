@@ -16,7 +16,7 @@
  * score, hard filters respected, never an unexplained empty list.
  */
 
-import { parseQueryDeterministic } from './criteria.js';
+import { describeCriteria, isNorthernSkiSeason, parseQueryDeterministic } from './criteria.js';
 import {
   failedHardFilters,
   kmOfDifficulty,
@@ -27,7 +27,35 @@ import {
   shareOfDifficulty,
   type ScoringContext,
 } from './scoring.js';
-import type { ScoreFactor, ScoredResult, SearchCriteria, SearchResponse, SkiArea } from './types.js';
+import type {
+  ScoreFactor,
+  ScoredResult,
+  SearchCriteria,
+  SearchResponse,
+  SeasonDates,
+  SkiArea,
+} from './types.js';
+
+/**
+ * The clock every golden query is parsed against.
+ *
+ * PINNED, and it has to be. "a week in February" resolves against today, so a
+ * suite that let the parser read the system clock would quietly change its own
+ * expected answers every New Year and would silently start passing for the
+ * wrong reason every February. A regression test whose expectations move is not
+ * a regression test. `parseQueryDeterministic` takes the clock as a parameter
+ * precisely so this file can nail it down.
+ *
+ * 26 July 2026 is mid-summer, which is the interesting side of the year
+ * problem: every winter month named without a year is in the NEXT calendar
+ * year, and a naive parser gets all of them wrong.
+ */
+export const GOLDEN_TODAY = new Date('2026-07-26T00:00:00.000Z');
+
+/** Every golden query parses against the pinned clock, never the system one. */
+export function parseGolden(text: string): SearchCriteria {
+  return parseQueryDeterministic(text, { today: GOLDEN_TODAY });
+}
 
 // ---------------------------------------------------------------------------
 // Assertion plumbing
@@ -273,6 +301,43 @@ export const GLOBAL_INVARIANTS: readonly GoldenAssertion[] = [
       if (!r.nameMatch) continue;
       const failed = failedHardFilters(r.area, a.response.criteria, a.ctx).filter((f) => !relaxed.has(f));
       if (failed.length > 0) return `${r.area.name} was pinned by name despite failing ${failed.join(', ')}`;
+    }
+    return null;
+  }),
+
+  F('trip dates are carried, never ranked on', (a) => {
+    /*
+     * We hold no season_dates for any resort, so there is no honest basis for
+     * moving a resort up because it is "open on your dates". This invariant is
+     * the guard on that claim, and it runs on EVERY query — including the real
+     * dataset, where the content assertions are off.
+     *
+     * Two halves: a query with no dates must not grow a seasonFit factor at
+     * all, and a query with dates must carry one that is flagged as a data gap
+     * and applied at exactly zero weight.
+     */
+    const c = a.response.criteria;
+    if (c.dateFrom == null && c.dateTo == null) {
+      for (const r of a.response.results) {
+        if (r.factors.some((f) => f.key === 'seasonFit')) {
+          return `${r.area.name} was scored on seasonFit for a query that named no dates`;
+        }
+      }
+      return null;
+    }
+    // Once season data genuinely exists the factor is allowed to rank. It does
+    // not exist today; this branch is here so the invariant ages correctly.
+    if (a.ctx.seasons != null) return null;
+    for (const r of a.response.results) {
+      const f = r.factors.find((x) => x.key === 'seasonFit');
+      if (!f) return `${r.area.name} carries no seasonFit factor although the query gave dates`;
+      if (!f.dataMissing) return `${r.area.name}.seasonFit claims to know opening dates we do not hold`;
+      if (f.weight !== 0 || f.contribution !== 0) {
+        return `${r.area.name}.seasonFit was applied at weight ${f.weight} — dates moved the ranking`;
+      }
+      if (!/do not know when this resort opens/.test(f.reason)) {
+        return `${r.area.name}.seasonFit does not admit the data gap in plain words: "${f.reason}"`;
+      }
     }
     return null;
   }),
@@ -937,6 +1002,71 @@ export const GOLDEN_QUERIES: readonly GoldenQuery[] = [
     ],
     fixtureOnly: true,
   },
+
+  // 25 -----------------------------------------------------------------------
+  {
+    id: 'G25',
+    text: 'a week in February in Austria for intermediates',
+    intent:
+      'Dates. Three things in one sentence: the duration ("a week" = 7 nights), the bare month, and ' +
+      'the rest of the query, which must survive. Parsed on 26 July 2026, so "February" is the ' +
+      'February of 2027 — the naive current-year reading would send this user skiing five months ago.',
+    expectParsed: {
+      countries: ['AT'],
+      ability: 'intermediate',
+      dateFrom: '2027-02-01',
+      dateTo: '2027-02-08',
+    },
+    assertions: [
+      nonEmpty,
+      allResultsInCountries(['AT']),
+      F('"February" resolved FORWARD, into the next February, not the one that has gone', (a) => {
+        const c = a.response.criteria;
+        if (c.dateFrom == null || c.dateTo == null) return `no dates parsed: ${JSON.stringify(c.dateFrom)}..${JSON.stringify(c.dateTo)}`;
+        const from = Date.parse(`${c.dateFrom}T00:00:00Z`);
+        if (!(from > GOLDEN_TODAY.getTime())) return `${c.dateFrom} is not in the future relative to the pinned today`;
+        if (c.dateFrom !== '2027-02-01' || c.dateTo !== '2027-02-08') {
+          return `expected 2027-02-01..2027-02-08 from a today of ${GOLDEN_TODAY.toISOString().slice(0, 10)}, got ${c.dateFrom}..${c.dateTo}`;
+        }
+        return null;
+      }),
+      F('"a week" is seven nights', (a) => {
+        const c = a.response.criteria;
+        if (c.dateFrom == null || c.dateTo == null) return 'no dates parsed';
+        const nights = Math.round((Date.parse(`${c.dateTo}T00:00:00Z`) - Date.parse(`${c.dateFrom}T00:00:00Z`)) / 86_400_000);
+        return nights === 7 ? null : `window is ${nights} nights`;
+      }),
+      F('the dates did not swallow the rest of the sentence', (a) => {
+        const c = a.response.criteria;
+        if (c.ability !== 'intermediate') return `ability = ${JSON.stringify(c.ability)}`;
+        if (JSON.stringify(c.countries) !== JSON.stringify(['AT'])) return `countries = ${JSON.stringify(c.countries)}`;
+        return null;
+      }),
+      F('seasonFit is present on every result, and admits it knows nothing', (a) => {
+        for (const r of a.response.results) {
+          const f = factor(r, 'seasonFit');
+          if (!f) return `${r.area.name} has no seasonFit factor`;
+          if (!f.dataMissing) return `${r.area.name}.seasonFit is not flagged as a data gap`;
+          if (f.weight !== 0) return `${r.area.name}.seasonFit carried weight ${f.weight}`;
+          if (!/do not know when this resort opens/.test(f.reason)) {
+            return `${r.area.name}.seasonFit reason does not say we do not know: "${f.reason}"`;
+          }
+        }
+        return null;
+      }),
+      F('the dated query ranks byte-identically to the same query without dates', (a) => {
+        const undated: SearchCriteria = { ...a.response.criteria };
+        delete undated.dateFrom;
+        delete undated.dateTo;
+        const without = search(a.areas, undated, a.ctx);
+        const key = (r: ScoredResult): string => `${r.area.id}:${r.score}`;
+        const got = a.response.results.map(key).join(',');
+        const want = without.results.map(key).join(',');
+        return got === want ? null : `dates changed the ranking:\n        with    ${got}\n        without ${want}`;
+      }),
+    ],
+    fixtureOnly: true,
+  },
 ];
 
 // ---------------------------------------------------------------------------
@@ -1072,7 +1202,7 @@ export const STANDALONE_CHECKS: readonly StandaloneCheck[] = [
     id: 'S05',
     name: 'scoring is deterministic — same input, byte-identical output',
     run: (areas, ctx) => {
-      const c = parseQueryDeterministic('cheap beginner resort in Bulgaria with night skiing and kosher food');
+      const c = parseGolden('cheap beginner resort in Bulgaria with night skiing and kosher food');
       const a = JSON.stringify(areas.map((x) => scoreArea(x, c, ctx).score));
       const b = JSON.stringify(areas.map((x) => scoreArea(x, c, ctx).score));
       return a === b ? null : 'two identical runs produced different scores';
@@ -1155,7 +1285,7 @@ export const STANDALONE_CHECKS: readonly StandaloneCheck[] = [
         // stays in: an ordinary word buried in prose must leave the ranking alone,
         // which is exactly what this check measures.
         if (q.id === 'G21' || q.id === 'G22' || q.id === 'G23') continue;
-        const criteria = { ...parseQueryDeterministic(q.text), ...(q.override ?? {}) };
+        const criteria = { ...parseGolden(q.text), ...(q.override ?? {}) };
         const withMatching = search(areas, criteria, ctx).results[0];
         const withoutMatching = search(areas, { ...criteria, rawQuery: undefined }, ctx).results[0];
         if (!withMatching || !withoutMatching) continue;
@@ -1216,14 +1346,291 @@ export const STANDALONE_CHECKS: readonly StandaloneCheck[] = [
     id: 'S08',
     name: 'the parser never throws, whatever it is fed',
     run: () => {
-      const inputs = ['', '   ', '???', '🎿🎿🎿', 'a'.repeat(5000), '100km+ under €50 a day in IT for an expert', 'עד 4 שעות מסופיה'];
+      const inputs = [
+        '', '   ', '???', '🎿🎿🎿', 'a'.repeat(5000),
+        '100km+ under €50 a day in IT for an expert', 'עד 4 שעות מסופיה',
+        // Dates are the newest way to make a parser throw: impossible days,
+        // backwards ranges, months that do not exist, and a number where a
+        // year should be.
+        '30 february', '2027-13-45', '31 to 1 january', '9999-99-99 to 0000-00-00',
+        'a week in feb 2027-02-30', '999 days in march', 'next week next month in february',
+      ];
       for (const i of inputs) {
         try {
-          parseQueryDeterministic(i);
+          const c = parseGolden(i);
+          if (c.dateFrom != null && !/^\d{4}-\d{2}-\d{2}$/.test(c.dateFrom)) {
+            return `emitted a malformed dateFrom ${JSON.stringify(c.dateFrom)} for ${JSON.stringify(i.slice(0, 40))}`;
+          }
+          if (c.dateTo != null && !/^\d{4}-\d{2}-\d{2}$/.test(c.dateTo)) {
+            return `emitted a malformed dateTo ${JSON.stringify(c.dateTo)} for ${JSON.stringify(i.slice(0, 40))}`;
+          }
+          if (c.dateFrom != null && c.dateTo != null && c.dateTo <= c.dateFrom) {
+            return `emitted a zero or backwards window ${c.dateFrom}..${c.dateTo} for ${JSON.stringify(i.slice(0, 40))}`;
+          }
         } catch (err) {
           return `threw on ${JSON.stringify(i.slice(0, 40))}: ${String(err)}`;
         }
       }
+      return null;
+    },
+  },
+  {
+    id: 'S12',
+    name: 'trip dates are INERT — the same query with and without them ranks byte-identically',
+    run: (areas, ctx) => {
+      /*
+       * ===========================================================================
+       * THE assertion that dates are metadata.
+       * ===========================================================================
+       * We have no season_dates, so there is no honest basis for ranking a resort
+       * higher because it is open on your dates, and every proxy we could reach for
+       * (altitude, latitude, glacier terrain) answers a different question while
+       * looking just as confident. Dates therefore travel with the query and change
+       * nothing about the order.
+       *
+       * This compares the full result list AND every score, not just the winner:
+       * a factor that quietly started voting would move scores long before it moved
+       * a #1, and this is the check that has to catch it while it is still cheap.
+       */
+      const windows: ReadonlyArray<{ label: string; dateFrom: string; dateTo: string }> = [
+        { label: 'a normal winter week', dateFrom: '2027-02-14', dateTo: '2027-02-21' },
+        { label: 'a long weekend', dateFrom: '2027-03-04', dateTo: '2027-03-07' },
+        { label: 'the shoulder of the season', dateFrom: '2027-04-25', dateTo: '2027-05-02' },
+        // A summer window is the case where a date-aware scorer would be most
+        // tempted to "helpfully" re-rank. It must be just as inert.
+        { label: 'high summer, almost certainly a misparse', dateFrom: '2027-07-10', dateTo: '2027-07-17' },
+      ];
+      const key = (r: ScoredResult): string => `${r.area.id}:${r.score}`;
+      const fingerprint = (c: SearchCriteria): string => search(areas, c, ctx).results.map(key).join(',');
+
+      for (const q of GOLDEN_QUERIES) {
+        const undated: SearchCriteria = { ...parseGolden(q.text), ...(q.override ?? {}) };
+        delete undated.dateFrom;
+        delete undated.dateTo;
+        const want = fingerprint(undated);
+
+        // Every query gets one window; one query gets all of them, so the
+        // check stays affordable on the full 3,700-area roster.
+        const toTry = q.id === 'G08' ? windows : windows.slice(0, 1);
+        for (const w of toTry) {
+          const got = fingerprint({ ...undated, dateFrom: w.dateFrom, dateTo: w.dateTo });
+          if (got !== want) {
+            return `${q.id} with ${w.label} (${w.dateFrom}..${w.dateTo}) ranked differently:\n        dated   ${got.slice(0, 160)}\n        undated ${want.slice(0, 160)}`;
+          }
+        }
+        // Party size is metadata on the same terms and must be just as inert.
+        const withParty = fingerprint({ ...undated, dateFrom: '2027-02-14', dateTo: '2027-02-21', adults: 2, children: 2 });
+        if (withParty !== want) return `${q.id}: party size changed the ranking`;
+      }
+      return null;
+    },
+  },
+  {
+    id: 'S13',
+    name: 'the date phrases we claim to understand, parsed against a pinned clock',
+    run: () => {
+      /*
+       * Every expectation below is a literal, computed by hand from a today of
+       * 26 July 2026 (a Sunday). Nothing here derives the answer from the same
+       * arithmetic it is testing, and nothing changes when the suite is run.
+       */
+      const T = (iso: string): Date => new Date(`${iso}T00:00:00.000Z`);
+      const JULY = T('2026-07-26');
+
+      const cases: ReadonlyArray<{ today: Date; text: string; from: string | null; to?: string }> = [
+        // --- explicit -------------------------------------------------------
+        { today: JULY, text: '14–21 February', from: '2027-02-14', to: '2027-02-21' },
+        { today: JULY, text: '14th to 21st february', from: '2027-02-14', to: '2027-02-21' },
+        { today: JULY, text: 'Feb 14 to Feb 21', from: '2027-02-14', to: '2027-02-21' },
+        { today: JULY, text: 'February 14-21', from: '2027-02-14', to: '2027-02-21' },
+        { today: JULY, text: '14 February to 21 February', from: '2027-02-14', to: '2027-02-21' },
+        { today: JULY, text: '2027-02-14', from: '2027-02-14', to: '2027-02-21' },
+        { today: JULY, text: '2027-02-14 to 2027-02-21', from: '2027-02-14', to: '2027-02-21' },
+        { today: JULY, text: 'skiing on 3 January', from: '2027-01-03', to: '2027-01-10' },
+        // --- duration -------------------------------------------------------
+        { today: JULY, text: 'a week in February', from: '2027-02-01', to: '2027-02-08' },
+        { today: JULY, text: 'long weekend in March', from: '2027-03-01', to: '2027-03-04' },
+        { today: JULY, text: '10 days in March', from: '2027-03-01', to: '2027-03-11' },
+        { today: JULY, text: 'two weeks in January', from: '2027-01-01', to: '2027-01-15' },
+        { today: JULY, text: '5 nights in December', from: '2026-12-01', to: '2026-12-06' },
+        // --- position in the month -----------------------------------------
+        { today: JULY, text: 'first week of March', from: '2027-03-01', to: '2027-03-08' },
+        { today: JULY, text: 'second week of March', from: '2027-03-08', to: '2027-03-15' },
+        { today: JULY, text: 'last week of January', from: '2027-01-25', to: '2027-02-01' },
+        { today: JULY, text: 'end of January', from: '2027-01-24', to: '2027-01-31' },
+        { today: JULY, text: 'early December', from: '2026-12-01', to: '2026-12-08' },
+        { today: JULY, text: 'mid February', from: '2027-02-12', to: '2027-02-19' },
+        // --- relative -------------------------------------------------------
+        { today: JULY, text: 'skiing next week', from: '2026-07-27', to: '2026-08-03' },
+        { today: JULY, text: 'this weekend', from: '2026-07-31', to: '2026-08-02' },
+        { today: JULY, text: 'next month', from: '2026-08-01', to: '2026-08-08' },
+        { today: JULY, text: 'in 3 weeks', from: '2026-08-16', to: '2026-08-23' },
+        // --- Hebrew ---------------------------------------------------------
+        { today: JULY, text: 'שבוע בפברואר', from: '2027-02-01', to: '2027-02-08' },
+        { today: JULY, text: 'סוף שבוע ארוך במרץ', from: '2027-03-01', to: '2027-03-04' },
+        { today: JULY, text: '14-21 בפברואר', from: '2027-02-14', to: '2027-02-21' },
+        { today: JULY, text: 'השבוע הבא', from: '2026-07-27', to: '2026-08-03' },
+        { today: JULY, text: 'שבועיים בינואר', from: '2027-01-01', to: '2027-01-15' },
+        // --- and the cases that must produce NOTHING ------------------------
+        // A duration with no anchor is not a date. Inventing one is worse than
+        // leaving the field empty.
+        { today: JULY, text: 'a week in Austria for intermediates', from: null },
+        { today: JULY, text: 'cheap beginner friendly resort with good nightlife', from: null },
+        { today: JULY, text: 'we may want night skiing', from: null },
+        { today: JULY, text: 'lift pass under €50 a day', from: null },
+        { today: JULY, text: 'good for intermediates, cheap, decent nightlife, under 4 hours from Sofia airport', from: null },
+      ];
+
+      for (const c of cases) {
+        const got = parseQueryDeterministic(c.text, { today: c.today });
+        if (c.from == null) {
+          if (got.dateFrom != null || got.dateTo != null) {
+            return `"${c.text}" invented ${got.dateFrom}..${got.dateTo} out of a sentence with no date in it`;
+          }
+          continue;
+        }
+        if (got.dateFrom !== c.from || got.dateTo !== c.to) {
+          return `"${c.text}" (today ${c.today.toISOString().slice(0, 10)}) parsed to ${got.dateFrom}..${got.dateTo}, expected ${c.from}..${c.to}`;
+        }
+      }
+      return null;
+    },
+  },
+  {
+    id: 'S14',
+    name: 'a bare month resolves FORWARD from the injected clock, in both directions',
+    run: () => {
+      /*
+       * ===========================================================================
+       * THE YEAR PROBLEM, both ways round.
+       * ===========================================================================
+       * "February" is ambiguous and the naive current-year reading is wrong for
+       * most of the year. Asked in October or in March it means NEXT calendar
+       * year; asked in January it means THIS one. Both directions are here,
+       * because a parser that only ever adds a year is just as broken as one that
+       * never does — and only one of the two is visible in July.
+       */
+      const T = (iso: string): Date => new Date(`${iso}T00:00:00.000Z`);
+      const cases: ReadonlyArray<{ today: string; text: string; from: string; to: string; why: string }> = [
+        // The month is still to come THIS calendar year -> this year.
+        { today: '2027-01-05', text: 'a week in February', from: '2027-02-01', to: '2027-02-08', why: 'February is still ahead in 2027' },
+        { today: '2027-01-05', text: '14-21 February', from: '2027-02-14', to: '2027-02-21', why: '14 February is still ahead in 2027' },
+        { today: '2026-07-26', text: 'a week in December', from: '2026-12-01', to: '2026-12-08', why: 'December is still ahead in 2026' },
+        // The month has already gone -> next calendar year.
+        { today: '2027-03-05', text: 'a week in February', from: '2028-02-01', to: '2028-02-08', why: 'February 2027 is behind us' },
+        { today: '2027-03-05', text: '14-21 February', from: '2028-02-14', to: '2028-02-21', why: '14 February 2027 is behind us' },
+        { today: '2027-05-20', text: 'a week in March', from: '2028-03-01', to: '2028-03-08', why: 'March 2027 is behind us' },
+        // Asked in autumn, the coming February is next calendar year — the case
+        // the naive reading gets wrong while looking perfectly reasonable.
+        { today: '2026-10-15', text: 'a week in February', from: '2027-02-01', to: '2027-02-08', why: 'the coming February is in 2027' },
+        { today: '2026-12-28', text: 'a week in January', from: '2027-01-01', to: '2027-01-08', why: 'the coming January is days away, in 2027' },
+        // The month you are standing in has not "passed" — only its early days
+        // have. Rolling a whole year here would be absurd.
+        { today: '2027-01-15', text: 'a week in January', from: '2027-01-15', to: '2027-01-22', why: 'January is in progress' },
+      ];
+
+      for (const c of cases) {
+        const got = parseQueryDeterministic(c.text, { today: new Date(`${c.today}T00:00:00.000Z`) });
+        if (got.dateFrom !== c.from || got.dateTo !== c.to) {
+          return `on ${c.today}, "${c.text}" gave ${got.dateFrom}..${got.dateTo}, expected ${c.from}..${c.to} (${c.why})`;
+        }
+        if (got.dateFrom != null && got.dateFrom < c.today) {
+          return `on ${c.today}, "${c.text}" resolved into the PAST (${got.dateFrom})`;
+        }
+      }
+
+      // The clock is a seam, not decoration: same clock -> same answer, and a
+      // different clock -> a different answer. If the second half of this ever
+      // stops holding, someone has hardcoded a year.
+      const a = parseQueryDeterministic('a week in February', { today: T('2027-01-05') });
+      const b = parseQueryDeterministic('a week in February', { today: T('2027-01-05') });
+      if (a.dateFrom !== b.dateFrom || a.dateTo !== b.dateTo) return 'two calls with the same pinned clock disagreed';
+      const later = parseQueryDeterministic('a week in February', { today: T('2027-03-05') });
+      if (later.dateFrom === a.dateFrom) return 'the injected clock had no effect — the parser is ignoring opts.today';
+
+      // A ski trip parsed into high summer is almost certainly a misparse. We
+      // return it as parsed and SAY SO; we never quietly move it into winter.
+      const summer = parseQueryDeterministic('a week in July', { today: T('2026-07-26') });
+      if (summer.dateFrom !== '2026-07-26' || summer.dateTo !== '2026-08-02') {
+        return `a summer window was silently corrected to ${summer.dateFrom}..${summer.dateTo}`;
+      }
+      if (isNorthernSkiSeason(summer.dateFrom, summer.dateTo)) return 'July was reported as inside the ski season';
+      if (!/outside the usual November-to-April/.test(describeCriteria(summer))) {
+        return 'a summer trip window is not flagged to the user at all';
+      }
+      const winter = parseQueryDeterministic('a week in February', { today: T('2026-07-26') });
+      if (winter.dateFrom == null || winter.dateTo == null || !isNorthernSkiSeason(winter.dateFrom, winter.dateTo)) {
+        return 'February was not recognised as inside the ski season';
+      }
+      return null;
+    },
+  },
+  {
+    id: 'S15',
+    name: 'seasonFit is wired for real data, not decorative — and unverified dates still cannot rank',
+    run: (areas, ctx) => {
+      /*
+       * The other half of S12. Dates are inert TODAY because we hold no season
+       * dates, not because the factor is a stub. This proves the factor scores
+       * properly the moment `ScoringContext.seasons` carries a verified row —
+       * so nobody has to rewrite it under pressure in October — while rule 3
+       * still holds: a hand-typed date nobody checked cannot move a ranking.
+       */
+      const base = areas[0]!;
+      const trip: SearchCriteria = { dateFrom: '2027-02-14', dateTo: '2027-02-21' };
+      const row = (opensOn: string | null, closesOn: string | null, verified: boolean): SeasonDates => ({
+        skiAreaId: base.id,
+        season: '2026/27',
+        opensOn,
+        closesOn,
+        provenance: {
+          source: 'official',
+          sourceUrl: 'https://example.invalid/opening-dates',
+          fetchedAt: '2026-07-26T00:00:00.000Z',
+          verification: verified ? 'verified' : 'unverified',
+          note: 'SYNTHESISED for the golden suite. No real season_dates exist.',
+        },
+      });
+      const withSeasons = (r: SeasonDates): ScoringContext => ({ ...ctx, seasons: new Map([[base.id, r]]) });
+
+      // 1. Nothing at all: reported, flagged, weight zero.
+      const bare = scoreArea(base, trip, ctx);
+      const none = factor(bare, 'seasonFit');
+      if (!none) return 'seasonFit did not appear for a query carrying dates';
+      if (!none.dataMissing || none.weight !== 0 || none.contribution !== 0) {
+        return `with no season data seasonFit was weight=${none.weight}, dataMissing=${none.dataMissing}`;
+      }
+
+      // 2. An UNVERIFIED row is still silence — same score, to the last decimal.
+      const unverified = scoreArea(base, trip, withSeasons(row('2026-12-01', '2027-04-15', false)));
+      const unverifiedFactor = factor(unverified, 'seasonFit');
+      if (!unverifiedFactor || unverifiedFactor.weight !== 0) {
+        return `an unverified season row earned weight ${unverifiedFactor?.weight}`;
+      }
+      if (Math.abs(unverified.score - bare.score) > 1e-9) {
+        return `an unverified season row moved the score from ${bare.score} to ${unverified.score}`;
+      }
+
+      // 3. A VERIFIED row that covers the trip scores full marks, at real weight.
+      const openCtx = withSeasons(row('2026-12-01', '2027-04-15', true));
+      const open = scoreArea(base, trip, openCtx);
+      const openFactor = factor(open, 'seasonFit');
+      if (!openFactor) return 'seasonFit vanished when real data arrived';
+      if (!(openFactor.weight > 0)) return 'a verified season row still earned zero weight — the factor is a stub';
+      if (openFactor.dataMissing) return 'a complete verified season row was still flagged as a data gap';
+      if (Math.abs(openFactor.raw - 1) > 1e-9) return `a trip wholly inside the season scored ${openFactor.raw}`;
+
+      // 4. A resort that shuts before you arrive scores zero and ranks below it.
+      const shutCtx = withSeasons(row('2026-12-01', '2027-01-15', true));
+      const shut = scoreArea(base, trip, shutCtx);
+      const shutFactor = factor(shut, 'seasonFit');
+      if (!shutFactor) return 'seasonFit missing for a closed resort';
+      if (shutFactor.raw !== 0) return `a resort shut on the trip dates scored ${shutFactor.raw}`;
+      if (!(shut.score < open.score)) return `a closed resort (${shut.score}) did not rank below an open one (${open.score})`;
+
+      // 5. Half a row is partial knowledge, not certainty.
+      const partial = factor(scoreArea(base, trip, withSeasons(row('2026-12-01', null, true))), 'seasonFit');
+      if (!partial || !partial.dataMissing) return 'an opening date with no closing date was reported as complete';
       return null;
     },
   },
