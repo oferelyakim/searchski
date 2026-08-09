@@ -15,6 +15,9 @@ export function Header({ t }: { t: T }) {
         </Link>
         <nav aria-label="Main" className="flex items-center gap-3 text-sm">
           <Link href="/" className="text-muted no-underline hover:text-fg">
+            {t('nav.plan')}
+          </Link>
+          <Link href="/search" className="text-muted no-underline hover:text-fg">
             {t('nav.search')}
           </Link>
           <Link href="/compare" className="text-muted no-underline hover:text-fg">

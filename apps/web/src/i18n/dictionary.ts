@@ -261,6 +261,102 @@ const en = {
   'error.generic': 'Something went wrong. Nothing was lost — try again.',
   'notFound.title': 'Page not found',
   'notFound.body': 'That page does not exist.',
+
+  // --- the interview ------------------------------------------------------
+  'nav.plan': 'Plan a trip',
+  'iv.heading': 'Tell the crew what you want',
+  'iv.tagline':
+    'A few quick questions instead of a form. Tap an answer or type your own — every question narrows the map.',
+
+  'cast.maya.role': 'trip host',
+  'cast.jonas.role': 'flights',
+  'cast.lena.role': 'lodging',
+  'cast.marco.role': 'ski & terrain',
+  'cast.tomer.role': 'transfers',
+  'cast.noa.role': 'family & ski school',
+
+  'iv.party.q': 'Hi — I’m Maya, and this is my crew of ski specialists. First things first: who’s going?',
+  'iv.party.solo': 'Just me',
+  'iv.party.couple': 'Two of us',
+  'iv.party.friends': 'Group of friends',
+  'iv.party.family': 'Family with kids',
+  'iv.noa.family': 'Kids on board — I’ll keep an eye on gentle terrain and family scoring.',
+
+  'iv.sizeFriends.q': 'How many of you?',
+  'iv.sizeFriends.other': 'Type a number…',
+  'iv.sizeFamily.q': 'How does the family split — adults + kids?',
+
+  'iv.ability.q': 'Marco here. How does the group ski?',
+  'iv.ability.first': 'First time on skis',
+  'iv.ability.beginner': 'Mostly beginners',
+  'iv.ability.mixed': 'Mixed — some beginners, some strong',
+  'iv.ability.intermediate': 'Solid intermediates',
+  'iv.ability.advanced': 'Advanced / expert',
+  'iv.marco.mixed':
+    'Mixed group — I’ll favour resorts where easy and hard runs come off the same lifts, so nobody skis alone.',
+
+  'iv.vibe.q': 'What matters most to you? Pick as many as you like.',
+  'iv.vibe.other': 'e.g. “glacier skiing, good food, short transfer”',
+  'iv.vibe.snowsure': 'Reliable snow',
+  'iv.vibe.apres': 'Après & nightlife',
+  'iv.vibe.uncrowded': 'Quiet slopes',
+  'iv.vibe.queues': 'Short lift queues',
+  'iv.vibe.night': 'Night skiing',
+  'iv.vibe.skiinout': 'Ski-in / ski-out',
+  'iv.vibe.big': 'Big ski area',
+  'iv.marco.uncrowded': 'Quiet slopes — noted. I score that from lift capacity against piste, not from brochures.',
+  'iv.lena.skiinout': 'Ski-in/ski-out — I’ll weight villages where you can click in at the door.',
+
+  'iv.budget.q': 'Jonas, flights. Rough budget per person, all-in — flight, bed, pass?',
+  'iv.budget.other': 'Type an amount in USD…',
+  'iv.budget.1000': 'Under $1,000',
+  'iv.budget.1500': 'Around $1,500',
+  'iv.budget.2000': 'Around $2,000',
+  'iv.budget.open': 'Not the constraint',
+  'iv.jonas.tight':
+    'Tight but honest — Bulgaria and Georgia stretch a dollar much further than the Alps. Watch where the list leans.',
+
+  'iv.origin.q': 'Where are you flying from?',
+  'iv.origin.other': 'Airport code, e.g. BOS…',
+  'iv.origin.skip': 'Not flying / skip',
+  'iv.tomer.origin': 'Good — once the resorts are in, I’ll show road time from the arrival airport where we hold it.',
+
+  'iv.when.q': 'When do you want to go?',
+  'iv.when.dec': 'December holidays',
+  'iv.when.jan': 'January',
+  'iv.when.feb': 'February',
+  'iv.when.mar': 'March',
+  'iv.when.flex': 'Flexible',
+
+  'iv.where.q': 'Last one — any countries calling to you?',
+  'iv.where.other': 'e.g. “the Dolomites” or “somewhere cheap”',
+  'iv.where.anywhere': 'Surprise me',
+  'iv.marco.georgia': 'Gudauri is serious value — big vertical, small crowds. Good call to include Georgia.',
+
+  'iv.done': 'Here’s the crew’s read — {n} areas made the cut. The top of the list is below.',
+  'iv.count': '{n} ski areas in play',
+  'iv.skip': 'Skip to results',
+  'iv.restart': 'Start over',
+  'iv.classic': 'Classic search',
+  'iv.other': 'Type your own…',
+  'iv.send': 'Send',
+  'iv.confirm': 'That’s it',
+  'iv.noPreference': 'No preference',
+  'iv.typing': 'typing…',
+
+  'iv.crewHeading': 'The crew’s notes',
+  'iv.cmt.marco': 'Top of the list: {name} — about {km} km of marked piste.',
+  'iv.cmt.tomer': '{name} is roughly {min} min by road from {iata}; the transfer link is on the card.',
+  'iv.cmt.jonas': 'Flight links from {origin} are on every card, carrying your dates.',
+  'iv.cmt.jonasNoOrigin': 'No origin airport yet — tell me one any time and flight links appear on every card.',
+  'iv.cmt.noa': 'Open a score breakdown to see the family factor — I weighted gentle terrain for the kids.',
+  'iv.cmt.lena': 'Lodging links on each card carry your dates and party size. Beds book separately, on purpose.',
+  'iv.cmt.budget':
+    'Your {budget}/person budget: flights and beds are the big variables, so check those links first — we rank resorts, we don’t price trips.',
+  'iv.assumedDates':
+    'I pencilled in a sample week so the booking links work — it was my pick, not yours. Adjust it here:',
+  'iv.budgetNote':
+    'Budget {budget} per person is noted for context only — it never changes the ranking, because we hold no flight or lodging prices.',
 } as const;
 
 export type MessageKey = keyof typeof en;
@@ -487,6 +583,96 @@ const he: Record<MessageKey, string> = {
   'error.generic': 'משהו השתבש. שום דבר לא אבד — נסו שוב.',
   'notFound.title': 'הדף לא נמצא',
   'notFound.body': 'הדף הזה לא קיים.',
+
+  // --- the interview ------------------------------------------------------
+  'nav.plan': 'תכנון חופשה',
+  'iv.heading': 'ספרו לצוות מה אתם מחפשים',
+  'iv.tagline': 'כמה שאלות קצרות במקום טופס. הקישו על תשובה או כתבו משלכם — כל שאלה מצמצמת את המפה.',
+
+  'cast.maya.role': 'מארחת הטיול',
+  'cast.jonas.role': 'טיסות',
+  'cast.lena.role': 'לינה',
+  'cast.marco.role': 'סקי ומסלולים',
+  'cast.tomer.role': 'העברות',
+  'cast.noa.role': 'משפחה ובית ספר לסקי',
+
+  'iv.party.q': 'היי — אני מאיה, וזה צוות מומחי הסקי שלי. קודם כול: מי נוסע?',
+  'iv.party.solo': 'רק אני',
+  'iv.party.couple': 'שנינו',
+  'iv.party.friends': 'קבוצת חברים',
+  'iv.party.family': 'משפחה עם ילדים',
+  'iv.noa.family': 'יש ילדים — אשים לב למסלולים מתונים ולניקוד המשפחתי.',
+
+  'iv.sizeFriends.q': 'כמה אתם?',
+  'iv.sizeFriends.other': 'כתבו מספר…',
+  'iv.sizeFamily.q': 'איך המשפחה מתחלקת — מבוגרים + ילדים?',
+
+  'iv.ability.q': 'כאן מרקו. איך הקבוצה גולשת?',
+  'iv.ability.first': 'פעם ראשונה על מגלשיים',
+  'iv.ability.beginner': 'בעיקר מתחילים',
+  'iv.ability.mixed': 'מעורב — חלק מתחילים, חלק חזקים',
+  'iv.ability.intermediate': 'רמה בינונית יציבה',
+  'iv.ability.advanced': 'מתקדמים / מומחים',
+  'iv.marco.mixed': 'קבוצה מעורבת — אעדיף אתרים שבהם מסלולים קלים וקשים יורדים מאותם רכבלים, כדי שאף אחד לא יגלוש לבד.',
+
+  'iv.vibe.q': 'מה הכי חשוב לכם? בחרו כמה שתרצו.',
+  'iv.vibe.other': 'למשל: "גלישת קרחון, אוכל טוב, העברה קצרה"',
+  'iv.vibe.snowsure': 'שלג בטוח',
+  'iv.vibe.apres': 'אפרה-סקי וחיי לילה',
+  'iv.vibe.uncrowded': 'מדרונות שקטים',
+  'iv.vibe.queues': 'תורים קצרים לרכבל',
+  'iv.vibe.night': 'גלישת לילה',
+  'iv.vibe.skiinout': 'סקי עד הדלת',
+  'iv.vibe.big': 'אתר סקי גדול',
+  'iv.marco.uncrowded': 'מדרונות שקטים — רשום. אני מחשב את זה מקיבולת רכבלים מול ק"מ מסלולים, לא מחוברות.',
+  'iv.lena.skiinout': 'סקי עד הדלת — אתן משקל לכפרים שבהם נועלים מגלשיים בפתח.',
+
+  'iv.budget.q': 'יונס, טיסות. תקציב משוער לאדם, הכול כלול — טיסה, לינה, סקי-פס?',
+  'iv.budget.other': 'כתבו סכום בדולרים…',
+  'iv.budget.1000': 'עד 1,000$',
+  'iv.budget.1500': 'בסביבות 1,500$',
+  'iv.budget.2000': 'בסביבות 2,000$',
+  'iv.budget.open': 'לא המגבלה',
+  'iv.jonas.tight': 'צפוף אבל אפשרי — בולגריה וגאורגיה מותחות דולר הרבה יותר רחוק מהאלפים. שימו לב לאן הרשימה נוטה.',
+
+  'iv.origin.q': 'מאיפה אתם טסים?',
+  'iv.origin.other': 'קוד שדה תעופה, למשל TLV…',
+  'iv.origin.skip': 'לא טסים / דלגו',
+  'iv.tomer.origin': 'מצוין — ברגע שיש אתרים, אראה זמן נסיעה משדה התעופה היכן שיש לנו נתון.',
+
+  'iv.when.q': 'מתי תרצו לנסוע?',
+  'iv.when.dec': 'חופשת דצמבר',
+  'iv.when.jan': 'ינואר',
+  'iv.when.feb': 'פברואר',
+  'iv.when.mar': 'מרץ',
+  'iv.when.flex': 'גמישים',
+
+  'iv.where.q': 'אחרונה — יש מדינות שקוראות לכם?',
+  'iv.where.other': 'למשל: "הדולומיטים" או "משהו זול"',
+  'iv.where.anywhere': 'תפתיעו אותי',
+  'iv.marco.georgia': 'גודאורי היא תמורה רצינית — אנכי גדול, קהל קטן. בחירה טובה לכלול את גאורגיה.',
+
+  'iv.done': 'הנה הקריאה של הצוות — {n} אתרים עברו את הסינון. ראש הרשימה למטה.',
+  'iv.count': '{n} אתרי סקי במשחק',
+  'iv.skip': 'דלגו לתוצאות',
+  'iv.restart': 'התחלה מחדש',
+  'iv.classic': 'חיפוש קלאסי',
+  'iv.other': 'כתבו משלכם…',
+  'iv.send': 'שליחה',
+  'iv.confirm': 'זהו',
+  'iv.noPreference': 'אין העדפה',
+  'iv.typing': 'מקליד…',
+
+  'iv.crewHeading': 'הערות הצוות',
+  'iv.cmt.marco': 'בראש הרשימה: {name} — בערך {km} ק"מ של מסלולים מסומנים.',
+  'iv.cmt.tomer': '{name} נמצא בערך {min} דקות נסיעה מ-{iata}; קישור ההעברה על הכרטיס.',
+  'iv.cmt.jonas': 'קישורי טיסות מ-{origin} נמצאים על כל כרטיס, עם התאריכים שלכם.',
+  'iv.cmt.jonasNoOrigin': 'עוד אין שדה תעופה — כתבו לי אחד מתי שתרצו וקישורי טיסות יופיעו על כל כרטיס.',
+  'iv.cmt.noa': 'פתחו את פירוט הניקוד כדי לראות את הגורם המשפחתי — נתתי משקל למסלולים מתונים לילדים.',
+  'iv.cmt.lena': 'קישורי לינה על כל כרטיס נושאים את התאריכים וגודל החבורה. הזמנות נעשות בנפרד, בכוונה.',
+  'iv.cmt.budget': 'תקציב {budget} לאדם: טיסות ולינה הם המשתנים הגדולים, אז בדקו את הקישורים האלה קודם — אנחנו מדרגים אתרים, לא מתמחרים טיולים.',
+  'iv.assumedDates': 'סימנתי שבוע לדוגמה כדי שקישורי ההזמנה יעבדו — זו הבחירה שלי, לא שלכם. אפשר לשנות כאן:',
+  'iv.budgetNote': 'תקציב {budget} לאדם נרשם להקשר בלבד — הוא לעולם לא משנה את הדירוג, כי אין לנו מחירי טיסות או לינה.',
 };
 
 export const DICTIONARIES: Record<Locale, Record<MessageKey, string>> = {
