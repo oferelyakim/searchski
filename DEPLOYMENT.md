@@ -40,6 +40,26 @@ anything. If you ever move to Supabase-only, that's when to start ignoring it.
    - **Environment variables:** none
 4. Deploy.
 
+**Which branch becomes production.** Vercel builds *production* from the
+repository's **default branch** and every other branch as a *preview*
+deployment with its own URL. As of 2026-08 this repo's GitHub default is
+`claude/ski-vacation-planner-research-jis317`, which is an older strict
+ancestor of the active development branch
+(`claude/ski-package-pricing-engine-0h6fuz`) — connecting Vercel without
+addressing this deploys the old code to production and the new code to a
+preview URL. Two fixes, either works:
+
+- **Create `main`** from the active branch, set it as the GitHub default
+  (repo → Settings → General → Default branch), and let Vercel track it.
+  The long-term-clean option.
+- **Or** leave GitHub alone and set Vercel → Project → **Settings → Git →
+  Production Branch** to the active branch name. Zero repo changes; every
+  push to that branch then goes straight to production.
+
+Auto-deploy needs no configuration beyond this: once the repo is imported,
+every `git push` triggers a build — production for the production branch,
+preview URLs for everything else.
+
 That's it. The app reads the committed JSON in `data/build/`, which is why no
 database is needed — three countries is a small enough dataset to ship in the
 repo. `next.config.ts` already sets `outputFileTracingRoot` to the monorepo root
