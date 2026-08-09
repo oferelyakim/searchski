@@ -95,9 +95,16 @@ export async function runSearch(input: RunSearchInput): Promise<SearchResponse> 
   const query = typeof input.query === 'string' ? input.query.trim() : '';
   if (query.length > 0) {
     const parsed = await parseQuery(query);
-    criteria = mergeCriteria(parsed.criteria, input.criteria);
+    // THE SENTENCE WINS. When a request carries BOTH a query and criteria,
+    // the criteria are accumulated state from earlier turns and the query is
+    // what the user just said — so the parsed sentence overrides the state
+    // where it speaks, and the state fills the gaps. The reverse order
+    // silently discarded corrections: an interview that stored
+    // `countries: [DE]` made a later "Switzerland, France or Italy" a no-op,
+    // which reads as the site ignoring the user (it did — live bug, 2026-08).
+    // The classic page never sends both, so it is unaffected either way.
+    criteria = mergeCriteria(input.criteria ?? {}, { ...parsed.criteria, rawQuery: query });
     parsedBy = parsed.parsedBy;
-    if (criteria.rawQuery === undefined) criteria.rawQuery = query;
   } else {
     criteria = { ...(input.criteria ?? {}) };
   }
