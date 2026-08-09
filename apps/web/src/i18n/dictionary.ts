@@ -372,6 +372,11 @@ const en = {
   'iv.refine.huge': 'Mega resorts (250+ km)',
   'iv.refine.closer': 'Shorter transfer',
   'iv.refined': 'Done — {n} areas match now.',
+  'iv.noChange':
+    'I couldn’t turn that into a filter — nothing changed. Try a country, a minimum size (“over 100 km”), night skiing, a shorter transfer, or family-friendly.',
+  'iv.shadeLegend': 'Card shading = match strength within this list — warmer means a stronger fit.',
+  'iv.aiNote':
+    'Crew replies may be AI-written from your live results. The scores and facts come from the data; the ranking never does.',
 } as const;
 
 export type MessageKey = keyof typeof en;
@@ -702,6 +707,9 @@ const he: Record<MessageKey, string> = {
   'iv.refine.huge': 'אתרי ענק (+250 ק"מ)',
   'iv.refine.closer': 'העברה קצרה יותר',
   'iv.refined': 'בוצע — {n} אתרים מתאימים עכשיו.',
+  'iv.noChange': 'לא הצלחתי להפוך את זה לסינון — שום דבר לא השתנה. נסו מדינה, גודל מינימלי ("מעל 100 ק"מ"), גלישת לילה, העברה קצרה יותר, או מתאים למשפחות.',
+  'iv.shadeLegend': 'גוון הכרטיס = עוצמת ההתאמה ברשימה הזו — חם יותר פירושו התאמה חזקה יותר.',
+  'iv.aiNote': 'תגובות הצוות עשויות להיכתב על ידי בינה מלאכותית מתוך התוצאות החיות שלכם. הציונים והעובדות מגיעים מהנתונים; הדירוג לעולם לא.',
 };
 
 export const DICTIONARIES: Record<Locale, Record<MessageKey, string>> = {

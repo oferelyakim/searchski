@@ -16,13 +16,22 @@ import { TopFactors } from '../ScoreBreakdown';
 export function ResortCardCompact({
   result,
   onOpen,
+  tint = 0,
 }: {
   result: ScoredResult;
   onOpen: (result: ScoredResult) => void;
+  /**
+   * 0..1 — this card's match strength relative to the OTHERS ON SCREEN, from
+   * the deterministic scores. Drives a subtle background wash so the grid
+   * reads as a heat map: the strongest matches sit on the warmest ground.
+   * Purely relative and purely visual; the number on the dial is the fact.
+   */
+  tint?: number;
 }) {
   const t = useT();
   const { area } = result;
   const score = Math.max(0, Math.min(100, result.score));
+  const clampedTint = Math.max(0, Math.min(1, tint));
 
   const stats: { label: string; value: string }[] = [];
   if (area.kmTotal > 0) stats.push({ label: t('resort.pistes'), value: km(area.kmTotal) });
@@ -41,7 +50,10 @@ export function ResortCardCompact({
     <button
       type="button"
       onClick={() => onOpen(result)}
-      className="group w-full rounded-xl border border-border bg-surface p-4 text-start transition-shadow hover:border-accent hover:shadow-md focus-visible:border-accent"
+      className="group w-full rounded-xl border border-border p-4 text-start transition-shadow hover:border-accent hover:shadow-md focus-visible:border-accent"
+      style={{
+        background: `color-mix(in oklab, var(--c-accent) ${(3 + clampedTint * 13).toFixed(1)}%, var(--c-surface))`,
+      }}
     >
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">

@@ -213,3 +213,87 @@ Factors we had no data for: ${missing || '(none)'}`,
     return null;
   }
 }
+
+// ---------------------------------------------------------------------------
+// Crew chat replies
+// ---------------------------------------------------------------------------
+
+export interface CrewReplyInput {
+  /** Which crew member is speaking, e.g. "Marco", "ski & terrain". */
+  speakerName: string;
+  speakerRole: string;
+  /** UI locale — the reply's default language. */
+  locale: string;
+  /** The traveller's typed message, or null when they tapped a chip. */
+  userMessage: string | null;
+  /** The chip they tapped, already translated, or null for typed messages. */
+  actionLabel: string | null;
+  /** Criteria keys the action actually changed. Empty = nothing changed. */
+  changedKeys: string[];
+  totalBefore: number;
+  totalAfter: number;
+  topResults: { name: string; country: string | null; km: number; score: number }[];
+  criteria: SearchCriteria;
+}
+
+/**
+ * One short, in-character chat message reacting to a refinement.
+ *
+ * This is the ONE place the cast speaks model output, and it runs on a
+ * Haiku-class model because the task is small. The prompt hard-grounds the
+ * reply in the facts JSON: result counts, the top resorts' names and numbers,
+ * and the active criteria. The model may phrase; it may not invent — no
+ * prices, no availability, no resorts beyond the list, no ranking opinions of
+ * its own. The deterministic scorer has already decided the order.
+ *
+ * Returns null when unavailable (no key, refusal, error); callers fall back
+ * to the fixed dictionary acknowledgment, which is the no-key behavior.
+ */
+export async function crewReply(
+  input: CrewReplyInput,
+  config: NlpConfig = {},
+): Promise<string | null> {
+  const apiKey = config.apiKey ?? process.env.ANTHROPIC_API_KEY;
+  if (!apiKey) return null;
+
+  const client = new Anthropic({ apiKey, timeout: config.timeoutMs ?? 15_000 });
+  const language = input.locale === 'he' ? 'Hebrew' : 'English';
+
+  try {
+    const response = await client.messages.create({
+      model: config.model ?? process.env.ANTHROPIC_CHAT_MODEL ?? 'claude-haiku-4-5',
+      max_tokens: 300,
+      system: `You are ${input.speakerName}, the ${input.speakerRole} specialist in Searchski's small ski-trip crew, chatting with a traveller about their live search results.
+
+Write ONE short chat message — one or two sentences, no greeting, no sign-off — reacting to what just happened to their search. Default to ${language}; if the traveller's own message is clearly in a different language, mirror theirs.
+
+Hard rules:
+- Ground every claim ONLY in the JSON facts provided. Never invent resorts, prices, availability, snow conditions, or bookings, and never claim to have booked anything.
+- You may cite the result counts and the name/km/score figures of the listed top results. Nothing else is a fact you know.
+- If changedKeys is empty, the request changed nothing — say so plainly and name two or three things the traveller CAN ask for: a country, a minimum size ("over 100 km"), night skiing, a shorter transfer, family-friendly, snow-sure.
+- If the traveller named a place or resort you cannot see in the facts, admit it was not matched rather than pretending.
+- Competent colleague tone. At most one emoji. No exclamation-mark pileups, no marketing voice.`,
+      messages: [
+        {
+          role: 'user',
+          content: JSON.stringify({
+            userMessage: input.userMessage,
+            actionLabel: input.actionLabel,
+            changedKeys: input.changedKeys,
+            totalBefore: input.totalBefore,
+            totalAfter: input.totalAfter,
+            topResults: input.topResults,
+            activeCriteria: input.criteria,
+          }),
+        },
+      ],
+    });
+
+    if (response.stop_reason === 'refusal') return null;
+    const textBlock = response.content.find((b) => b.type === 'text');
+    const text = textBlock && textBlock.type === 'text' ? textBlock.text.trim() : '';
+    return text.length > 0 ? text : null;
+  } catch {
+    return null;
+  }
+}

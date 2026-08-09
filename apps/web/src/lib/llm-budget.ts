@@ -63,16 +63,32 @@ const CALL_TOKENS = {
   parse: { input: 1_200, output: 700 },
   /** Explanation: a factor breakdown -> at most three sentences. */
   explain: { input: 900, output: 900 },
+  /** Crew chat ack: facts JSON -> one or two sentences. Runs on Haiku. */
+  chat: { input: 900, output: 150 },
 } as const;
+
+/**
+ * Crew chat runs on `claude-haiku-4-5`, list price AS OF 2026-07: $1 in /
+ * $5 out per MTok. Same re-check caveat as the Opus figures above.
+ */
+const USD_PER_MTOK_HAIKU_IN = 1;
+const USD_PER_MTOK_HAIKU_OUT = 5;
 
 function priceOf(tokens: { input: number; output: number }): number {
   return (tokens.input / 1e6) * USD_PER_MTOK_IN + (tokens.output / 1e6) * USD_PER_MTOK_OUT;
 }
 
-/** Per-call estimates the routes charge themselves. ~$0.024 and ~$0.027. */
+function priceOfHaiku(tokens: { input: number; output: number }): number {
+  return (
+    (tokens.input / 1e6) * USD_PER_MTOK_HAIKU_IN + (tokens.output / 1e6) * USD_PER_MTOK_HAIKU_OUT
+  );
+}
+
+/** Per-call estimates the routes charge themselves. parse/explain ~$0.025; chat ~$0.002. */
 export const CALL_COST_USD = {
   parse: priceOf(CALL_TOKENS.parse),
   explain: priceOf(CALL_TOKENS.explain),
+  chat: priceOfHaiku(CALL_TOKENS.chat),
 } as const;
 
 // ---------------------------------------------------------------------------

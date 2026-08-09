@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { ScoredResult, SearchCriteria, SearchResponse } from '@searchski/core/types';
-import { useT } from '@/i18n/client';
+import { useI18n } from '@/i18n/client';
 import { withoutCriterion, type ChipKey } from '@/lib/criteria-ui';
 import { countryName } from '@/lib/format';
 import { CAST, type CastId } from '@/lib/interview/cast';
@@ -19,9 +19,39 @@ import {
 import { crewCommentary, fillTemplate } from '@/lib/interview/commentary';
 import { AvatarBadge, SpeakerLine } from './AvatarBadge';
 import { CriteriaChips } from '../CriteriaChips';
+import { CrewMeeting } from './CrewMeeting';
 import { RefinePanel, type RefineChip } from './RefinePanel';
 import { ResortCardCompact } from './ResortCardCompact';
 import { ResortModal } from './ResortModal';
+
+/** Criteria keys whose change means the search genuinely moved. */
+function changedCriteriaKeys(before: SearchCriteria, after: SearchCriteria): string[] {
+  const ignore = new Set(['rawQuery', 'limit']);
+  const keys = new Set([...Object.keys(before), ...Object.keys(after)]);
+  const changed: string[] = [];
+  for (const key of keys) {
+    if (ignore.has(key)) continue;
+    const a = (before as Record<string, unknown>)[key];
+    const b = (after as Record<string, unknown>)[key];
+    if (JSON.stringify(a) !== JSON.stringify(b)) changed.push(key);
+  }
+  return changed;
+}
+
+/** Which specialist owns a set of changed criteria keys. */
+function speakerForKeys(keys: string[]): CastId {
+  const owner: [RegExp, CastId][] = [
+    [/minKm|maxKm|wantSnowsure|wantNightSki|wantUncrowded|wantShortLiftQueues|minVerticalM|minTopElevM|ability/i, 'marco'],
+    [/originAirport/i, 'jonas'],
+    [/maxTransferMinutes/i, 'tomer'],
+    [/wantFamily|children/i, 'noa'],
+    [/wantSkiInSkiOut|wantApres/i, 'lena'],
+  ];
+  for (const [pattern, speaker] of owner) {
+    if (keys.some((key) => pattern.test(key))) return speaker;
+  }
+  return 'maya';
+}
 
 /** One bubble in the transcript. */
 interface Entry {
@@ -49,7 +79,7 @@ interface Entry {
  * in-flight sequence drop its writes instead of resurrecting a dead interview.
  */
 export function InterviewExperience({ totalAtStart }: { totalAtStart: number }) {
-  const t = useT();
+  const { t, locale } = useI18n();
 
   const [entries, setEntries] = useState<Entry[]>([]);
   const [iv, setIv] = useState<InterviewState>(initialInterviewState);
@@ -267,14 +297,76 @@ export function InterviewExperience({ totalAtStart }: { totalAtStart: number }) 
   // Refinement (results phase): the chat keeps going.
   // -------------------------------------------------------------------------
 
-  /** Re-run the finished search and speak an acknowledgment. */
+  /**
+   * The crew's reply to a refinement. Tries the Haiku-backed /api/chat for a
+   * genuinely conversational, grounded acknowledgment; falls back to the
+   * fixed dictionary line when the model is off, over budget, or slow. The
+   * fallback is honest about the one case that felt dead in testing: a
+   * request the parser could not turn into any change says so instead of
+   * pretending it worked.
+   */
+  const crewAck = useCallback(
+    async (
+      input: {
+        userMessage: string | null;
+        actionLabel: string | null;
+        changedKeys: string[];
+        totalBefore: number;
+      },
+      resp: SearchResponse,
+      gen: number,
+    ) => {
+      const speaker = speakerForKeys(input.changedKeys);
+      const member = CAST[speaker];
+      const fallback =
+        input.changedKeys.length === 0 && input.userMessage !== null
+          ? t('iv.noChange')
+          : fillTemplate(t('iv.refined'), { n: String(resp.totalConsidered) });
+
+      let reply: string | null = null;
+      try {
+        const res = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({
+            speakerName: member.name,
+            speakerRole: t(member.roleKey),
+            locale,
+            userMessage: input.userMessage,
+            actionLabel: input.actionLabel,
+            changedKeys: input.changedKeys,
+            totalBefore: input.totalBefore,
+            totalAfter: resp.totalConsidered,
+            topResults: resp.results.slice(0, 4).map((r) => ({
+              name: r.area.name,
+              country: r.area.country,
+              km: Math.round(r.area.kmTotal),
+              score: Math.round(r.score),
+            })),
+            criteria: resp.criteria,
+          }),
+        });
+        const data = (await res.json()) as { reply?: string | null };
+        reply = typeof data.reply === 'string' && data.reply.trim() !== '' ? data.reply : null;
+      } catch {
+        reply = null;
+      }
+      if (gen !== genRef.current) return;
+      push({ kind: 'reaction', speaker, text: reply ?? fallback });
+    },
+    [locale, push, t],
+  );
+
+  /** Re-run the finished search; `ack` carries what to react to, or null for silent edits. */
   const rerun = useCallback(
     async (
       criteria: SearchCriteria,
       facts: InterviewState['facts'],
-      ack: { speaker: CastId } | null,
+      ack: { userMessage: string | null; actionLabel: string | null } | null,
     ) => {
       const gen = genRef.current;
+      const before = iv.criteria;
+      const totalBefore = count;
       setIv({ criteria, facts, stepId: null });
       setBusy(true);
       const resp = await callSearch({ criteria: { ...criteria, limit: 12 } });
@@ -290,30 +382,31 @@ export function InterviewExperience({ totalAtStart }: { totalAtStart: number }) 
       setResponse(resp);
       setCount(resp.totalConsidered);
       if (ack) {
-        push({
-          kind: 'reaction',
-          speaker: ack.speaker,
-          text: fillTemplate(t('iv.refined'), { n: String(resp.totalConsidered) }),
-        });
+        void crewAck(
+          { ...ack, changedKeys: changedCriteriaKeys(before, clean), totalBefore },
+          resp,
+          gen,
+        );
       }
     },
-    [callSearch, push, t],
+    [callSearch, count, crewAck, iv.criteria, t],
   );
 
   const onToggleRefineChip = useCallback(
     (chip: RefineChip, active: boolean) => {
       if (busy) return;
-      push({
-        kind: 'answer',
-        text: `${active ? '− ' : '+ '}${t(chip.labelKey)}`,
-      });
+      const label = `${active ? '− ' : '+ '}${t(chip.labelKey)}`;
+      push({ kind: 'answer', text: label });
       let criteria: Record<string, unknown> = { ...iv.criteria };
       if (active) {
         for (const key of Object.keys(chip.patch)) delete criteria[key];
       } else {
         criteria = { ...criteria, ...chip.patch };
       }
-      void rerun(criteria as SearchCriteria, iv.facts, { speaker: chip.speaker });
+      void rerun(criteria as SearchCriteria, iv.facts, {
+        userMessage: null,
+        actionLabel: label,
+      });
     },
     [busy, iv, push, rerun, t],
   );
@@ -322,6 +415,8 @@ export function InterviewExperience({ totalAtStart }: { totalAtStart: number }) 
     async (text: string) => {
       if (busy) return;
       const gen = genRef.current;
+      const before = iv.criteria;
+      const totalBefore = count;
       push({ kind: 'answer', text });
       setBusy(true);
       const resp = await callSearch({ query: text, criteria: { ...iv.criteria, limit: 12 } });
@@ -336,13 +431,18 @@ export function InterviewExperience({ totalAtStart }: { totalAtStart: number }) 
       setIv({ criteria: clean, facts: iv.facts, stepId: null });
       setResponse(resp);
       setCount(resp.totalConsidered);
-      push({
-        kind: 'reaction',
-        speaker: 'maya',
-        text: fillTemplate(t('iv.refined'), { n: String(resp.totalConsidered) }),
-      });
+      void crewAck(
+        {
+          userMessage: text,
+          actionLabel: null,
+          changedKeys: changedCriteriaKeys(before, clean),
+          totalBefore,
+        },
+        resp,
+        gen,
+      );
     },
-    [busy, callSearch, iv, push, t],
+    [busy, callSearch, count, crewAck, iv, push, t],
   );
 
   const onRemoveChip = (key: ChipKey) => {
@@ -365,6 +465,19 @@ export function InterviewExperience({ totalAtStart }: { totalAtStart: number }) 
   const step = iv.stepId === null ? null : STEPS[iv.stepId];
   const inResults = iv.stepId === null && response !== null;
   const commentary = response ? crewCommentary(iv, response) : [];
+
+  // Whoever spoke last holds the big tile; while "typing", the upcoming
+  // speaker takes it, so the camera cuts to them before the words land.
+  const lastSpoken = [...entries].reverse().find((e) => e.kind !== 'answer');
+  const activeSpeaker: CastId =
+    typing && step ? step.speaker : (lastSpoken?.speaker ?? 'maya');
+
+  // Relative match strength within the visible set, for the card wash.
+  const scores = response?.results.map((r) => r.score) ?? [];
+  const minScore = scores.length > 0 ? Math.min(...scores) : 0;
+  const maxScore = scores.length > 0 ? Math.max(...scores) : 1;
+  const tintFor = (score: number) =>
+    maxScore > minScore ? (score - minScore) / (maxScore - minScore) : 0.5;
 
   const topBar = (
     <div className="flex flex-wrap items-center justify-between gap-2">
@@ -523,6 +636,7 @@ export function InterviewExperience({ totalAtStart }: { totalAtStart: number }) 
     return (
       <div className="mx-auto max-w-2xl space-y-4">
         {topBar}
+        <CrewMeeting active={activeSpeaker} speaking={typing || busy} />
         {transcript}
         {answerControls}
         {error ? <p className="text-sm text-bad">{error}</p> : null}
@@ -588,13 +702,20 @@ export function InterviewExperience({ totalAtStart }: { totalAtStart: number }) 
             {response.results.length === 0 ? (
               <p className="text-sm text-muted">{t('search.noResults')}</p>
             ) : (
-              <ul className={`grid grid-cols-1 gap-3 sm:grid-cols-2 ${busy ? 'opacity-60' : ''}`}>
-                {response.results.map((result) => (
-                  <li key={result.area.id}>
-                    <ResortCardCompact result={result} onOpen={setSelected} />
-                  </li>
-                ))}
-              </ul>
+              <>
+                <p className="mb-2 text-[11px] text-muted">{t('iv.shadeLegend')}</p>
+                <ul className={`grid grid-cols-1 gap-3 sm:grid-cols-2 ${busy ? 'opacity-60' : ''}`}>
+                  {response.results.map((result) => (
+                    <li key={result.area.id}>
+                      <ResortCardCompact
+                        result={result}
+                        onOpen={setSelected}
+                        tint={tintFor(result.score)}
+                      />
+                    </li>
+                  ))}
+                </ul>
+              </>
             )}
           </section>
         </div>
@@ -602,14 +723,15 @@ export function InterviewExperience({ totalAtStart }: { totalAtStart: number }) 
         {/* Side panel: the conversation, still alive. First on mobile so the
             refine box is one thumb away; side column on desktop. */}
         <aside className="order-first min-w-0 space-y-3 rounded-xl border border-border bg-surface p-3 lg:sticky lg:top-16 lg:order-none">
-          <p className="text-xs font-semibold uppercase tracking-wide text-muted">{t('iv.chatHeading')}</p>
-          <div className="max-h-48 space-y-3 overflow-y-auto pe-1 lg:max-h-[45dvh]">{transcript}</div>
+          <CrewMeeting active={activeSpeaker} speaking={busy} compact />
+          <div className="max-h-40 space-y-3 overflow-y-auto pe-1 lg:max-h-[38dvh]">{transcript}</div>
           <RefinePanel
             criteria={iv.criteria}
             busy={busy}
             onToggleChip={onToggleRefineChip}
             onFreeText={(text) => void onRefineText(text)}
           />
+          <p className="text-[10px] leading-snug text-muted">{t('iv.aiNote')}</p>
         </aside>
       </div>
 
