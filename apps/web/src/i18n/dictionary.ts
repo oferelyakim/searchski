@@ -357,6 +357,21 @@ const en = {
     'I pencilled in a sample week so the booking links work — it was my pick, not yours. Adjust it here:',
   'iv.budgetNote':
     'Budget {budget} per person is noted for context only — it never changes the ranking, because we hold no flight or lodging prices.',
+
+  // --- results phase: cards, refine, modal --------------------------------
+  'iv.chatHeading': 'The crew',
+  'iv.cardOpen': 'Details & booking →',
+  'iv.modalClose': 'Close',
+  'iv.perDay': 'day',
+  'iv.fullPage': 'Open full resort page',
+  'iv.bookHandoff':
+    'Each piece opens with a named partner in a new tab, with your dates and party carried over. You book and pay with them directly — separate bookings, on purpose.',
+  'iv.refine.heading': 'Refine with the crew',
+  'iv.refine.placeholder': 'e.g. “bigger, with night skiing”',
+  'iv.refine.big': 'Bigger resorts (100+ km)',
+  'iv.refine.huge': 'Mega resorts (250+ km)',
+  'iv.refine.closer': 'Shorter transfer',
+  'iv.refined': 'Done — {n} areas match now.',
 } as const;
 
 export type MessageKey = keyof typeof en;
@@ -673,6 +688,20 @@ const he: Record<MessageKey, string> = {
   'iv.cmt.budget': 'תקציב {budget} לאדם: טיסות ולינה הם המשתנים הגדולים, אז בדקו את הקישורים האלה קודם — אנחנו מדרגים אתרים, לא מתמחרים טיולים.',
   'iv.assumedDates': 'סימנתי שבוע לדוגמה כדי שקישורי ההזמנה יעבדו — זו הבחירה שלי, לא שלכם. אפשר לשנות כאן:',
   'iv.budgetNote': 'תקציב {budget} לאדם נרשם להקשר בלבד — הוא לעולם לא משנה את הדירוג, כי אין לנו מחירי טיסות או לינה.',
+
+  // --- results phase: cards, refine, modal --------------------------------
+  'iv.chatHeading': 'הצוות',
+  'iv.cardOpen': 'פרטים והזמנה ←',
+  'iv.modalClose': 'סגירה',
+  'iv.perDay': 'יום',
+  'iv.fullPage': 'לעמוד האתר המלא',
+  'iv.bookHandoff': 'כל רכיב נפתח אצל שותף בשמו, בלשונית חדשה, עם התאריכים וגודל החבורה שלכם. אתם מזמינים ומשלמים אצלם ישירות — הזמנות נפרדות, בכוונה.',
+  'iv.refine.heading': 'דייקו עם הצוות',
+  'iv.refine.placeholder': 'למשל: "גדול יותר, עם גלישת לילה"',
+  'iv.refine.big': 'אתרים גדולים (+100 ק"מ)',
+  'iv.refine.huge': 'אתרי ענק (+250 ק"מ)',
+  'iv.refine.closer': 'העברה קצרה יותר',
+  'iv.refined': 'בוצע — {n} אתרים מתאימים עכשיו.',
 };
 
 export const DICTIONARIES: Record<Locale, Record<MessageKey, string>> = {

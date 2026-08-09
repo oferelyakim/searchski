@@ -2,10 +2,10 @@
 
 import Link from 'next/link';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import type { SearchCriteria, SearchResponse } from '@searchski/core/types';
+import type { ScoredResult, SearchCriteria, SearchResponse } from '@searchski/core/types';
 import { useT } from '@/i18n/client';
-import { countryName } from '@/lib/format';
 import { withoutCriterion, type ChipKey } from '@/lib/criteria-ui';
+import { countryName } from '@/lib/format';
 import { CAST, type CastId } from '@/lib/interview/cast';
 import {
   applyChips,
@@ -19,10 +19,9 @@ import {
 import { crewCommentary, fillTemplate } from '@/lib/interview/commentary';
 import { AvatarBadge, SpeakerLine } from './AvatarBadge';
 import { CriteriaChips } from '../CriteriaChips';
-import { ResultCard } from '../ResultCard';
-
-const COMPARE_KEY = 'searchski.compare';
-const MAX_COMPARE = 4;
+import { RefinePanel, type RefineChip } from './RefinePanel';
+import { ResortCardCompact } from './ResortCardCompact';
+import { ResortModal } from './ResortModal';
 
 /** One bubble in the transcript. */
 interface Entry {
@@ -33,13 +32,17 @@ interface Entry {
 }
 
 /**
- * The interview.
+ * The interview, in two phases.
  *
- * A chat-shaped front end over the same `SearchCriteria` object the classic
- * search edits directly. Chips apply deterministic patches; a typed answer on
- * the steps that allow it goes through /api/search's parser and lands in the
- * same shape. The transcript is theatre — the criteria object is the truth,
- * and it is shown back, editable, the moment results appear.
+ * PHASE 1 — the chat, centered and alone, exactly a text conversation.
+ * PHASE 2 — results: the layout splits. Resort cards take the wide column;
+ * the SAME chat continues in a side panel with refinement chips and a
+ * free-text box, so "make them bigger" is a conversation turn, not a filter
+ * form. A card click opens the full dossier + booking modal.
+ *
+ * The chat is theatre over one `SearchCriteria` object — chips patch it
+ * deterministically, typed text goes through the server parser, and the
+ * criteria stay visible and editable above the results at all times.
  *
  * Async choreography note: every awaited sequence checks `gen` against a ref
  * before touching state, so "start over" (which bumps the ref) makes any
@@ -59,12 +62,12 @@ export function InterviewExperience({ totalAtStart }: { totalAtStart: number }) 
   const [response, setResponse] = useState<SearchResponse | null>(null);
   const [resultsLoading, setResultsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [compare, setCompare] = useState<string[]>([]);
+  const [selected, setSelected] = useState<ScoredResult | null>(null);
 
   const genRef = useRef(0);
   const idRef = useRef(0);
   const startedRef = useRef(false);
-  const bottomRef = useRef<HTMLDivElement>(null);
+  const transcriptEndRef = useRef<HTMLDivElement>(null);
 
   const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
   const push = useCallback((entry: Omit<Entry, 'id'>) => {
@@ -74,36 +77,8 @@ export function InterviewExperience({ totalAtStart }: { totalAtStart: number }) 
   }, []);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  }, [entries, typing, response]);
-
-  useEffect(() => {
-    try {
-      const raw = window.localStorage.getItem(COMPARE_KEY);
-      const parsed: unknown = raw ? JSON.parse(raw) : null;
-      if (Array.isArray(parsed)) {
-        setCompare(parsed.filter((v): v is string => typeof v === 'string').slice(0, MAX_COMPARE));
-      }
-    } catch {
-      // A corrupt localStorage entry is not worth a broken page.
-    }
-  }, []);
-
-  const persistCompare = useCallback((ids: string[]) => {
-    setCompare(ids);
-    try {
-      window.localStorage.setItem(COMPARE_KEY, JSON.stringify(ids));
-    } catch {
-      // Private mode / quota. The in-memory selection still works.
-    }
-  }, []);
-
-  const toggleCompare = (id: string) => {
-    const next = compare.includes(id)
-      ? compare.filter((c) => c !== id)
-      : [...compare, id].slice(0, MAX_COMPARE);
-    persistCompare(next);
-  };
+    transcriptEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }, [entries, typing]);
 
   /** POST /api/search. Returns null on any failure — callers degrade quietly. */
   const callSearch = useCallback(
@@ -276,6 +251,7 @@ export function InterviewExperience({ totalAtStart }: { totalAtStart: number }) 
     setMultiSel([]);
     setTextOpen(false);
     setTextValue('');
+    setSelected(null);
     setCount(totalAtStart);
     void askStep(initialInterviewState(), gen);
   }, [askStep, totalAtStart]);
@@ -287,196 +263,284 @@ export function InterviewExperience({ totalAtStart }: { totalAtStart: number }) 
     void askStep(initialInterviewState(), genRef.current);
   }, [askStep]);
 
-  /** Re-run the finished search after a chip edit or a date change. */
+  // -------------------------------------------------------------------------
+  // Refinement (results phase): the chat keeps going.
+  // -------------------------------------------------------------------------
+
+  /** Re-run the finished search and speak an acknowledgment. */
   const rerun = useCallback(
-    (criteria: SearchCriteria, facts: InterviewState['facts']) => {
+    async (
+      criteria: SearchCriteria,
+      facts: InterviewState['facts'],
+      ack: { speaker: CastId } | null,
+    ) => {
       const gen = genRef.current;
-      const nextState: InterviewState = { criteria, facts, stepId: null };
-      setIv(nextState);
-      setResultsLoading(true);
-      void callSearch({ criteria: { ...criteria, limit: 12 } }).then((resp) => {
-        if (gen !== genRef.current) return;
-        setResultsLoading(false);
-        if (resp) {
-          setResponse(resp);
-          setCount(resp.totalConsidered);
-        }
+      setIv({ criteria, facts, stepId: null });
+      setBusy(true);
+      const resp = await callSearch({ criteria: { ...criteria, limit: 12 } });
+      if (gen !== genRef.current) return;
+      setBusy(false);
+      if (!resp) {
+        setError(t('search.error'));
+        return;
+      }
+      setError(null);
+      const { limit: _limit, ...clean } = resp.criteria;
+      setIv({ criteria: clean, facts, stepId: null });
+      setResponse(resp);
+      setCount(resp.totalConsidered);
+      if (ack) {
+        push({
+          kind: 'reaction',
+          speaker: ack.speaker,
+          text: fillTemplate(t('iv.refined'), { n: String(resp.totalConsidered) }),
+        });
+      }
+    },
+    [callSearch, push, t],
+  );
+
+  const onToggleRefineChip = useCallback(
+    (chip: RefineChip, active: boolean) => {
+      if (busy) return;
+      push({
+        kind: 'answer',
+        text: `${active ? '− ' : '+ '}${t(chip.labelKey)}`,
+      });
+      let criteria: Record<string, unknown> = { ...iv.criteria };
+      if (active) {
+        for (const key of Object.keys(chip.patch)) delete criteria[key];
+      } else {
+        criteria = { ...criteria, ...chip.patch };
+      }
+      void rerun(criteria as SearchCriteria, iv.facts, { speaker: chip.speaker });
+    },
+    [busy, iv, push, rerun, t],
+  );
+
+  const onRefineText = useCallback(
+    async (text: string) => {
+      if (busy) return;
+      const gen = genRef.current;
+      push({ kind: 'answer', text });
+      setBusy(true);
+      const resp = await callSearch({ query: text, criteria: { ...iv.criteria, limit: 12 } });
+      if (gen !== genRef.current) return;
+      setBusy(false);
+      if (!resp) {
+        setError(t('search.error'));
+        return;
+      }
+      setError(null);
+      const { limit: _limit, ...clean } = resp.criteria;
+      setIv({ criteria: clean, facts: iv.facts, stepId: null });
+      setResponse(resp);
+      setCount(resp.totalConsidered);
+      push({
+        kind: 'reaction',
+        speaker: 'maya',
+        text: fillTemplate(t('iv.refined'), { n: String(resp.totalConsidered) }),
       });
     },
-    [callSearch],
+    [busy, callSearch, iv, push, t],
   );
 
   const onRemoveChip = (key: ChipKey) => {
     const facts =
       key === 'dateFrom' || key === 'dateTo' ? { ...iv.facts, datesAssumed: false } : iv.facts;
-    rerun(withoutCriterion(iv.criteria, key), facts);
+    void rerun(withoutCriterion(iv.criteria, key), facts, null);
   };
 
   const onDateChange = (key: 'dateFrom' | 'dateTo', value: string) => {
     const criteria: SearchCriteria = { ...iv.criteria };
     if (value === '') delete criteria[key];
     else criteria[key] = value;
-    rerun(criteria, { ...iv.facts, datesAssumed: false });
+    void rerun(criteria, { ...iv.facts, datesAssumed: false }, null);
   };
 
+  // -------------------------------------------------------------------------
+  // Render
+  // -------------------------------------------------------------------------
+
   const step = iv.stepId === null ? null : STEPS[iv.stepId];
+  const inResults = iv.stepId === null && response !== null;
   const commentary = response ? crewCommentary(iv, response) : [];
 
-  return (
-    <div className="mx-auto max-w-2xl space-y-4">
-      {/* The counter: the interview visibly narrowing the world. */}
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <p aria-live="polite" className="rounded-full border border-border bg-surface px-3 py-1 text-xs text-muted">
-          {fillTemplate(t('iv.count'), { n: count.toLocaleString() })}
-        </p>
-        <div className="flex items-center gap-3 text-xs">
-          {iv.stepId !== null && iv.stepId !== 'party' ? (
-            <button type="button" onClick={onSkip} className="text-accent underline-offset-2 hover:underline">
-              {t('iv.skip')}
-            </button>
-          ) : null}
-          {iv.stepId === null || iv.stepId !== 'party' ? (
-            <button type="button" onClick={onRestart} className="text-muted underline-offset-2 hover:underline">
-              {t('iv.restart')}
-            </button>
-          ) : null}
-          <Link href="/search" className="text-muted no-underline underline-offset-2 hover:text-fg hover:underline">
-            {t('iv.classic')}
-          </Link>
-        </div>
+  const topBar = (
+    <div className="flex flex-wrap items-center justify-between gap-2">
+      <p aria-live="polite" className="rounded-full border border-border bg-surface px-3 py-1 text-xs text-muted">
+        {fillTemplate(t('iv.count'), { n: count.toLocaleString() })}
+      </p>
+      <div className="flex items-center gap-3 text-xs">
+        {iv.stepId !== null && iv.stepId !== 'party' ? (
+          <button type="button" onClick={onSkip} className="text-accent underline-offset-2 hover:underline">
+            {t('iv.skip')}
+          </button>
+        ) : null}
+        {iv.stepId === null || iv.stepId !== 'party' ? (
+          <button type="button" onClick={onRestart} className="text-muted underline-offset-2 hover:underline">
+            {t('iv.restart')}
+          </button>
+        ) : null}
+        <Link href="/search" className="text-muted no-underline underline-offset-2 hover:text-fg hover:underline">
+          {t('iv.classic')}
+        </Link>
       </div>
+    </div>
+  );
 
-      {/* Transcript */}
-      <div className="space-y-3" aria-live="polite">
-        {entries.map((entry) =>
-          entry.kind === 'answer' ? (
-            <div key={entry.id} className="flex justify-end">
-              <div className="max-w-[85%] rounded-2xl rounded-ee-md bg-accent px-3.5 py-2 text-sm text-accent-fg">
+  const transcript = (
+    <div className="space-y-3" aria-live="polite">
+      {entries.map((entry) =>
+        entry.kind === 'answer' ? (
+          <div key={entry.id} className="flex justify-end">
+            <div className="max-w-[85%] rounded-2xl rounded-ee-md bg-accent px-3.5 py-2 text-sm text-accent-fg">
+              {entry.text}
+            </div>
+          </div>
+        ) : (
+          <div key={entry.id} className="flex items-end gap-2">
+            <AvatarBadge id={entry.speaker ?? 'maya'} size={inResults ? 28 : 36} />
+            <div className="max-w-[85%] space-y-0.5">
+              <SpeakerLine id={entry.speaker ?? 'maya'} role={t(CAST[entry.speaker ?? 'maya'].roleKey)} />
+              <div
+                className={`rounded-2xl rounded-es-md border border-border bg-surface px-3.5 py-2 text-sm text-fg ${
+                  entry.kind === 'reaction' ? 'border-s-2' : ''
+                }`}
+                style={entry.kind === 'reaction' ? { borderInlineStartColor: CAST[entry.speaker ?? 'maya'].color } : undefined}
+              >
                 {entry.text}
               </div>
             </div>
-          ) : (
-            <div key={entry.id} className="flex items-end gap-2">
-              <AvatarBadge id={entry.speaker ?? 'maya'} />
-              <div className="max-w-[85%] space-y-0.5">
-                <SpeakerLine id={entry.speaker ?? 'maya'} role={t(CAST[entry.speaker ?? 'maya'].roleKey)} />
-                <div
-                  className={`rounded-2xl rounded-es-md border border-border bg-surface px-3.5 py-2 text-sm text-fg ${
-                    entry.kind === 'reaction' ? 'border-s-2' : ''
-                  }`}
-                  style={entry.kind === 'reaction' ? { borderInlineStartColor: CAST[entry.speaker ?? 'maya'].color } : undefined}
-                >
-                  {entry.text}
-                </div>
-              </div>
-            </div>
-          ),
-        )}
-
-        {typing || busy ? (
-          <div className="flex items-end gap-2">
-            <AvatarBadge id={step?.speaker ?? 'maya'} />
-            <div className="rounded-2xl rounded-es-md border border-border bg-surface px-4 py-3">
-              <span className="typing-dots" aria-label={t('iv.typing')}>
-                <span /><span /><span />
-              </span>
-            </div>
           </div>
-        ) : null}
-      </div>
+        ),
+      )}
 
-      {/* Answer controls for the current step */}
-      {step !== null && !typing && !busy ? (
-        <div className="rounded-xl border border-border bg-surface p-3">
-          <div className="flex flex-wrap gap-2">
-            {step.chips.map((chip) => {
-              const selected = multiSel.includes(chip.id);
-              return (
-                <button
-                  key={chip.id}
-                  type="button"
-                  aria-pressed={step.multi ? selected : undefined}
-                  onClick={() => {
-                    if (step.multi) {
-                      setMultiSel((prev) =>
-                        prev.includes(chip.id) ? prev.filter((c) => c !== chip.id) : [...prev, chip.id],
-                      );
-                    } else {
-                      answerWithChips([chip.id], chipLabel(chip));
-                    }
-                  }}
-                  className={`rounded-full border px-3 py-1.5 text-sm transition-colors ${
-                    selected
-                      ? 'border-accent bg-accent text-accent-fg'
-                      : 'border-border bg-bg text-fg hover:border-accent hover:text-accent'
-                  }`}
-                >
-                  {chipLabel(chip)}
-                </button>
-              );
-            })}
-            {step.freeText ? (
-              <button
-                type="button"
-                onClick={() => setTextOpen((v) => !v)}
-                className="rounded-full border border-dashed border-border px-3 py-1.5 text-sm text-muted hover:border-accent hover:text-accent"
-              >
-                {t('iv.other')}
-              </button>
-            ) : null}
+      {typing || busy ? (
+        <div className="flex items-end gap-2">
+          <AvatarBadge id={step?.speaker ?? 'maya'} size={inResults ? 28 : 36} />
+          <div className="rounded-2xl rounded-es-md border border-border bg-surface px-4 py-3">
+            <span className="typing-dots" aria-label={t('iv.typing')}>
+              <span /><span /><span />
+            </span>
           </div>
-
-          {step.multi ? (
-            <button
-              type="button"
-              onClick={() =>
-                answerWithChips(
-                  multiSel,
-                  multiSel.length === 0
-                    ? t('iv.noPreference')
-                    : multiSel
-                        .map((id) => {
-                          const chip = step.chips.find((c) => c.id === id);
-                          return chip ? chipLabel(chip) : id;
-                        })
-                        .join(' · '),
-                )
-              }
-              className="mt-2.5 rounded-lg bg-accent px-3.5 py-1.5 text-sm font-medium text-accent-fg"
-            >
-              {t('iv.confirm')}
-            </button>
-          ) : null}
-
-          {textOpen && step.freeText ? (
-            <form
-              className="mt-2.5 flex gap-2"
-              onSubmit={(e) => {
-                e.preventDefault();
-                void answerWithText();
-              }}
-            >
-              <input
-                autoFocus
-                value={textValue}
-                onChange={(e) => setTextValue(e.target.value)}
-                placeholder={step.freeTextKey ? t(step.freeTextKey) : ''}
-                className="min-w-0 flex-1 rounded-lg border border-border bg-bg px-3 py-1.5 text-sm text-fg placeholder:text-muted"
-              />
-              <button type="submit" className="rounded-lg bg-accent px-3.5 py-1.5 text-sm font-medium text-accent-fg">
-                {t('iv.send')}
-              </button>
-            </form>
-          ) : null}
         </div>
       ) : null}
+      <div ref={transcriptEndRef} />
+    </div>
+  );
 
-      {error ? <p className="text-sm text-bad">{error}</p> : null}
-      {resultsLoading ? <p className="text-sm text-muted">{t('search.searching')}</p> : null}
+  const answerControls =
+    step !== null && !typing && !busy ? (
+      <div className="rounded-xl border border-border bg-surface p-3">
+        <div className="flex flex-wrap gap-2">
+          {step.chips.map((chip) => {
+            const chipSelected = multiSel.includes(chip.id);
+            return (
+              <button
+                key={chip.id}
+                type="button"
+                aria-pressed={step.multi ? chipSelected : undefined}
+                onClick={() => {
+                  if (step.multi) {
+                    setMultiSel((prev) =>
+                      prev.includes(chip.id) ? prev.filter((c) => c !== chip.id) : [...prev, chip.id],
+                    );
+                  } else {
+                    answerWithChips([chip.id], chipLabel(chip));
+                  }
+                }}
+                className={`rounded-full border px-3 py-1.5 text-sm transition-colors ${
+                  chipSelected
+                    ? 'border-accent bg-accent text-accent-fg'
+                    : 'border-border bg-bg text-fg hover:border-accent hover:text-accent'
+                }`}
+              >
+                {chipLabel(chip)}
+              </button>
+            );
+          })}
+          {step.freeText ? (
+            <button
+              type="button"
+              onClick={() => setTextOpen((v) => !v)}
+              className="rounded-full border border-dashed border-border px-3 py-1.5 text-sm text-muted hover:border-accent hover:text-accent"
+            >
+              {t('iv.other')}
+            </button>
+          ) : null}
+        </div>
 
-      {/* Results */}
-      {response !== null && iv.stepId === null ? (
-        <div className="space-y-4">
+        {step.multi ? (
+          <button
+            type="button"
+            onClick={() =>
+              answerWithChips(
+                multiSel,
+                multiSel.length === 0
+                  ? t('iv.noPreference')
+                  : multiSel
+                      .map((id) => {
+                        const chip = step.chips.find((c) => c.id === id);
+                        return chip ? chipLabel(chip) : id;
+                      })
+                      .join(' · '),
+              )
+            }
+            className="mt-2.5 rounded-lg bg-accent px-3.5 py-1.5 text-sm font-medium text-accent-fg"
+          >
+            {t('iv.confirm')}
+          </button>
+        ) : null}
+
+        {textOpen && step.freeText ? (
+          <form
+            className="mt-2.5 flex gap-2"
+            onSubmit={(e) => {
+              e.preventDefault();
+              void answerWithText();
+            }}
+          >
+            <input
+              autoFocus
+              value={textValue}
+              onChange={(e) => setTextValue(e.target.value)}
+              placeholder={step.freeTextKey ? t(step.freeTextKey) : ''}
+              className="min-w-0 flex-1 rounded-lg border border-border bg-bg px-3 py-1.5 text-sm text-fg placeholder:text-muted"
+            />
+            <button type="submit" className="rounded-lg bg-accent px-3.5 py-1.5 text-sm font-medium text-accent-fg">
+              {t('iv.send')}
+            </button>
+          </form>
+        ) : null}
+      </div>
+    ) : null;
+
+  // ------------------------------------------------------------------
+  // PHASE 1 — the interview, centered.
+  // ------------------------------------------------------------------
+  if (!inResults) {
+    return (
+      <div className="mx-auto max-w-2xl space-y-4">
+        {topBar}
+        {transcript}
+        {answerControls}
+        {error ? <p className="text-sm text-bad">{error}</p> : null}
+        {resultsLoading ? <p className="text-sm text-muted">{t('search.searching')}</p> : null}
+      </div>
+    );
+  }
+
+  // ------------------------------------------------------------------
+  // PHASE 2 — results: cards wide, the chat continues at the side.
+  // ------------------------------------------------------------------
+  return (
+    <div className="space-y-4">
+      {topBar}
+
+      <div className="grid grid-cols-1 items-start gap-4 lg:grid-cols-[minmax(0,1fr)_340px]">
+        {/* Wide column: what the crew found. */}
+        <div className="min-w-0 space-y-4">
           {iv.facts.datesAssumed && iv.criteria.dateFrom && iv.criteria.dateTo ? (
             <div className="rounded-xl border border-warn/40 bg-warn/10 p-3 text-xs text-fg">
               <p className="mb-2 text-warn">{t('iv.assumedDates')}</p>
@@ -503,57 +567,55 @@ export function InterviewExperience({ totalAtStart }: { totalAtStart: number }) 
           <CriteriaChips criteria={response.criteria} parsedBy={response.parsedBy} onRemove={onRemoveChip} />
 
           {commentary.length > 0 ? (
-            <section aria-labelledby="crew-heading" className="rounded-xl border border-border bg-surface p-4">
-              <h2 id="crew-heading" className="text-sm font-semibold text-fg">
+            <section aria-labelledby="crew-heading" className="rounded-xl border border-border bg-surface p-3">
+              <h2 id="crew-heading" className="sr-only">
                 {t('iv.crewHeading')}
               </h2>
-              <ul className="mt-2 space-y-2">
+              <ul className="flex flex-wrap gap-x-6 gap-y-1.5">
                 {commentary.map((line, i) => (
-                  <li key={i} className="flex items-start gap-2 text-sm text-fg">
-                    <AvatarBadge id={line.speaker} size={24} />
-                    <span>
-                      <span className="font-semibold" style={{ color: CAST[line.speaker].color }}>
-                        {CAST[line.speaker].name}:
-                      </span>{' '}
-                      {fillTemplate(t(line.key), line.values)}
-                    </span>
+                  <li key={i} className="flex items-center gap-1.5 text-xs text-fg">
+                    <AvatarBadge id={line.speaker} size={18} />
+                    <span>{fillTemplate(t(line.key), line.values)}</span>
                   </li>
                 ))}
               </ul>
             </section>
           ) : null}
 
-          {typeof iv.facts.budgetPerPersonUsd === 'number' ? (
-            <p className="text-xs text-muted">
-              {fillTemplate(t('iv.budgetNote'), {
-                budget: `$${iv.facts.budgetPerPersonUsd.toLocaleString('en-US')}`,
-              })}
-            </p>
-          ) : null}
+          {error ? <p className="text-sm text-bad">{error}</p> : null}
 
           <section aria-label={t('search.results')}>
             {response.results.length === 0 ? (
               <p className="text-sm text-muted">{t('search.noResults')}</p>
             ) : (
-              <ul className="space-y-3">
+              <ul className={`grid grid-cols-1 gap-3 sm:grid-cols-2 ${busy ? 'opacity-60' : ''}`}>
                 {response.results.map((result) => (
                   <li key={result.area.id}>
-                    <ResultCard
-                      result={result}
-                      selected={compare.includes(result.area.id)}
-                      canSelect={compare.length < MAX_COMPARE || compare.includes(result.area.id)}
-                      onToggleCompare={toggleCompare}
-                      criteria={response.criteria}
-                    />
+                    <ResortCardCompact result={result} onOpen={setSelected} />
                   </li>
                 ))}
               </ul>
             )}
           </section>
         </div>
-      ) : null}
 
-      <div ref={bottomRef} />
+        {/* Side panel: the conversation, still alive. First on mobile so the
+            refine box is one thumb away; side column on desktop. */}
+        <aside className="order-first min-w-0 space-y-3 rounded-xl border border-border bg-surface p-3 lg:sticky lg:top-16 lg:order-none">
+          <p className="text-xs font-semibold uppercase tracking-wide text-muted">{t('iv.chatHeading')}</p>
+          <div className="max-h-48 space-y-3 overflow-y-auto pe-1 lg:max-h-[45dvh]">{transcript}</div>
+          <RefinePanel
+            criteria={iv.criteria}
+            busy={busy}
+            onToggleChip={onToggleRefineChip}
+            onFreeText={(text) => void onRefineText(text)}
+          />
+        </aside>
+      </div>
+
+      {selected ? (
+        <ResortModal result={selected} criteria={iv.criteria} onClose={() => setSelected(null)} />
+      ) : null}
     </div>
   );
 }
