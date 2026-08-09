@@ -41,13 +41,15 @@ anything. If you ever move to Supabase-only, that's when to start ignoring it.
 4. Deploy.
 
 **Which branch becomes production.** Vercel builds *production* from the
-repository's **default branch** and every other branch as a *preview*
-deployment with its own URL. As of 2026-08 this repo's GitHub default is
-`claude/ski-vacation-planner-research-jis317`, which is an older strict
-ancestor of the active development branch
-(`claude/ski-package-pricing-engine-0h6fuz`) — connecting Vercel without
-addressing this deploys the old code to production and the new code to a
-preview URL. Two fixes, either works:
+branch its project settings track and every other branch as a *preview*
+deployment with its own URL. **Done for this repo on 2026-08-09:** `main` is
+the GitHub default and the Vercel production branch (project `chai-tov-ski`,
+Settings → Environments → Production → Branch Tracking). If either side is
+ever reset, the failure mode and the two fixes are:
+
+The symptom is production serving stale code while new pushes only get
+preview URLs — Vercel records a production branch at import time and does
+not follow a later GitHub default-branch change. Two fixes, either works:
 
 - **Create `main`** from the active branch, set it as the GitHub default
   (repo → Settings → General → Default branch), and let Vercel track it.
