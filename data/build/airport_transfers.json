@@ -1,0 +1,262 @@
+[
+  {
+    "airportIata": "SOF",
+    "skiAreaId": "bdd08a03378f40f323db3efc27d51bafea12c040",
+    "driveMinutes": 150,
+    "distanceKm": 160,
+    "provenance": {
+      "source": "curated",
+      "sourceUrl": null,
+      "fetchedAt": "2026-08-10T03:04:41.000Z",
+      "verification": "unverified",
+      "note": "Manual web research 2026-08-10 (Claude, session work requested by owner). Facts only; awaiting human verification. Road route figures per standard driving routes and operator transfer listings; winter mountain conditions can add materially. Well-served corridor: shared shuttles and private transfers year-round."
+    }
+  },
+  {
+    "airportIata": "SOF",
+    "skiAreaId": "c32e64673614d65c65f0123491f1976f62e9a55c",
+    "driveMinutes": 75,
+    "distanceKm": 72,
+    "provenance": {
+      "source": "curated",
+      "sourceUrl": null,
+      "fetchedAt": "2026-08-10T03:04:41.000Z",
+      "verification": "unverified",
+      "note": "Manual web research 2026-08-10 (Claude, session work requested by owner). Facts only; awaiting human verification. Road route figures per standard driving routes and operator transfer listings; winter mountain conditions can add materially. Shortest big-resort transfer in Bulgaria."
+    }
+  },
+  {
+    "airportIata": "PDV",
+    "skiAreaId": "bdd08a03378f40f323db3efc27d51bafea12c040",
+    "driveMinutes": 140,
+    "distanceKm": 145,
+    "provenance": {
+      "source": "curated",
+      "sourceUrl": null,
+      "fetchedAt": "2026-08-10T03:04:41.000Z",
+      "verification": "unverified",
+      "note": "Manual web research 2026-08-10 (Claude, session work requested by owner). Facts only; awaiting human verification. Road route figures per standard driving routes and operator transfer listings; winter mountain conditions can add materially. Alternative gateway when SOF fares are high."
+    }
+  },
+  {
+    "airportIata": "SOF",
+    "skiAreaId": "78366a4ff6a737d977720302395672e848bcb031",
+    "driveMinutes": 190,
+    "distanceKm": 235,
+    "provenance": {
+      "source": "curated",
+      "sourceUrl": null,
+      "fetchedAt": "2026-08-10T03:04:41.000Z",
+      "verification": "unverified",
+      "note": "Manual web research 2026-08-10 (Claude, session work requested by owner). Facts only; awaiting human verification. Road route figures per standard driving routes and operator transfer listings; winter mountain conditions can add materially. Long; PDV is the better gateway."
+    }
+  },
+  {
+    "airportIata": "PDV",
+    "skiAreaId": "78366a4ff6a737d977720302395672e848bcb031",
+    "driveMinutes": 90,
+    "distanceKm": 85,
+    "provenance": {
+      "source": "curated",
+      "sourceUrl": null,
+      "fetchedAt": "2026-08-10T03:04:41.000Z",
+      "verification": "unverified",
+      "note": "Manual web research 2026-08-10 (Claude, session work requested by owner). Facts only; awaiting human verification. Road route figures per standard driving routes and operator transfer listings; winter mountain conditions can add materially. Primary gateway for Pamporovo."
+    }
+  },
+  {
+    "airportIata": "SOF",
+    "skiAreaId": "2042eaaa31e412c7cf80dcb5ae2c29385dfecd2c",
+    "driveMinutes": 40,
+    "distanceKm": 25,
+    "provenance": {
+      "source": "curated",
+      "sourceUrl": null,
+      "fetchedAt": "2026-08-10T03:04:41.000Z",
+      "verification": "unverified",
+      "note": "Manual web research 2026-08-10 (Claude, session work requested by owner). Facts only; awaiting human verification. Road route figures per standard driving routes and operator transfer listings; winter mountain conditions can add materially. City mountain above Sofia; public bus + gondola also possible."
+    }
+  },
+  {
+    "airportIata": "TBS",
+    "skiAreaId": "611c5f306d193965d569b1d45fd531b4b4a6e14b",
+    "driveMinutes": 120,
+    "distanceKm": 120,
+    "provenance": {
+      "source": "curated",
+      "sourceUrl": null,
+      "fetchedAt": "2026-08-10T03:04:41.000Z",
+      "verification": "unverified",
+      "note": "Manual web research 2026-08-10 (Claude, session work requested by owner). Facts only; awaiting human verification. Road route figures per standard driving routes and operator transfer listings; winter mountain conditions can add materially. Georgian Military Highway; heavy snowfall can close the pass briefly."
+    }
+  },
+  {
+    "airportIata": "TBS",
+    "skiAreaId": "2f6b7a3519d8fa518b553d5d6eee2a350cde28f1",
+    "driveMinutes": 170,
+    "distanceKm": 180,
+    "provenance": {
+      "source": "curated",
+      "sourceUrl": null,
+      "fetchedAt": "2026-08-10T03:04:41.000Z",
+      "verification": "unverified",
+      "note": "Manual web research 2026-08-10 (Claude, session work requested by owner). Facts only; awaiting human verification. Road route figures per standard driving routes and operator transfer listings; winter mountain conditions can add materially. Via Borjomi; rail option Tbilisi-Borjomi + narrow-gauge to Bakuriani exists but is slow."
+    }
+  },
+  {
+    "airportIata": "TBS",
+    "skiAreaId": "235495e48762d59d78170d2f534c42b88cce84ee",
+    "driveMinutes": 170,
+    "distanceKm": 180,
+    "provenance": {
+      "source": "curated",
+      "sourceUrl": null,
+      "fetchedAt": "2026-08-10T03:04:41.000Z",
+      "verification": "unverified",
+      "note": "Manual web research 2026-08-10 (Claude, session work requested by owner). Facts only; awaiting human verification. Road route figures per standard driving routes and operator transfer listings; winter mountain conditions can add materially. Same corridor as Didveli; one Bakuriani transfer serves both."
+    }
+  },
+  {
+    "airportIata": "KUT",
+    "skiAreaId": "2f6b7a3519d8fa518b553d5d6eee2a350cde28f1",
+    "driveMinutes": 180,
+    "distanceKm": 205,
+    "provenance": {
+      "source": "curated",
+      "sourceUrl": null,
+      "fetchedAt": "2026-08-10T03:04:41.000Z",
+      "verification": "unverified",
+      "note": "Manual web research 2026-08-10 (Claude, session work requested by owner). Facts only; awaiting human verification. Road route figures per standard driving routes and operator transfer listings; winter mountain conditions can add materially. Kutaisi is the low-cost-carrier gateway (Wizz)."
+    }
+  },
+  {
+    "airportIata": "KUT",
+    "skiAreaId": "235495e48762d59d78170d2f534c42b88cce84ee",
+    "driveMinutes": 180,
+    "distanceKm": 205,
+    "provenance": {
+      "source": "curated",
+      "sourceUrl": null,
+      "fetchedAt": "2026-08-10T03:04:41.000Z",
+      "verification": "unverified",
+      "note": "Manual web research 2026-08-10 (Claude, session work requested by owner). Facts only; awaiting human verification. Road route figures per standard driving routes and operator transfer listings; winter mountain conditions can add materially. Same corridor as Didveli."
+    }
+  },
+  {
+    "airportIata": "KUT",
+    "skiAreaId": "ee37f499cd97aa4749f1987db884157183df0f58",
+    "driveMinutes": 180,
+    "distanceKm": 135,
+    "provenance": {
+      "source": "curated",
+      "sourceUrl": null,
+      "fetchedAt": "2026-08-10T03:04:41.000Z",
+      "verification": "unverified",
+      "note": "Manual web research 2026-08-10 (Claude, session work requested by owner). Facts only; awaiting human verification. Road route figures per standard driving routes and operator transfer listings; winter mountain conditions can add materially. Mountain road to Mestia; slow km. 4x4 advisable in winter."
+    }
+  },
+  {
+    "airportIata": "KUT",
+    "skiAreaId": "a9a697b480cff1366c2b4b9d721b3d950797ed6a",
+    "driveMinutes": 210,
+    "distanceKm": 150,
+    "provenance": {
+      "source": "curated",
+      "sourceUrl": null,
+      "fetchedAt": "2026-08-10T03:04:41.000Z",
+      "verification": "unverified",
+      "note": "Manual web research 2026-08-10 (Claude, session work requested by owner). Facts only; awaiting human verification. Road route figures per standard driving routes and operator transfer listings; winter mountain conditions can add materially. Via Mestia; Tetnuldi base is ~15 km beyond Hatsvali."
+    }
+  },
+  {
+    "airportIata": "BUS",
+    "skiAreaId": "b53c907f7c8ee61b77ace657976dab0ce624d7d8",
+    "driveMinutes": 150,
+    "distanceKm": 105,
+    "provenance": {
+      "source": "curated",
+      "sourceUrl": null,
+      "fetchedAt": "2026-08-10T03:04:41.000Z",
+      "verification": "unverified",
+      "note": "Manual web research 2026-08-10 (Claude, session work requested by owner). Facts only; awaiting human verification. Road route figures per standard driving routes and operator transfer listings; winter mountain conditions can add materially. From Batumi via Khulo; upper section unpaved, 4x4 or operator shuttle in winter."
+    }
+  },
+  {
+    "airportIata": "BCN",
+    "skiAreaId": "de4f884c40976fe9d18c23d0bab174c1d6b79218",
+    "driveMinutes": 180,
+    "distanceKm": 200,
+    "provenance": {
+      "source": "curated",
+      "sourceUrl": null,
+      "fetchedAt": "2026-08-10T03:04:41.000Z",
+      "verification": "unverified",
+      "note": "Manual web research 2026-08-10 (Claude, session work requested by owner). Facts only; awaiting human verification. Road route figures per standard driving routes and operator transfer listings; winter mountain conditions can add materially. Regular Andbus/Directbus coach service Barcelona airport-Andorra."
+    }
+  },
+  {
+    "airportIata": "TLS",
+    "skiAreaId": "de4f884c40976fe9d18c23d0bab174c1d6b79218",
+    "driveMinutes": 165,
+    "distanceKm": 180,
+    "provenance": {
+      "source": "curated",
+      "sourceUrl": null,
+      "fetchedAt": "2026-08-10T03:04:41.000Z",
+      "verification": "unverified",
+      "note": "Manual web research 2026-08-10 (Claude, session work requested by owner). Facts only; awaiting human verification. Road route figures per standard driving routes and operator transfer listings; winter mountain conditions can add materially. Closest major airport to Pas de la Casa side."
+    }
+  },
+  {
+    "airportIata": "BCN",
+    "skiAreaId": "5ecb06388006e4740e7ce8234e26d036ce85edb7",
+    "driveMinutes": 190,
+    "distanceKm": 210,
+    "provenance": {
+      "source": "curated",
+      "sourceUrl": null,
+      "fetchedAt": "2026-08-10T03:04:41.000Z",
+      "verification": "unverified",
+      "note": "Manual web research 2026-08-10 (Claude, session work requested by owner). Facts only; awaiting human verification. Road route figures per standard driving routes and operator transfer listings; winter mountain conditions can add materially. Coach to Andorra la Vella + local leg to La Massana."
+    }
+  },
+  {
+    "airportIata": "TLS",
+    "skiAreaId": "5ecb06388006e4740e7ce8234e26d036ce85edb7",
+    "driveMinutes": 185,
+    "distanceKm": 195,
+    "provenance": {
+      "source": "curated",
+      "sourceUrl": null,
+      "fetchedAt": "2026-08-10T03:04:41.000Z",
+      "verification": "unverified",
+      "note": "Manual web research 2026-08-10 (Claude, session work requested by owner). Facts only; awaiting human verification. Road route figures per standard driving routes and operator transfer listings; winter mountain conditions can add materially. Coach to Andorra la Vella + local leg to La Massana."
+    }
+  },
+  {
+    "airportIata": "BCN",
+    "skiAreaId": "066c4b2d821452980329ab1a2fd4aee2d6251231",
+    "driveMinutes": 200,
+    "distanceKm": 220,
+    "provenance": {
+      "source": "curated",
+      "sourceUrl": null,
+      "fetchedAt": "2026-08-10T03:04:41.000Z",
+      "verification": "unverified",
+      "note": "Manual web research 2026-08-10 (Claude, session work requested by owner). Facts only; awaiting human verification. Road route figures per standard driving routes and operator transfer listings; winter mountain conditions can add materially. Beyond Ordino; day-trip mountain, most stay in La Massana/Ordino."
+    }
+  },
+  {
+    "airportIata": "TLS",
+    "skiAreaId": "066c4b2d821452980329ab1a2fd4aee2d6251231",
+    "driveMinutes": 195,
+    "distanceKm": 205,
+    "provenance": {
+      "source": "curated",
+      "sourceUrl": null,
+      "fetchedAt": "2026-08-10T03:04:41.000Z",
+      "verification": "unverified",
+      "note": "Manual web research 2026-08-10 (Claude, session work requested by owner). Facts only; awaiting human verification. Road route figures per standard driving routes and operator transfer listings; winter mountain conditions can add materially. Beyond Ordino; day-trip mountain, most stay in La Massana/Ordino."
+    }
+  }
+]

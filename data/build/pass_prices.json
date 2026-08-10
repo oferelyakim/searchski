@@ -15,5 +15,294 @@
     },
     "duration": "1day",
     "price": 43
+  },
+  {
+    "passRegionId": null,
+    "skiAreaId": "bdd08a03378f40f323db3efc27d51bafea12c040",
+    "season": "2025/26",
+    "category": "adult",
+    "currency": "BGN",
+    "isDynamic": true,
+    "provenance": {
+      "source": "official",
+      "sourceUrl": "https://www.banskoski.com/en/news/official-start-of-winter-season-2025-2026-in-bansko",
+      "fetchedAt": "2026-08-10T03:04:41.000Z",
+      "verification": "unverified",
+      "note": "Manual web research 2026-08-10 (Claude, session work requested by owner). Facts only; awaiting human verification. BGN 65/day announced for season opening period from Dec 14 2025; regular high-season daily was BGN 110 in 2024/25, so treat as a FLOOR. Bulgaria uses EUR from 2026-01-01; BGN figures as published."
+    },
+    "duration": "1day",
+    "price": 65
+  },
+  {
+    "passRegionId": null,
+    "skiAreaId": "78366a4ff6a737d977720302395672e848bcb031",
+    "season": "2025/26",
+    "category": "adult",
+    "currency": "BGN",
+    "isDynamic": false,
+    "provenance": {
+      "source": "curated",
+      "sourceUrl": "https://tulipapartspamporovo.com/pamporovo-ski-season-2025-26-dates-guide/",
+      "fetchedAt": "2026-08-10T03:04:41.000Z",
+      "verification": "unverified",
+      "note": "Manual web research 2026-08-10 (Claude, session work requested by owner). Facts only; awaiting human verification. Standard adult 1-day BGN 98 per local season guide citing the resort webshop; pre-sale \"Select\" day pass was BGN 88 until 2025-10-31 per official municipal portal visitchepelare.bg."
+    },
+    "duration": "1day",
+    "price": 98
+  },
+  {
+    "passRegionId": null,
+    "skiAreaId": "611c5f306d193965d569b1d45fd531b4b4a6e14b",
+    "season": "2025/26",
+    "category": "adult",
+    "currency": "GEL",
+    "isDynamic": false,
+    "provenance": {
+      "source": "curated",
+      "sourceUrl": "https://friendly.ge/en/gudauri-ski-resort-guide",
+      "fetchedAt": "2026-08-10T03:04:41.000Z",
+      "verification": "unverified",
+      "note": "Manual web research 2026-08-10 (Claude, session work requested by owner). Facts only; awaiting human verification. Adult full-day pass 70 GEL for 2025/26 per local guide; operator is Mountain Resorts of Georgia."
+    },
+    "duration": "1day",
+    "price": 70
+  },
+  {
+    "passRegionId": null,
+    "skiAreaId": "2f6b7a3519d8fa518b553d5d6eee2a350cde28f1",
+    "season": "2025/26",
+    "category": "adult",
+    "currency": "GEL",
+    "isDynamic": false,
+    "provenance": {
+      "source": "curated",
+      "sourceUrl": "https://friendly.ge/en/bakuriani-ski-resort-guide",
+      "fetchedAt": "2026-08-10T03:04:41.000Z",
+      "verification": "unverified",
+      "note": "Manual web research 2026-08-10 (Claude, session work requested by owner). Facts only; awaiting human verification. Bakuriani adult day ticket 55 GEL for 2025/26; one Bakuriani ticket system covers the Didveli and Kokhta-Mitarbi slopes."
+    },
+    "duration": "1day",
+    "price": 55
+  },
+  {
+    "passRegionId": null,
+    "skiAreaId": "235495e48762d59d78170d2f534c42b88cce84ee",
+    "season": "2025/26",
+    "category": "adult",
+    "currency": "GEL",
+    "isDynamic": false,
+    "provenance": {
+      "source": "curated",
+      "sourceUrl": "https://friendly.ge/en/bakuriani-ski-resort-guide",
+      "fetchedAt": "2026-08-10T03:04:41.000Z",
+      "verification": "unverified",
+      "note": "Manual web research 2026-08-10 (Claude, session work requested by owner). Facts only; awaiting human verification. Bakuriani adult day ticket 55 GEL for 2025/26; one Bakuriani ticket system covers the Didveli and Kokhta-Mitarbi slopes."
+    },
+    "duration": "1day",
+    "price": 55
+  },
+  {
+    "passRegionId": null,
+    "skiAreaId": "a9a697b480cff1366c2b4b9d721b3d950797ed6a",
+    "season": "2025/26",
+    "category": "adult",
+    "currency": "GEL",
+    "isDynamic": false,
+    "provenance": {
+      "source": "curated",
+      "sourceUrl": "https://www.onthesnow.co.uk/svaneti/mestia-tetnuldi/skipass",
+      "fetchedAt": "2026-08-10T03:04:41.000Z",
+      "verification": "unverified",
+      "note": "Manual web research 2026-08-10 (Claude, session work requested by owner). Facts only; awaiting human verification. Mestia adult day ticket 50 GEL for 2025/26, valid at BOTH Tetnuldi and Hatsvali."
+    },
+    "duration": "1day",
+    "price": 50
+  },
+  {
+    "passRegionId": null,
+    "skiAreaId": "ee37f499cd97aa4749f1987db884157183df0f58",
+    "season": "2025/26",
+    "category": "adult",
+    "currency": "GEL",
+    "isDynamic": false,
+    "provenance": {
+      "source": "curated",
+      "sourceUrl": "https://www.onthesnow.co.uk/svaneti/mestia-tetnuldi/skipass",
+      "fetchedAt": "2026-08-10T03:04:41.000Z",
+      "verification": "unverified",
+      "note": "Manual web research 2026-08-10 (Claude, session work requested by owner). Facts only; awaiting human verification. Mestia adult day ticket 50 GEL for 2025/26, valid at BOTH Tetnuldi and Hatsvali."
+    },
+    "duration": "1day",
+    "price": 50
+  },
+  {
+    "passRegionId": null,
+    "skiAreaId": "b53c907f7c8ee61b77ace657976dab0ce624d7d8",
+    "season": "2025/26",
+    "category": "adult",
+    "currency": "GEL",
+    "isDynamic": false,
+    "provenance": {
+      "source": "curated",
+      "sourceUrl": "https://www.onthesnow.co.uk/mtskheta-mtianeti-region/goderdzi/skipass",
+      "fetchedAt": "2026-08-10T03:04:41.000Z",
+      "verification": "unverified",
+      "note": "Manual web research 2026-08-10 (Claude, session work requested by owner). Facts only; awaiting human verification. Adult day ticket 30 GEL for 2025/26; a 7-day pass at 160 GEL also exists but does not fit the 1/3/6-day schema and is omitted."
+    },
+    "duration": "1day",
+    "price": 30
+  },
+  {
+    "passRegionId": null,
+    "skiAreaId": "611c5f306d193965d569b1d45fd531b4b4a6e14b",
+    "season": "2025/26",
+    "category": "adult",
+    "currency": "GEL",
+    "isDynamic": false,
+    "provenance": {
+      "source": "curated",
+      "sourceUrl": "https://snow.ge/georgian-ski-resorts-ski-passes.html",
+      "fetchedAt": "2026-08-10T03:04:41.000Z",
+      "verification": "unverified",
+      "note": "Manual web research 2026-08-10 (Claude, session work requested by owner). Facts only; awaiting human verification. Unified Mountain Resorts of Georgia season pass, 650 GEL, valid at Gudauri, Bakuriani, Goderdzi, Tetnuldi and Hatsvali."
+    },
+    "duration": "season",
+    "price": 650
+  },
+  {
+    "passRegionId": null,
+    "skiAreaId": "2f6b7a3519d8fa518b553d5d6eee2a350cde28f1",
+    "season": "2025/26",
+    "category": "adult",
+    "currency": "GEL",
+    "isDynamic": false,
+    "provenance": {
+      "source": "curated",
+      "sourceUrl": "https://snow.ge/georgian-ski-resorts-ski-passes.html",
+      "fetchedAt": "2026-08-10T03:04:41.000Z",
+      "verification": "unverified",
+      "note": "Manual web research 2026-08-10 (Claude, session work requested by owner). Facts only; awaiting human verification. Unified Mountain Resorts of Georgia season pass, 650 GEL, valid at Gudauri, Bakuriani, Goderdzi, Tetnuldi and Hatsvali."
+    },
+    "duration": "season",
+    "price": 650
+  },
+  {
+    "passRegionId": null,
+    "skiAreaId": "235495e48762d59d78170d2f534c42b88cce84ee",
+    "season": "2025/26",
+    "category": "adult",
+    "currency": "GEL",
+    "isDynamic": false,
+    "provenance": {
+      "source": "curated",
+      "sourceUrl": "https://snow.ge/georgian-ski-resorts-ski-passes.html",
+      "fetchedAt": "2026-08-10T03:04:41.000Z",
+      "verification": "unverified",
+      "note": "Manual web research 2026-08-10 (Claude, session work requested by owner). Facts only; awaiting human verification. Unified Mountain Resorts of Georgia season pass, 650 GEL, valid at Gudauri, Bakuriani, Goderdzi, Tetnuldi and Hatsvali."
+    },
+    "duration": "season",
+    "price": 650
+  },
+  {
+    "passRegionId": null,
+    "skiAreaId": "a9a697b480cff1366c2b4b9d721b3d950797ed6a",
+    "season": "2025/26",
+    "category": "adult",
+    "currency": "GEL",
+    "isDynamic": false,
+    "provenance": {
+      "source": "curated",
+      "sourceUrl": "https://snow.ge/georgian-ski-resorts-ski-passes.html",
+      "fetchedAt": "2026-08-10T03:04:41.000Z",
+      "verification": "unverified",
+      "note": "Manual web research 2026-08-10 (Claude, session work requested by owner). Facts only; awaiting human verification. Unified Mountain Resorts of Georgia season pass, 650 GEL, valid at Gudauri, Bakuriani, Goderdzi, Tetnuldi and Hatsvali."
+    },
+    "duration": "season",
+    "price": 650
+  },
+  {
+    "passRegionId": null,
+    "skiAreaId": "ee37f499cd97aa4749f1987db884157183df0f58",
+    "season": "2025/26",
+    "category": "adult",
+    "currency": "GEL",
+    "isDynamic": false,
+    "provenance": {
+      "source": "curated",
+      "sourceUrl": "https://snow.ge/georgian-ski-resorts-ski-passes.html",
+      "fetchedAt": "2026-08-10T03:04:41.000Z",
+      "verification": "unverified",
+      "note": "Manual web research 2026-08-10 (Claude, session work requested by owner). Facts only; awaiting human verification. Unified Mountain Resorts of Georgia season pass, 650 GEL, valid at Gudauri, Bakuriani, Goderdzi, Tetnuldi and Hatsvali."
+    },
+    "duration": "season",
+    "price": 650
+  },
+  {
+    "passRegionId": null,
+    "skiAreaId": "b53c907f7c8ee61b77ace657976dab0ce624d7d8",
+    "season": "2025/26",
+    "category": "adult",
+    "currency": "GEL",
+    "isDynamic": false,
+    "provenance": {
+      "source": "curated",
+      "sourceUrl": "https://snow.ge/georgian-ski-resorts-ski-passes.html",
+      "fetchedAt": "2026-08-10T03:04:41.000Z",
+      "verification": "unverified",
+      "note": "Manual web research 2026-08-10 (Claude, session work requested by owner). Facts only; awaiting human verification. Unified Mountain Resorts of Georgia season pass, 650 GEL, valid at Gudauri, Bakuriani, Goderdzi, Tetnuldi and Hatsvali."
+    },
+    "duration": "season",
+    "price": 650
+  },
+  {
+    "passRegionId": null,
+    "skiAreaId": "de4f884c40976fe9d18c23d0bab174c1d6b79218",
+    "season": "2025/26",
+    "category": "adult",
+    "currency": "EUR",
+    "isDynamic": true,
+    "provenance": {
+      "source": "official",
+      "sourceUrl": "https://www.grandvalira.com/en/ski-pass/day",
+      "fetchedAt": "2026-08-10T03:04:41.000Z",
+      "verification": "unverified",
+      "note": "Manual web research 2026-08-10 (Claude, session work requested by owner). Facts only; awaiting human verification. Dynamic pricing: observed range EUR 50 (online advance) to EUR 67 (peak walk-up) per aggregator SnowStash; this is a FLOOR, not a quote."
+    },
+    "duration": "1day",
+    "price": 50
+  },
+  {
+    "passRegionId": null,
+    "skiAreaId": "5ecb06388006e4740e7ce8234e26d036ce85edb7",
+    "season": "2025/26",
+    "category": "adult",
+    "currency": "EUR",
+    "isDynamic": true,
+    "provenance": {
+      "source": "official",
+      "sourceUrl": "https://www.palarinsal.com/en/ski-pass/day-pass",
+      "fetchedAt": "2026-08-10T03:04:41.000Z",
+      "verification": "unverified",
+      "note": "Manual web research 2026-08-10 (Claude, session work requested by owner). Facts only; awaiting human verification. Dynamic pricing: adult day pass observed from EUR 40-50; afternoon pass from EUR 39.50. FLOOR, not a quote. 2-day+ passes also cover Ordino-Arcalis."
+    },
+    "duration": "1day",
+    "price": 40
+  },
+  {
+    "passRegionId": null,
+    "skiAreaId": "066c4b2d821452980329ab1a2fd4aee2d6251231",
+    "season": "2025/26",
+    "category": "adult",
+    "currency": "EUR",
+    "isDynamic": true,
+    "provenance": {
+      "source": "official",
+      "sourceUrl": "https://www.ordinoarcalis.com/en/ski-pass/day",
+      "fetchedAt": "2026-08-10T03:04:41.000Z",
+      "verification": "unverified",
+      "note": "Manual web research 2026-08-10 (Claude, session work requested by owner). Facts only; awaiting human verification. Dynamic pricing: adult day pass observed range EUR 42-52 per aggregator SnowStash. FLOOR, not a quote."
+    },
+    "duration": "1day",
+    "price": 42
   }
 ]

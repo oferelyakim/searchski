@@ -1010,3 +1010,28 @@ These operators price by date or demand. `isDynamic` is set on every row below a
 ---
 
 Prices, currencies and dates are facts (PLAN.md §9) and are the only thing ingested here. No marketing copy, description or image is copied, no login or paywall is bypassed, and the operator's own site is preferred over aggregators. Discovery is machine-assisted and every row awaits human verification.
+
+---
+
+## Manual research batch — 2026-08-10
+
+17 rows added by hand-run web research (Claude session, owner-requested):
+Bulgaria (Bansko, Pamporovo), Georgia (Gudauri, Bakuriani×2 areas, Mestia×2
+areas, Goderdzi — day tickets + the unified 650 GEL MRG season pass on all
+six), Andorra (Grandvalira, Pal-Arinsal, Ordino-Arcalís — all dynamic,
+recorded as floors). All `verification: 'unverified'`.
+
+For a human verifier, the sharp edges:
+
+- **Bansko BGN 65/day** is the season-opening promotional rate from the
+  operator's news page; the regular 2024/25 high-season day pass was BGN 110.
+  Recorded as dynamic/floor. Check banskoski.com/en/page/prices once the
+  full 2025/26 table is published.
+- **Vitosha: deliberately absent.** No published 2025/26 price found on any
+  source worth citing. Absence is the correct state.
+- **Borovets 6-day**: the only figure found (BGN 300, SNO) looks like stale
+  data and was NOT stored.
+- **Andorra floors** come from aggregator-observed ranges (SnowStash);
+  official pages are dynamic shops with no flat price to quote.
+- Bulgaria adopts the euro on 2026-01-01: BGN figures are as published and
+  will be dual-priced or restated mid-season.

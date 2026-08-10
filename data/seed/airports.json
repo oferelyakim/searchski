@@ -24,6 +24,10 @@
 
     { "iata": "TBS", "name": "Tbilisi", "city": "Tbilisi", "country": "GE", "lat": 41.6692, "lon": 44.9547, "directFromTLV": true, "serves": ["Gudauri"] },
     { "iata": "KUT", "name": "Kutaisi", "city": "Kutaisi", "country": "GE", "lat": 42.1767, "lon": 42.4826, "directFromTLV": true, "serves": ["Goderdzi", "Bakuriani"] },
+    { "iata": "BUS", "name": "Batumi", "city": "Batumi", "country": "GE", "lat": 41.6103, "lon": 41.5997, "directFromTLV": false, "serves": ["Goderdzi"] },
+
+    { "iata": "BCN", "name": "Barcelona El Prat", "city": "Barcelona", "country": "ES", "lat": 41.2971, "lon": 2.0785, "directFromTLV": true, "serves": ["Andorra (coach corridor)"] },
+    { "iata": "TLS", "name": "Toulouse Blagnac", "city": "Toulouse", "country": "FR", "lat": 43.6291, "lon": 1.3638, "directFromTLV": false, "serves": ["Andorra (coach corridor)"] },
 
     { "iata": "VCE", "name": "Venice Marco Polo", "city": "Venice", "country": "IT", "lat": 45.5053, "lon": 12.3519, "directFromTLV": true, "serves": ["Dolomiti Superski", "Cortina"] },
     { "iata": "VRN", "name": "Verona Villafranca", "city": "Verona", "country": "IT", "lat": 45.3957, "lon": 10.8885, "directFromTLV": false, "serves": ["Dolomiti Superski", "Skirama Dolomiti"] },
